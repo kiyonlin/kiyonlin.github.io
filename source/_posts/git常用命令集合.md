@@ -18,7 +18,7 @@ fatal:Not a git repository(当前目录还不是一个git仓库)
 
 # add
 `git add 文件` 提交文件到git仓库,一般使用`git add .`添加所有的文件  
-使用`git rm -cached`可以移除使用add提交的文件
+使用`git reset`可以移除使用add提交的文件
 
 # commit
 `git commit -m "提交信息"`将add上去的文件进行确认  
