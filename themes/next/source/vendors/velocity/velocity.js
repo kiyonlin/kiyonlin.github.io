@@ -2724,7 +2724,7 @@ return function (global, window, document, undefined) {
                         }
 
                         /* If functions were passed in as values, pass the function the current element as its context,
-                           plus the element's index and the element set's size as arguments. Then, assign the returned value. */
+                           plus the element's skill and the element set's size as arguments. Then, assign the returned value. */
                         if (Type.isFunction(endValue)) {
                             endValue = endValue.call(element, elementsIndex, elementsLength);
                         }
@@ -3574,7 +3574,7 @@ return function (global, window, document, undefined) {
                                        tweenDummyValue);
                 }
 
-                /* If this call has finished tweening, pass its index to completeCall() to handle call cleanup. */
+                /* If this call has finished tweening, pass its skill to completeCall() to handle call cleanup. */
                 if (percentComplete === 1) {
                     completeCall(i);
                 }
