@@ -77,5 +77,5 @@ deploy:
     repo: https://github.com/kiyonlin/kiyonlin.github.io.git
     branch: master
   - type: git
-    repo: git@git.coding.net:kiyonlin/kiyonlin.git
+    repo: https://git.coding.net/kiyonlin/kiyonlin.git
     branch: master
