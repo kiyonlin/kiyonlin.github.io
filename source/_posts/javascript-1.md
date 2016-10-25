@@ -5,7 +5,13 @@ category: [技术, javascript]
 date: 2016-10-20 20:07:11
 updated: 2016-10-20 20:07:11
 ---
+
 系统学一遍javascript
+参考：
+- [mozilla JavaScript](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)
+- [ECMAScript 6入门](http://es6.ruanyifeng.com/)
+- [JavaScript 秘密花园](https://bonsaiden.github.io/JavaScript-Garden/zh/)
+
 # 声明
 JavaScript有三种声明。
 
@@ -21,17 +27,17 @@ JavaScript有三种声明。
 ```javascript
 var a;
 // a 的值是 undefined
-console.log("The value of a is " + a); 
+console.log("The value of a is " + a);
 
 // Uncaught ReferenceError: b is not defined
-console.log("The value of b is " + b); 
+console.log("The value of b is " + b);
 
-// c 的值是 undefined 
-console.log("The value of c is " + c); 
+// c 的值是 undefined
+console.log("The value of c is " + c);
 var c;
 
-// Uncaught ReferenceError: x is not defined 
-console.log("The value of x is " + x); 
+// Uncaught ReferenceError: x is not defined
+console.log("The value of x is " + x);
 let x;
 ```
 
@@ -49,7 +55,7 @@ undefined 值在布尔类型环境中会被当作 false。例如，下面的代�
 var myArray = [];
 
 if (!myArray[0]) {
-  myFunction(); 
+  myFunction();
 }
 ```
 数值类型环境中 undefined 值会被转换为 NaN。
@@ -166,4 +172,3 @@ JavaScript语言可以识别下面 7 种不同类型的值：
     - Symbol ( 在 ECMAScript 6 中新添加的类型).。一种数据类型，它的实例是唯一且不可改变的。
 - 以及 Object 对象
 `Objects` 和 `functions` 是本语言的其他两个基本要素。你可以将对象视为存放值的命名容器，而将函数视为应用程序能够执行的过程(procedures)。
-
