@@ -1,5 +1,5 @@
 ---
-title: javascript(1) 语法和数据类型
+title: javascript-1 语法和数据类型
 tag: [javascript]
 category: [技术, javascript]
 date: 2016-10-20 20:07:11
