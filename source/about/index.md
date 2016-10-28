@@ -12,11 +12,11 @@ comments: false
 # 技能
 - JAVA用的比较多,在公司框架基础上做项目
 - 用android开发过平板和手机应用
-- 目前在学习PHP和Laravel框架
+- 目前在深入学习javascript
 - mysql是用的最多的数据库
-- html、css、js、jquery,正在接触bootstrap、angularjs中
+- html、css、jquery,正在接触bootstrap、angularjs中
 - 拥有一台MAC MINI,搭配戴尔U2417H,使用OSX进行开发
-- IDE使用(my)eclipse、android studio、Phpstorm、Sublime Text, iterm2也算一样吧
+- IDE使用(my)eclipse、android studio、Phpstorm、Sublime Text, iterm2
 
 # 兴趣爱好
 爱好首先是女  
