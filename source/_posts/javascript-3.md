@@ -96,7 +96,7 @@ console.log((1234.5).toPrecision(2)); // "1.2e+3"
 ```
 
 # 日期对象
-`JavaScript` 处理日期数据类似于Java。这两种语言有许多一样的处理日期的方法，也都是以1970年1月1日00:00:00以来的**`毫秒`**数来储存数据类型的。
+`JavaScript` 处理日期数据类似于Java。这两种语言有许多一样的处理日期的方法，也都是以1970年1月1日00:00:00以来的`毫秒`数来储存数据类型的。
 Date 对象的范围是相对距离 UTC 1970年1月1日 的`前后 100,000,000 天。`
 ## Date对象的方法
 处理日期时间的Date对象方法可分为以下几类：
@@ -114,3 +114,57 @@ Date 对象的范围是相对距离 UTC 1970年1月1日 的`前后 100,000,000 �
 - 日期：1 至 31
 - 月份： 0 (一月) to 11 (十二月)
 - 年份： 从1900开始的年数
+
+# 数值的扩展 [ECMAScript 6 入门](http://es6.ruanyifeng.com/#docs/number)  
+
+## Number.EPSILON
+ES6在Number对象上面，新增一个极小的常量`Number.EPSILON`。
+```javascript
+Number.EPSILON
+// 2.220446049250313e-16
+Number.EPSILON.toFixed(20)
+// '0.00000000000000022204'
+```
+引入一个这么小的量的目的，在于为浮点数计算，设置一个误差范围。我们知道浮点数计算是不精确的。
+```javascript
+0.1 + 0.2
+// 0.30000000000000004
+
+0.1 + 0.2 - 0.3
+// 5.551115123125783e-17
+
+5.551115123125783e-17.toFixed(20)
+// '0.00000000000000005551'
+```
+但是如果这个误差能够小于`Number.EPSILON`，我们就可以认为得到了正确结果。
+```javascript
+5.551115123125783e-17 < Number.EPSILON
+// true
+```
+因此，`Number.EPSILON`的实质是一个可以接受的误差范围。
+一个误差检查函数:
+```javascript
+function withinErrorMargin (left, right) {
+  return Math.abs(left - right) < Number.EPSILON;
+}
+withinErrorMargin(0.1 + 0.2, 0.3)
+// true
+withinErrorMargin(0.2 + 0.2, 0.3)
+// false
+```
+## Math对象的扩展
+### Math.trunc()
+`Math.trunc`方法用于去除一个数的小数部分，返回整数部分。
+```javascript
+Math.trunc(4.1) // 4
+Math.trunc(4.9) // 4
+Math.trunc(-4.1) // -4
+Math.trunc(-4.9) // -4
+Math.trunc(-0.1234) // -0
+```
+对于没有部署这个方法的环境，可以用下面的代码模拟。
+```javascript
+Math.trunc = Math.trunc || function(x) {
+  return x < 0 ? Math.ceil(x) : Math.floor(x);
+};
+```
