@@ -153,6 +153,7 @@ function f() {
   //statements
 }
 ````
+
 然而,**对象属性是不受保护的**,所以可以使用如下语句来执行。
 ```javascript
 const MY_OBJECT = {"key": "value"};
@@ -209,6 +210,30 @@ var fish = ["Lion", , "Angel"];
 如果在元素列表的尾部添加了一个逗号，它将会被忽略。在下面的例子中，数组的长度是3，并不存在myList[3]这个元素。元素列表中其它所有的逗号都表示一个新元素（的开始）。  
 
 在自己写代码时：**显式地将缺失的元素声明为undefined，将大大提高你的代码的清晰度和可维护性。**
+
+### length 属性
+
+length 属性的 getter 方式会简单的返回数组的长度，而 setter 方式会截断数组。
+```javascript
+var foo = [1, 2, 3, 4, 5, 6];
+foo.length = 3;
+foo; // [1, 2, 3]
+
+foo.length = 6;
+foo; // [1, 2, 3]
+```
+在 Firebug 中查看此时 foo 的值是： [1, 2, 3, undefined, undefined, undefined] 但是这个结果并不准确，如果你在 Chrome 的控制台查看 foo 的结果，你会发现是这样的： [1, 2, 3] 因为在 JavaScript 中 undefined 是一个变量，注意是变量不是关键字，因此上面两个结果的意义是完全不相同的。
+```javascript
+// 译者注：为了验证，我们来执行下面代码，看序号 5 是否存在于 foo 中。
+5 in foo; // 不管在 Firebug 或者 Chrome 都返回 false
+foo[5] = undefined;
+5 in foo; // 不管在 Firebug 或者 Chrome 都返回 true
+```
+为 `length` 设置一个更小的值会截断数组，但是增大 `length` 属性值不会对数组产生影响。
+
+结论
+
+为了更好的性能，推荐使用普通的 for 循环并缓存数组的 `length` 属性。 使用 for in 遍历数组被认为是不好的代码习惯并倾向于产生错误和导致性能问题。
 
 ## 整数 (Intergers)
 整数可以用十进制（基数为10）、十六进制（基数为16）、八进制（基数为8）以及二进制（基础为2）表示。
