@@ -1,6 +1,6 @@
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
+  "name": "kiyon-site",
+  "version": "1.1.1",
   "private": true,
   "hexo": {
     "version": "3.2.2"
