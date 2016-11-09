@@ -273,3 +273,33 @@ function factorial(n, total) {
 
 factorial(5, 1) // 120
 ```
+
+尾递归的实现，往往需要改写递归函数，确保最后一步只调用自身。做到这一点的方法，就是把所有用到的内部变量改写成函数的参数。
+两个方法可以解决这个问题。
+函数式编程有一个概念，叫做柯里化（`currying`），意思是将多参数的函数转换成单参数的形式。这里也可以使用柯里化。
+```javascript
+function currying(fn, n) {
+  return function (m) {
+    return fn.call(this, m, n);
+  };
+}
+
+function tailFactorial(n, total) {
+  if (n === 1) return total;
+  return tailFactorial(n - 1, n * total);
+}
+
+const factorial = currying(tailFactorial, 1);
+
+factorial(5) // 120
+```
+
+第二种方法就简单多了，就是采用ES6的函数默认值。
+```javascript
+function factorial(n, total = 1) {
+  if (n === 1) return total;
+  return factorial(n - 1, n * total);
+}
+
+factorial(5) // 120
+```
