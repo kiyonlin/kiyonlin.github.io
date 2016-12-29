@@ -21,7 +21,7 @@
   {% endif %}
 
   <div class="{{ container_class }} {% block page_class %}{% endblock %} ">
-    <div class="headband"></div>
+    <div class="headband" style="z-index: 998"></div>
 <!-- 轻量粒子动效 -->
 <!-- https://github.com/VincentGarreau/particles.js/ -->
 <div id="particles-js">
