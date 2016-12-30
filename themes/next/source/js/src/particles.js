@@ -3,7 +3,6 @@
  */
 
 $(document).ready(function () {
-  console.log(CONFIG.particles);
   var _config = CONFIG.particles;
   if (!_config.enable) {
     return false;
@@ -11,10 +10,13 @@ $(document).ready(function () {
 
   _config.color = _config.color === "random" ? _config.color : "#" + _config.color;
   _config.size_max = Math.random() * 4 + 7;
+  _config.line_linked = false;
+  _config.line_color = "#fff";
 
-  if(_config.theme === "random") {
-    _config.theme = Math.random() > 0.5 ? "snow" : "star";
-    if( _config.theme ==="snow" && _config.color === "random") {
+  if (_config.theme === "random") {
+    var rand = Math.random();
+    _config.theme = rand < 0.3333 ? "snow" : ( rand >= 0.3333 && rand < 0.6666 ? "star" : "polygon");
+    if (_config.theme === "snow" && _config.color === "random") {
       _config.color = "#fff";
     }
   }
@@ -36,6 +38,23 @@ $(document).ready(function () {
       _config.anim_speed = Math.ceil(Math.random() * 3 + 1);
       _config.move_speed = 1;
       _config.move_direction = "none";
+      break;
+    case "polygon":
+      _config.number_value = Math.ceil(Math.random() * 7 + 11);
+      _config.shape_type = "polygon";
+      _config.shape_nb_sides = "1";
+      _config.anim_enable = true;
+      _config.anim_speed = 1;
+      _config.move_speed = 1;
+      _config.move_direction = "none";
+      _config.line_linked = true;
+      // 随机取色
+      line_color = (Math.random() * 0xffffff << 0).toString(16);
+      // 颜色位数不足6位时补0
+      while (line_color.length < 6) {
+        line_color = "0" + line_color;
+      }
+      _config.line_color = '#' + line_color;
       break;
   }
 
@@ -82,11 +101,11 @@ $(document).ready(function () {
         }
       },
       "line_linked": {
-        "enable": false,
-        "distance": 320,
-        "color": "#ffffff",
-        "opacity": 0.4,
-        "width": 2
+        "enable": _config.line_linked,
+        "distance": Math.ceil(Math.random() * 32 + 320),
+        "color": _config.line_color,
+        "opacity": Math.random() / 9 + 0.2,
+        "width": Math.ceil(Math.random() * 2 + 2)
       },
       "move": {
         "enable": true,

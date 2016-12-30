@@ -350,7 +350,7 @@ particles:
   # color: "b61924" for specific color
   #        "random" use random color
   color: "random"
-  # Available particles theme: snow | star | random
+  # Available particles theme: snow | star | polygon | random
   theme: random
 
 #! ---------------------------------------------------------------
