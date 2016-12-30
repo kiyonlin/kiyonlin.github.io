@@ -11,7 +11,7 @@ $(document).ready(function () {
   _config.color = _config.color === "random" ? _config.color : "#" + _config.color;
   _config.size_max = Math.random() * 4 + 7;
   _config.line_linked = false;
-  _config.line_color = "#fff";
+  _config.line_color = _config.color;
 
   if (_config.theme === "random") {
     var rand = Math.random();
@@ -48,13 +48,15 @@ $(document).ready(function () {
       _config.move_speed = 1;
       _config.move_direction = "none";
       _config.line_linked = true;
-      // 随机取色
-      line_color = (Math.random() * 0xffffff << 0).toString(16);
-      // 颜色位数不足6位时补0
-      while (line_color.length < 6) {
-        line_color = "0" + line_color;
+      if(_config.line_color === "random") {
+        // 随机取色
+        line_color = (Math.random() * 0xffffff << 0).toString(16);
+        // 颜色位数不足6位时补0
+        while (line_color.length < 6) {
+          line_color = "0" + line_color;
+        }
+        _config.line_color = '#' + line_color;
       }
-      _config.line_color = '#' + line_color;
       break;
   }
 
