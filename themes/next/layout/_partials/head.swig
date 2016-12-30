@@ -90,6 +90,11 @@
     duoshuo: {
       userId: {{ theme.duoshuo_info.user_id | default() }},
       author: '{{ theme.duoshuo_info.admin_nickname | default(__('author'))}}'
+    },
+    particles: {
+      enable: {{ theme.particles.enable }},
+      color: '{{ theme.particles.color }}',
+      theme: '{{ theme.particles.theme }}'
     }
   };
 </script>

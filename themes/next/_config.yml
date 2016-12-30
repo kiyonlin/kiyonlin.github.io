@@ -341,7 +341,17 @@ busuanzi_count:
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
 baidu_push: false
 
-
+# https://github.com/VincentGarreau/particles.js/
+# A lightweight JavaScript library for creating particles.
+# use particles as background
+particles:
+  # true | false
+  enable: true
+  # color: "b61924" for specific color
+  #        "random" use random color
+  color: "random"
+  # Available particles theme: snow | star | random
+  theme: random
 
 #! ---------------------------------------------------------------
 #! DO NOT EDIT THE FOLLOWING SETTINGS
