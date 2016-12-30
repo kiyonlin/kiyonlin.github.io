@@ -14,6 +14,9 @@ $(document).ready(function () {
 
   if(_config.theme === "random") {
     _config.theme = Math.random() > 0.5 ? "snow" : "star";
+    if( _config.theme ==="snow" && _config.color === "random") {
+      _config.color = "#fff";
+    }
   }
   switch (_config.theme) {
     case "snow":
