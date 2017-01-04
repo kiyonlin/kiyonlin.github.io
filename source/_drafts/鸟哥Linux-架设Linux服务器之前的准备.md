@@ -1,6 +1,6 @@
 ---
 title: 鸟哥Linux-架设Linux服务器之前的准备
-tag: [Linux, 服务器准备]
+tag: [Linux服务器]
 date: 2017-01-03 16:48:18
 updated: 2017-01-03 16:48:18
 category: [技术,linux]
