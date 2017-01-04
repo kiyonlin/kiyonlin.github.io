@@ -7,7 +7,9 @@ comments: false
 姓名: Kiyon Lin
 毕业于: 浙江工业大学  
 专业: 软件工程  
-性别: 男
+性别: 男 
+
+目前从事网络安全行业中的抗D服务
 
 # 技能
 - JAVA用的比较多,在公司框架基础上做项目
@@ -19,8 +21,7 @@ comments: false
 - IDE使用(my)eclipse、android studio、Phpstorm、Sublime Text, iterm2
 
 # 兴趣爱好
-爱好首先是女  
-接着,喜欢游泳,打乒乓,健身  
+喜欢阅读,游泳,乒乓,健身  
 有时候会做好吃的,是个吃不胖的瘦子  
 
 # 社交
