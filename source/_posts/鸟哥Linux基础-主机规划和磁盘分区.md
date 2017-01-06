@@ -5,6 +5,8 @@ date: 2017-01-04 16:58:49
 updated: 2017-01-04 16:58:49
 category: [技术,linux]
 ---
+原文[鸟哥的 Linux私房菜 第二章、主機規劃與磁碟分割](http://linux.vbird.org/linux_basic/0130designlinux.php)  
+
 # Linux和硬件
 |设备|设备在Linux内的文件名|
 |:-------|:-----------------|
