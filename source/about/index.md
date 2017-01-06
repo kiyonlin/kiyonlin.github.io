@@ -12,14 +12,14 @@ comments: false
 目前方向为网络安全行业中的DDoS防护🈲
 
 # 技能
-- 2013-2016年，JAVA用的比较多,在公司框架基础上做项目
-- 用android开发过平板和手机应用
-- 2016年下半年深入学习了一遍javascript，继续巩固中
-- mysql是目前用的频率最高的数据库
-- html、css、jquery,正在接触bootstrap、angularjs中。最近对Vue比较感兴趣！
-- 拥有一台MAC MINI,搭配戴尔U2417H,使用OSX进行开发
-- IDE使用(my)eclipse、android studio、Phpstorm、Sublime Text, iterm2
-- 最近在学习Linux基础知识
+- ✅ 2013-2016年，JAVA用的比较多,在公司框架基础上做项目
+- 📚 用android开发过平板和手机应用
+- 📖 2016年下半年深入学习了一遍javascript，继续巩固中
+- ✅ mysql是目前用的频率最高的数据库
+- ✅ html、css、jquery,正在接触bootstrap、angularjs中。最近对Vue比较感兴趣！
+- ✅ 拥有一台MAC MINI,搭配戴尔U2417H,使用OSX进行开发
+- 📚 IDE使用(my)eclipse、android studio、Phpstorm、Sublime Text, iterm2
+- 📖 最近在学习Linux基础知识
 
 # 兴趣爱好
 喜欢阅读,游泳,乒乓,健身  
