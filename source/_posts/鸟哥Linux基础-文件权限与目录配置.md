@@ -3,6 +3,7 @@ title: 鸟哥Linux基础-文件权限与目录配置
 tag:
   - Linux
   - 文件权限
+  - 目录配置
 category:
   - 技术
   - linux
@@ -12,7 +13,7 @@ updated: 2017-01-06 10:13:18
 原文[鸟哥的 Linux私房菜 第五章、Linux 的文件权限与目录配置](http://linux.vbird.org/linux_basic/0210filepermission.php)  
 
 Linux最优秀的地方之一就在于他的多人多工环境。而为了让各个使用者具有较保密的文件数据，因此文件的权限管理就变的很重要了。Linux一般将文件可存取的身份分为三个类别，分别是owner/group/others，且三种身份各有read/write/execute 等权限。
-# Linux 文件权限概念
+# Linux 文件权限
 ## Linux文件属性
 ```bash
 [root@study ~]# ll -a
