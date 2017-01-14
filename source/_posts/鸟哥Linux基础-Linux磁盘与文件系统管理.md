@@ -982,3 +982,4 @@ meta-data=/dev/sda4              isize=512    agcount=2, agsize=131072 blks
 # 可以跟前一个范例对照看看，可以发现agcount 变成2 了！
 # 此外，因为已经格式化过一次，因此mkfs.xfs 可能会出现不给格式化的警告！因此需要使用-f
 ```
+未完待续
