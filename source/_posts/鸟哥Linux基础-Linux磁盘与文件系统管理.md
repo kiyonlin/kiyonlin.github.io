@@ -10,8 +10,8 @@ category:
 date: 2017-01-09 13:56:50
 updated: 2017-01-09 13:56:50
 ---
-磁碟 档案 分割槽 分割 作业系统 资料 预设 软体 运作 资讯 效能 惯用 程式 支援 呼叫 透过 记忆体 连结档  连结 捷径    实体连结 档名  观察 装置 建置
-磁盘 文件 分区   分区 操作系统 数据 默认 软件 运行 信息 性能 常用 程序 支持 调用 通过 内存  链接文件 链接 快捷方式 硬链接  文件名 查看 设备 建立
+磁碟 档案 分割槽 分割 作业系统 资料 预设 软体 运作 资讯 效能 惯用 程式 支援 呼叫 透过 记忆体 连结档  连结 捷径    实体连结 档名  观察 装置 建置 硬体
+磁盘 文件 分区   分区 操作系统 数据 默认 软件 运行 信息 性能 常用 程序 支持 调用 通过 内存  链接文件 链接 快捷方式 硬链接  文件名 查看 设备 建立 硬件
 原文[鸟哥的 Linux私房菜 第七章、Linux 磁碟与档案系统管理](http://linux.vbird.org/linux_basic/0230filesystem.php)  
 
 在本章我们的重点在于如何制作档案系统，包括分割、格式化与挂载等。⭐⭐文字比较多，需要耐心阅读。
@@ -982,4 +982,321 @@ meta-data=/dev/sda4              isize=512    agcount=2, agsize=131072 blks
 # 可以跟前一个范例对照看看，可以发现agcount 变成2 了！
 # 此外，因为已经格式化过一次，因此mkfs.xfs 可能会出现不给格式化的警告！因此需要使用-f
 ```
-未完待续
+
+### XFS 档案系统for RAID 效能优化(Optional)
+档案系统的读写要能够有最佳化，最好能够搭配磁碟阵列的参数来设计，这样效能才能好起来！也就是说，可以先在档案系统就将stripe 规划好， 那交给RAID 去存取时，它就无须重复进行档案的stripe 过程，效能当然会更好！假设环境：
+- 有两个线程的CPU 数量，所以agcount 最好指定为 2
+- 当初设定RAID 的stripe 指定为256K 这么大，因此su 最好设定为256k
+- 设定的磁碟阵列有8 颗，因为是RAID5 的设定，所以有一个parity (备份碟)，因此指定sw 为 7
+- 由上述的资料中，可以发现资料宽度(swidth) 应该就是256K*7 得到1792K，可以指定extsize 为1792k
+
+使用mkfs.xfs的参数来处理格式化的动作：
+```bash
+[root@study ~]# mkfs.xfs -f -d agcount=2,su=256k,sw=7 -r extsize=1792k /dev/sda4
+meta-data=/dev/sda4              isize=512    agcount=2, agsize=131072 blks
+         =                       sectsz=4096  attr=2, projid32bit=1
+         =                       crc=1        finobt=0, sparse=0
+data     =                       bsize=4096   blocks=262144, imaxpct=25
+         =                       sunit=64     swidth=448 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal log           bsize=4096   blocks=2560, version=2
+         =                       sectsz=4096  sunit=1 blks, lazy-count=1
+realtime =none                   extsz=1835008 blocks=0, rtextents=0
+```
+
+### EXT4 档案系统mkfs.ext4
+格式：`mkfs.ext4 [-b size] [-L label] 装置名称`  
+选项与参数：
+- -b ：设定block 的大小，有1K, 2K, 4K 的容量，
+- -L ：后面接这个装置的标头名称。
+
+```bash
+# 范例：将/dev/sda5格式化为ext4档案系统 
+[root@study ~]# mkfs.ext4 /dev/sda5
+mke2fs 1.42.9 (28-Dec-2013)
+Discarding device blocks: 完成
+文件系统标签=
+OS type: Linux
+块大小=4096 (log=2)
+分块大小=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks       # 跟RAID相关性较高 
+65536 inodes, 262144 blocks
+13107 blocks (5.00%) reserved for the super user
+第一个数据块=0
+Maximum filesystem blocks=268435456
+8 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks:
+	32768, 98304, 163840, 229376
+
+Allocating group tables: 完成
+正在写入inode表: 完成
+Creating journal (8192 blocks): 完成
+Writing superblocks and filesystem accounting information: 完成
+
+[root@study ~]# dumpe2fs -h /dev/sda5
+dumpe2fs 1.42.9 (28-Dec-2013)
+Filesystem volume name:   <none>
+Last mounted on:          <not available>
+Filesystem UUID:          8ed3527a-cf44-4d0e-a46a-e035814957e9
+# ...省略...
+Journal backup:           inode blocks
+Journal features:         (none)
+日志大小:             32M
+Journal length:           8192
+Journal sequence:         0x00000001
+Journal start:            0
+```
+
+因为ext4 的预设值已经相当适合使用，大部分的预设值在/etc/mke2fs.conf 这个档案中。因此，无须额外指定inode 的容量，系统都做好预设值设定。
+
+### 其他档案系统mkfs
+mkfs 其实是个综合指令而已，当使用mkfs -t xfs 时，它就会跑去找mkfs.xfs 相关的参数！如果想要知道系统还支援哪种档案系统的格式化功能，直接按[tabl] 就很清楚了！
+```bash
+[root@study ~]# mkfs
+mkfs         mkfs.btrfs   mkfs.cramfs  mkfs.ext2    mkfs.ext3    mkfs.ext4    mkfs.minix   mkfs.xfs
+```
+所以系统还有支援ext2/ext3 等等多种常用的档案系统！那如果要将刚刚的/dev/sda5 重新格式化为btrfs 档案系统呢？
+```bash
+[root@study ~]# mkfs -t btrfs -f /dev/sda5
+[root@study ~]# blkid /dev/sda5
+/dev/sda5: UUID="23399c00-1ea1-47b7-8e97-822e55f2fbf7" UUID_SUB="bd1b20be-7f81-4996-aadf-b32b84ad83e9" TYPE="btrfs" PARTLABEL="Microsoft basic data" PARTUUID="3efade3d-7132-4fc5-adff-b4de2152e7f7"
+
+[root@study ~]# mkfs.ext4 /dev/sda5
+[root@study ~]# blkid /dev/sda4 /dev/sda5
+# /dev/sda4 是xfs 档案系统，而/dev/sda5 是ext4 档案系统
+/dev/sda4: UUID="2aae198b-c64e-40a7-98ef-935cb0188e3f" TYPE="xfs" PARTLABEL="Linux filesystem" PARTUUID="de7a5281-1794-4884-a7f3-a27e66a298d5"
+/dev/sda5: UUID="a87fcbb2-9be9-4293-9aa8-7517f69c7778" TYPE="ext4" PARTLABEL="Microsoft basic data" PARTUUID="3efade3d-7132-4fc5-adff-b4de2152e7f7"
+```
+
+## 档案系统检验
+由于系统在运作时谁也说不准啥时硬体或者是电源会有问题，所以『当机』可能是难免的情况(不管是硬体还是软体)。档案系统运作时会有磁碟与记忆体资料非同步的状况发生，因此莫名其妙的当机非常可能导致档案系统的错乱。不同的档案系统救援的指令不太一样，下面主要针对xfs 及ext4 这两个主流来说明。
+
+### xfs_repair 处理XFS 档案系统
+当xfs 档案系统错乱才需要使用这个指令
+格式：`xfs_repair [-fnd] 装置名称`
+选项与参数：
+- -f ：后面的装置其实是个档案而不是实体装置
+- -n ：单纯检查并不修改档案系统的任何资料(检查而已)
+- -d ：通常用在单人维护模式底下，针对根目录(/) 进行检查与修复的动作！很危险！不要随便使用
+
+```bash
+# 范例：检查一下刚刚建立的/dev/sda4档案系统 
+[root@study ~]# xfs_repair /dev/sda4
+Phase 1 - find and verify superblock...
+Phase 2 - using internal log
+        - zero log...
+        - scan filesystem freespace and inode maps...
+        - found root inode chunk
+Phase 3 - for each AG...
+        - scan and clear agi unlinked lists...
+        - process known inodes and perform inode discovery...
+        - agno = 0
+        - agno = 1
+        - process newly discovered inodes...
+Phase 4 - check for duplicate blocks...
+        - setting up duplicate extent list...
+        - check for inodes claiming duplicate blocks...
+        - agno = 0
+        - agno = 1
+Phase 5 - rebuild AG headers and trees...
+        - reset superblock...
+Phase 6 - check inode connectivity...
+        - resetting contents of realtime bitmap and summary inodes
+        - traversing filesystem ...
+        - traversal finished ...
+        - moving disconnected inodes to lost+found ...
+Phase 7 - verify and correct link counts...
+done
+# 共有7 个重要的检查流程！详细的流程介绍可以man xfs_repair ！
+
+# 范例：检查一下系统原本就有的/dev/centos/home档案系统 
+[root@study ~]# xfs_repair /dev/centos/home
+xfs_repair: /dev/centos/home contains a mounted filesystem
+xfs_repair: /dev/centos/home contains a mounted and writable filesystem
+
+fatal error -- couldn't initialize XFS library
+```
+
+xfs_repair 可以检查/修复档案系统，不过，因为修复档案系统是个很庞大的任务！因此，修复时该档案系统不能被挂载！所以，检查与修复/dev/sda4 没啥问题，但是修复/dev/centos/home 这个已经挂载的档案系统时，就出现上述的问题了！没关系，若可以卸载，卸载后再处理即可。
+
+Linux 系统有个装置无法被卸载，那就是根目录！如果根目录有问题怎办？这时得要进入单人维护或救援模式，然后透过-d 这个选项来处理！加入-d 这个选项后，系统会强制检验该装置，检验完毕后就会自动重新开机！
+
+### fsck.ext4 处理EXT4 档案系统
+fsck 是个综合指令，如果是针对ext4 的话，建议直接使用fsck.ext4 来检测比较妥当！
+格式：`fsck.ext4 [-pf] [-b superblock] 装置名称`
+选项与参数：
+- -p ：当档案系统在修复时，若有需要回覆y 的动作时，自动回覆y 来继续进行修复动作。
+- -f ：强制检查！一般来说，如果fsck 没有发现任何unclean 的旗标，不会主动进入
+      细部检查的，如果想要强制fsck 进入细部检查，就得加上-f选项
+- -D ：针对档案系统下的目录进行最佳化配置。
+- -b ：后面接superblock 的位置！一般来说这个选项用不到。但是如果的superblock 因故损毁时，
+      透过这个参数即可利用档案系统内备份的superblock 来尝试救援。一般来说，superblock 备份在：
+      1K block 放在8193, 2K block 放在16384, 4K block 放在32768
+
+```bash
+# 范例：找出刚刚建置的/dev/sda5的另一块superblock，并据以检测系统 
+[root@study ~]# dumpe2fs -h /dev/sda5 | grep 'Blocks per group'
+dumpe2fs 1.42.9 (28-Dec-2013)
+Blocks per group:         32768
+# 看起来每个block 群组会有32768 个block，因此第二个superblock 应该就在32768 上！
+# 因为block 号码为0 号开始编的！
+
+[root@study ~]# fsck.ext4 -b 32768 /dev/sda5
+e2fsck 1.42.9 (28-Dec-2013)
+/dev/sda5 was not cleanly unmounted, 强制检查.
+第一步: 检查inode,块,和大小
+第二步: 检查目录结构
+第3步: 检查目录连接性
+Pass 4: Checking reference counts
+第5步: 检查簇概要信息
+
+/dev/sda5: ***** 文件系统已修改 *****      #档案系统被改过，所以这里会有警告！
+/dev/sda5: 11/65536 files (0.0% non-contiguous), 12955/262144 blocks
+# 当档案系统出问题，它就会要你选择是否修复～如果修复如上所示，按下y 即可！
+# 最终系统会告诉你，档案系统已经被更改过，要注意该项目的意思！
+
+# 范例：已预设设定强制检查一次/dev/sda5 
+[root@study ~]# fsck.ext4 /dev/sda5
+e2fsck 1.42.9 (28-Dec-2013)
+/dev/sda5: clean, 11/65536 files, 12955/262144 blocks
+# 档案系统状态正常，它并不会进入强制检查！会告诉你档案系统没问题(clean)
+
+# 强制检查加-f
+[root@study ~]# fsck.ext4 -f /dev/sda5
+e2fsck 1.42.9 (28-Dec-2013)
+第一步: 检查inode,块,和大小
+第二步: 检查目录结构
+第3步: 检查目录连接性
+Pass 4: Checking reference counts
+第5步: 检查簇概要信息
+/dev/sda5: 11/65536 files (0.0% non-contiguous), 12955/262144 blocks
+```
+
+无论是xfs_repair或fsck.ext4，这都是用来检查与修正档案系统错误的指令。注意：通常只有身为root且档案系统有问题的时候才使用这个指令，否则在正常状况下使用此一指令，可能会造成对系统的危害！通常使用这个指令的场合都是在系统出现极大的问题，导致在Linux开机的时候得进入单人单机模式下进行维护的行为时，才必须使用此一指令！
+
+另外，如果怀疑刚刚格式化成功的磁碟有问题的时候，也可以使用xfs_repair/fsck.ext4来检查一磁碟！其实就有点像是Windows的scandisk！此外，由于xfs_repair/fsck.ext4在扫瞄磁碟的时候，可能会造成部分filesystem的修订，所以『执行xfs_repair/fsck.ext4时，被检查的partition务必不可挂载到系统上。』
+
+## 档案系统挂载与卸载
+在本章一开始时的挂载点的意义当中提过挂载点是目录，而这个目录是进入磁碟分割槽(其实是档案系统！)的入口。不过要进行挂载前，最好先确定几件事：
+- 单一档案系统不应该被重复挂载在不同的挂载点(目录)中；
+- 单一目录不应该重复挂载多个档案系统；
+- 要作为挂载点的目录，理论上应该都是空目录才是。
+
+尤其是上述的后两点！如果要用来挂载的目录里面并不是空的，那么挂载了档案系统之后，原目录下的东西就会暂时的消失。举个例子来说，假设/home原本与根目录(/)在同一个档案系统中，底下原本就有/home/test与/home/vbird两个目录。然后想要加入新的磁碟，并且直接挂载/home底下，那么当挂载上新的分割槽时，则/home目录显示的是新分割槽内的资料，至于原先的test与vbird这两个目录就会暂时的被隐藏掉了！并不是被覆盖掉，而是暂时的隐藏了起来，等到新分割槽被卸载之后，/home原本的内容就会再次的跑出来！
+
+而要将档案系统挂载到Linux 系统上，就要使用mount 这个指令。
+
+格式：
+- mount -a 
+- mount [-l] 
+- mount [-t 档案系统] LABEL=''挂载点 
+- mount [-t 档案系统] UUID=''挂载点  #建议用这种方式喔！
+- mount [-t 档案系统] 装置档名挂载点
+
+选项与参数：
+- -a ：依照设定档/etc/fstab的资料将所有未挂载的磁碟都挂载上来
+- -l ：单纯的输入mount 会显示目前挂载的资讯。加上-l 可增列Label 名称！
+- -t ：可以加上档案系统种类来指定想要挂载的类型。常见的Linux 支援类型有：xfs, ext3, ext4,
+      reiserfs, vfat, iso9660(光碟格式), nfs, cifs, smbfs (后三种为网路档案系统类型)
+- -n ：在预设的情况下，系统会将实际挂载的情况即时写入/etc/mtab 中，以利其他程式的运作。
+      但在某些情况下(例如单人维护模式)为了避免问题会刻意不写入。此时就得要使用-n 选项。
+- -o ：后面可以接一些挂载时额外加上的参数！比方说帐号、密码、读写权限等：
+    - async, sync: 此档案系统是否使用同步写入(sync) 或非同步(async) 的记忆体机制，请参考档案系统运作方式。预设为async。
+    - atime,noatime: 是否修订档案的读取时间(atime)。为了效能，某些时刻可使用noatime
+    - ro, rw: 挂载档案系统成为唯读(ro) 或可读写(rw)
+    - auto, noauto: 允许此filesystem 被以mount -a 自动挂载(auto)
+    - dev, nodev: 是否允许此filesystem 上，可建立装置档案？dev 为可允许
+    - suid, nosuid: 是否允许此filesystem 含有suid/sgid 的档案格式？
+    - exec, noexec: 是否允许此filesystem 上拥有可执行binary 档案？
+    - user, nouser: 是否允许此filesystem 让任何使用者执行mount ？一般来说，mount 仅有root 可以进行，但下达user 参数，则可让一般user 也能够对此partition 进行mount 。
+    - defaults: 预设值为：rw, suid, dev, exec, auto, nouser, and async
+    - remount: 重新挂载，这在系统出错，或重新更新参数时，很有用！
+
+基本上，CentOS 7 已经很聪明了，因此不需要加上-t 这个选项，系统会自动的分析最恰当的档案系统来尝试挂载需要的装置！这也是使用blkid 就能够显示正确的档案系统的缘故！那CentOS 是怎么找出档案系统类型的呢？由于档案系统几乎都有superblock ，Linux 可以透过分析superblock 搭配Linux 自己的驱动程式去测试挂载， 如果成功的套和了，就立刻自动的使用该类型的档案系统挂载起来！那么系统有没有指定哪些类型的filesystem 才需要进行上述的挂载测试呢？主要是参考底下这两个档案：
+- /etc/filesystems：系统指定的测试挂载档案系统类型的优先顺序；
+- /proc/filesystems：Linux系统已经载入的档案系统类型。
+
+Linux 支援的档案系统之驱动程式都写在如下的目录中：
+- /lib/modules/$(uname -r)/kernel/fs/
+
+### 挂载xfs/ext4 等档案系统
+```bash
+# 范例：找出/dev/sda4的UUID后，用该UUID来挂载档案系统到/data/xfs内 
+[root@study ~]# blkid /dev/sda4 
+/dev/sda4: UUID="2aae198b-c64e-40a7-98ef-935cb0188e3f" TYPE="xfs" PARTLABEL="Linux filesystem" PARTUUID="de7a5281-1794-4884-a7f3-a27e66a298d5"
+
+[root@study ~]# mount UUID="2aae198b-c64e-40a7-98ef-935cb0188e3f" /data/xfs 
+mount: 挂载点 /data/xfs 不存在   # 非正规目录！所以手动建立它！
+
+[root@study ~]# mkdir -p /data/xfs 
+[root@study ~]# mount UUID="2aae198b-c64e-40a7-98ef-935cb0188e3f" /data/xfs 
+[root@study ~]# df /data/xfs
+文件系统         1K-块  已用    可用 已用% 挂载点
+/dev/sda4      1038336 32904 1005432    4% /data/xfs
+# 顺利挂载，且容量约为1G左右没问题！
+
+# 范例：使用相同的方式，将/dev/sda5挂载于/data/ext4 
+[root@study ~]# blkid /dev/sda5
+/dev/sda5: UUID="a87fcbb2-9be9-4293-9aa8-7517f69c7778" TYPE="ext4" PARTLABEL="Microsoft basic data" PARTUUID="3efade3d-7132-4fc5-adff-b4de2152e7f7"
+
+[root@study ~]# mkdir /data/ext4 
+[root@study ~]# mount UUID="a87fcbb2-9be9-4293-9aa8-7517f69c7778" /data/ext4 
+[root@study ~]# df /data/ext4
+文件系统        1K-块  已用   可用 已用% 挂载点
+/dev/sda5      999320  2564 927944    1% /data/ext4
+```
+
+### 重新挂载根目录与挂载不特定目录
+整个目录树最重要的地方就是根目录了，所以根目录根本就不能够被卸载的！问题是，如果挂载参数要改变， 或者是根目录出现『只读』状态时，如何重新挂载呢？最可能的处理方式就是重新开机(reboot)！不过也可以这样做：
+```bash
+# 范例：将/重新挂载，并加入参数为rw与auto 
+[root@study ~]# mount -o remount,rw,auto /
+```
+重点是那个『 -o remount,xx 』的选项与参数！请注意，要重新挂载(remount) 时， 这是个非常重要的机制！尤其是进入单人维护模式时，根目录常会被系统挂载为只读，这个时候这个指令就太重要了！
+
+另外，也可以利用mount 来将某个目录挂载到另外一个目录去！这并不是挂载档案系统，而是额外挂载某个目录的方法！虽然底下的方法也可以使用symbolic link 来连结，不过在某些不支援符号连结的程式运作中，还是得要透过这样的方法才行。
+```bash
+# 范例：将/var这个目录暂时挂载到/data/var底下： 
+[root@study ~]# mkdir /data/var 
+[root@study ~]# mount --bind /var /data/var
+[root@study ~]# ls -lid /var /data/var
+101 drwxr-xr-x. 19 root root 267 1月   6 08:32 /data/var
+101 drwxr-xr-x. 19 root root 267 1月   6 08:32 /var
+# 内容完全一模一样！因为挂载目录的缘故！
+
+[root@study ~]# mount | grep var
+/dev/mapper/centos-root on /data/var type xfs (rw,relatime,seclabel,attr2,inode64,noquota)
+```
+透过这个mount --bind 的功能， 可以将某个目录挂载到其他目录去！而并不是整块filesystem 的！所以从此进入/data/var 就是进入/var 的意思！
+
+# umount (将装置档案卸载)
+格式：`mount [-fn] 装置档名或挂载点`
+选项与参数：
+- -f ：强制卸载！可用在类似网路档案系统(NFS) 无法读取到的情况下；
+- -l ：立刻卸载档案系统，比-f 还强！
+- -n ：不更新/etc/mtab 情况下卸载。
+
+就是直接将已挂载的档案系统卸载！卸载之后，可以使用df 或mount 看看是否还存在目录树中。卸载的方式，可以下达装置档名或挂载点。
+
+```bash
+# 范例：将本章之前自行挂载的档案系统全部卸载： 
+[root@study ~]# mount 
+.....(前面省略)..... 
+/dev/sda4 on /data/xfs type xfs (rw,relatime,seclabel,attr2,inode64,sunit=512,swidth=3584,noquota)
+/dev/sda5 on /data/ext4 type ext4 (rw,relatime,seclabel,data=ordered)
+/dev/mapper/centos-root on /data/var type xfs (rw,relatime,seclabel,attr2,inode64,noquota)
+# 先找一下已经挂载的档案系统，如上所示，特殊字体即为刚刚挂载的装置！
+# 基本上，卸载后面接装置或挂载点都可以！不过最后一个centos-root 由于有其他挂载，
+# 因此，该项目一定要使用挂载点来卸载才行！
+
+[root@study ~]# umount /dev/sda4       # 用装置档名来卸载 
+[root@study ~]# umount /data/ext4      # 用挂载点来卸载 
+[root@study ~]# umount /data/var       # 一定要用挂载点！因为装置有被其他方式挂载
+```
+
+## 磁碟/档案系统参数修订
+某些时刻，你可能会希望修改一下目前档案系统的一些相关资讯，举例来说，你可能要修改Label name ， 或者是journal 的参数，或者是其他磁碟/档案系统运作时的相关参数(例如DMA 启动与否～)。这个时候，就得需要底下这些相关的指令功能啰～
+
+【未完待续】
