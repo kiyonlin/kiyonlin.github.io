@@ -15,7 +15,7 @@ category: [装修]
 [卫生间里的那点事儿](http://mp.weixin.qq.com/s?__biz=MzA4MDExMDM2OA==&mid=2653865268&idx=1&sn=58744c411aa7079ebe999acf5fa1c3d4&scene=4#wechat_redirect)
 [看各路收纳高手与逯薇的互动！](http://mp.weixin.qq.com/s?__biz=MzA4MDExMDM2OA==&mid=2653865283&idx=1&sn=79f9d0fefccd21971565540b8d2ebaa0&scene=4#wechat_redirect)
 [比收纳技巧更重要的事！](http://mp.weixin.qq.com/s?__biz=MzA4MDExMDM2OA==&mid=2653865319&idx=1&sn=a217c8020f5f1a023ffbb5661903e7f6&scene=4#wechat_redirect)
-[]()
+[关于餐厅二三事儿》/逯薇](https://mp.weixin.qq.com/s?__biz=MzA4MDExMDM2OA==&mid=2653865500&idx=1&sn=52548aeb1031a5baab50f948175d8319&chksm=84735053b304d945da5c53716e70a9650abe0d0b20a5a05d3ddd726937ff3d2bfa6221c495c4&scene=0&key=e8408168c381f7490778b6a9426b45cc60adf8e541a2ee8f056eb081d8c373d570659eddcb55461897456f62e24ab3b2c1a66a5fe6173d05ff51c9ba9de3d49358632f014327363cf8f6985b3dd420a0&ascene=0&uin=MTU0MTM0OTU2MA%3D%3D&devicetype=iMac+Macmini6%2C2+OSX+OSX+10.12.3+build(16D32)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=cVE%2BBOjYh8xm9kX1nmu2ITD3SlWGGpxWRGWnMy3VeUCUlNZacD%2BygcwPgppVPsxc)
 []()
 []()
 # 衣橱
@@ -37,6 +37,20 @@ category: [装修]
     - 床头灯：摇臂床头灯，省空间，可旋转
     - 小夜灯：方便起夜，照顾宝宝
     - 烛光灯：装逼
+# 餐厅
+餐桌覆盖率=物品所占面积／餐桌桌面面积*100%
+餐桌上覆盖的东西
+- 吃
+    - 食品类：水果、零食
+    - 幼儿类：奶粉、奶瓶
+- 喝
+    - 饮料类：电热水壶、杯子、茶具
+- 用
+    - 工具类：纸巾、牙签、隔热垫、保鲜盒、杯垫
+    - 厨电类：咖啡机、吐司机、豆浆机
+    - 随手类：充电器、报纸、眼镜、纸笔、剪刀
+
+餐边柜建议使用多抽屉
 # 卫生间
 - 污洁分离，家务清洁工具（抹布除外）拒绝入内
 - 悬挂收纳
