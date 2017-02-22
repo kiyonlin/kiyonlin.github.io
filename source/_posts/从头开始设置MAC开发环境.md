@@ -10,7 +10,7 @@ updated: 2017-02-18 14:08:16
 # HomeBrew, iterm and oh-my-zsh
 `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
-[iterm](https://www.iterm2.com/downloads.html)
+安装[iterm](https://www.iterm2.com/downloads.html)
 去掉native full screen window、配置字体、快速启动热键
 
 `sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"`
