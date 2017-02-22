@@ -14,8 +14,7 @@ updated: 2017-02-18 14:08:16
 去掉native full screen window、配置字体、快速启动热键
 
 `sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"`
-zsh配置文件
-`.zshrc`
+[zsh配置文件](https://github.com/kiyonlin/kiyonlin.github.io/blob/hexo/.zshrc)
 
 # sublime text
 安装[sublime dev build](http://www.sublimetext.com/3dev)
