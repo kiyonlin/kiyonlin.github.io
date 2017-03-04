@@ -357,8 +357,8 @@ new Vue({
 
 # 关于Virtual DOM的文章
 - [深度剖析：如何实现一个 Virtual DOM 算法](https://github.com/livoras/blog/issues/13)
-- [Vue原理解析之Virtual Dom](https://segmentfault.com/a/1190000008291645)
 - [深入研究Virtual DOM](http://www.lixuejiang.me/2016/12/18/%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6Virtual-DOM/)
+- [Vue原理解析之Virtual Dom](https://segmentfault.com/a/1190000008291645)
 
 # 前端测试
 
