@@ -5,8 +5,8 @@ category: [技术, linux]
 tag: [linux, shell]
 ---
 # 基本命令格式
-~表示当前所在目录(家目录)  
-\#表示超级用户标示  
+~表示当前所在目录(家目录)
+\#表示超级用户标示
 $表示普通用户
 
 ## ls命令
@@ -14,8 +14,8 @@ $表示普通用户
 ```shell
 ls [选项] [文件或目录]
 ```
--l会列出详细信息,最前面的10位表示权限  
-\-(文件类型,d目录,l软链接文件)      rw\-(u所有者)      r\-\-(g所属组)     r\-\-(o其他人) 
+-l会列出详细信息,最前面的10位表示权限
+\-(文件类型,d目录,l软链接文件)      rw\-(u所有者)      r\-\-(g所属组)     r\-\-(o其他人)
 
 ## find命令
 格式:
@@ -24,7 +24,7 @@ find [搜索范围] [搜索条件]
 条件可以用-a(and) 和 -o(or)进行添加
 ```
 
-例子  
+例子
 ### 根据名称查找
 ```shell
 # 不推荐使用根目录'/'进行大范围搜索,效率很低
@@ -59,6 +59,8 @@ grep [选项] 字符串 文件名
 选项:
 -i 忽略大小写
 -v 排除指定字符串,即取反,不包含
+# 批量删除进程
+ps aux | grep "进程名" | awk '{print $2}' | xargs kill -9
 ```
 
 ## VIM使用
@@ -71,8 +73,8 @@ vim +/imooc abc 打开abc文件,光标定位imooc所在行(N下一个)
 vim aa bb cc    打开三个文件,:n切换,:N逆向切换
 ```
 
-vim分command mode、insert mode、last line mode  
-command mode下  
+vim分command mode、insert mode、last line mode
+command mode下
 ```shell
 I   输入命令
 o   光标下插一行并输入
