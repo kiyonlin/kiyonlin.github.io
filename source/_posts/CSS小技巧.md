@@ -33,3 +33,7 @@ updated: 2017-02-11 15:17:00
     width: 40px;
 }
 ```
+
+# css loading 加载
+A collection of loading indicators animated with CSS
+[SpinKit](https://github.com/tobiasahlin/SpinKit)
