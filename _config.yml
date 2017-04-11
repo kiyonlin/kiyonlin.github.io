@@ -79,3 +79,21 @@ deploy:
   - type: git
     repo: https://git.coding.net/kiyonlin/kiyonlin.git
     branch: master
+
+qiniu:
+  offline: false
+  sync: true
+  bucket: hexo
+  access_key: GOfOEoF2FDDQ1OV7TiJv8AqKG8Oqae-cnXD9XFlG
+  secret_key: QJ43gcbj-KfRKlvKmunSLYR1bpwNKmEd8z0Z_XbP
+  dirPrefix:
+  urlPrefix: http://oo811k8gv.bkt.clouddn.com
+  local_dir: cdn
+  update_exist: true
+  image:
+    folder: images
+    extend:
+  js:
+    folder: js
+  css:
+    folder: css
