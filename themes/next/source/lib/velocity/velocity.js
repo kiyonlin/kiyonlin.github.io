@@ -2190,7 +2190,7 @@ return function (global, window, document, undefined) {
                             }
 
                             /* Iterate through the calls targeted by the stop command. */
-                            $.each(elements, function(l, element) {                                
+                            $.each(elements, function(l, element) {
                                 /* Check that this call was applied to the target element. */
                                 if (element === activeElement) {
                                     /* Optionally clear the remaining queued calls. */
@@ -2724,7 +2724,7 @@ return function (global, window, document, undefined) {
                         }
 
                         /* If functions were passed in as values, pass the function the current element as its context,
-                           plus the element's skill and the element set's size as arguments. Then, assign the returned value. */
+                           plus the element's oldcobbers and the element set's size as arguments. Then, assign the returned value. */
                         if (Type.isFunction(endValue)) {
                             endValue = endValue.call(element, elementsIndex, elementsLength);
                         }
@@ -3473,7 +3473,7 @@ return function (global, window, document, undefined) {
                             tween.currentValue = currentValue;
 
                             /* If we're tweening a fake 'tween' property in order to log transition values, update the one-per-call variable so that
-                               it can be passed into the progress callback. */ 
+                               it can be passed into the progress callback. */
                             if (property === "tween") {
                                 tweenDummyValue = currentValue;
                             } else {
@@ -3574,7 +3574,7 @@ return function (global, window, document, undefined) {
                                        tweenDummyValue);
                 }
 
-                /* If this call has finished tweening, pass its skill to completeCall() to handle call cleanup. */
+                /* If this call has finished tweening, pass its oldcobbers to completeCall() to handle call cleanup. */
                 if (percentComplete === 1) {
                     completeCall(i);
                 }

@@ -32,9 +32,9 @@ menu:
   categories: /categories
   archives: /archives
   tags: /tags
-  commonweal: /404.html
+  oldcobbers: /oldcobbers
   about: /about
-  skill: /skill
+  commonweal: /404.html
 
 
 # Enable/Disable menu icons.
@@ -51,7 +51,7 @@ menu_icons:
   tags: tags
   archives: archive
   commonweal: heartbeat
-  skill: book
+  oldcobbers: book
 
 
 
