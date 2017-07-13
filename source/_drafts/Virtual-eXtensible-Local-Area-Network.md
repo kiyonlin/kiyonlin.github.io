@@ -99,54 +99,22 @@ VNI确定了由单个VM产生的内部MAC帧的范围。由于流量使用VNI进
 
 除了将数据包转发到目标VM之外，远程VTEP还会学习内部源MAC到外部源IP地址的映射。它将映射关系存储在表中，使得当目的地VM发送响应分组时，不需要响应分组的“未知目的地”泛洪。
    
-确定目标VM之前的MAC地址源VM的传输与非VXLAN一样执行环境，除了第4.2节所述。 广播帧
-       被使用，但是被详细地封装在多播包中
-       在第4.2节。
-   Determining the MAC address of the destination VM prior to the
-   transmission by the source VM is performed as with non-VXLAN
-   environments except as described in Section 4.2.  Broadcast frames
-   are used but are encapsulated within a multicast packet, as detailed
-   in the Section 4.2.
+确定目标VM的MAC地址之前，源VM的传输与非VXLAN有一样执行环境，除了第4.2节所述。 广播帧虽然被使用，但是被详细地封装在组播包中，详情请看第4.2节。
 
 ## 广播通信和组播映射
 考虑源主机上的VM尝试使用IP 与目标VM 通信。假设它们都在同一子网上，则VM发出地址解析协议（ARP）广播帧。在非VXLAN环境中，将使用MAC广播在所有携带该VLAN的交换机上发送此帧。
+
 使用VXLAN，包含VXLAN VNI的报头与IP报头和UDP报头一起插入数据包的开头。该广播分组被发送到实现该VXLAN覆盖网络的IP组播组。
-   With VXLAN, a header including the VXLAN VNI is inserted at the
-   beginning of the packet along with the IP header and UDP header.
-   However, this broadcast packet is sent out to the IP multicast group
-   on which that VXLAN overlay network is realized.
 
-   To effect this, we need to have a mapping between the VXLAN VNI and
-   the IP multicast group that it will use.  This mapping is done at the
-   management layer and provided to the individual VTEPs through a
-   management channel.  Using this mapping, the VTEP can provide IGMP
-   membership reports to the upstream switch/router to join/leave the
-   VXLAN-related IP multicast groups as needed.  This will enable
-   pruning of the leaf nodes for specific multicast traffic addresses
-   based on whether a member is available on this host using the
-   specific multicast address (see [RFC4541]).  In addition, use of
-    multicast routing protocols like Protocol Independent Multicast -
-   Sparse Mode (PIM-SM see [RFC4601]) will provide efficient multicast
-   trees within the Layer 3 network.
+为了实现这一点，我们需要在VXLAN VNI和它将要使用的IP组播组之间进行映射。该映射在管理层完成，并通过管理通道提供给各个VTEP 。使用此映射，VTEP可以向上游交换机/路由器提供IGMP 成员关系报告，以根据需要加入/离开与VXLAN相关的IP组播组。这将使得使用特定多播地址的主机上的成员是否可用来修改特定组播流量地址的叶节点（参见[ RFC4541 ](https://tools.ietf.org/html/rfc4541)）。另外， 组播路由协议，如协议独立组播 - 稀疏模式（PIM-SM参见[ RFC4601 ](https://tools.ietf.org/html/rfc4601)）将在第3层网络内提供高效的组播树。
 
-   The VTEP will use (*,G) joins.  This is needed as the set of VXLAN
-   tunnel sources is unknown and may change often, as the VMs come up /
-   go down across different hosts.  A side note here is that since each
-   VTEP can act as both the source and destination for multicast
-   packets, a protocol like bidirectional PIM (BIDIR-PIM -- see
-   [RFC5015]) would be more efficient.
+VTEP将使用（*，G）连接。这是必要的，因为VXLAN隧道源的集合是未知的，并且可能会经常变化，因为VM在不同的主机上上下移动。这里需要注意的是，由于每个VTEP可以作为组播数据包的源和目的地，所以像双向PIM（BIDIR- PIM-参见[ RFC5015 ](https://tools.ietf.org/html/rfc5015)）这样的协议将更有效。
 
-   The destination VM sends a standard ARP response using IP unicast.
-   This frame will be encapsulated back to the VTEP connecting the
-   originating VM using IP unicast VXLAN encapsulation.  This is
-   possible since the mapping of the ARP response's destination MAC to
-   the VXLAN tunnel end point IP was learned earlier through the ARP
-   request.
+目标VM使用IP单播发送标准ARP响应。该帧将被封装并返回给VTEP，VTEP连接了原始的VM，并使用IP单播VXLAN封装。这是可能的，因为ARP响应的目的MAC到VXLAN隧道终点IP的映射早先通过ARP请求被学习。
 
-   Note that multicast frames and "unknown MAC destination" frames are
-   also sent using the multicast tree, similar to the broadcast frames.
+注意，组播帧和“未知MAC目的地”帧也使用组播树发送，类似于广播帧。
 
-4.3.  Physical Infrastructure Requirements
+## 物理基础设施要求
 
    When IP multicast is used within the network infrastructure, a
    multicast routing protocol like PIM-SM can be used by the individual
