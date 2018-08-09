@@ -495,7 +495,7 @@
 			}
 		},
 
-		// Navigate to gallery item by skill
+		// Navigate to gallery item by oldcobbers
 		jumpto: function ( index, direction, router ) {
 			var current = F.current;
 
@@ -834,7 +834,7 @@
 			/*
 			 * Add reference to the group, so it`s possible to access from callbacks, example:
 			 * afterLoad : function() {
-			 *     this.title = 'Image ' + (this.skill + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+			 *     this.title = 'Image ' + (this.oldcobbers + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
 			 * }
 			 */
 

@@ -32,9 +32,9 @@ menu:
   categories: /categories
   archives: /archives
   tags: /tags
-  commonweal: /404.html
+  oldcobbers: /oldcobbers
   about: /about
-  skill: /skill
+  commonweal: /404.html
 
 
 # Enable/Disable menu icons.
@@ -51,7 +51,7 @@ menu_icons:
   tags: tags
   archives: archive
   commonweal: heartbeat
-  skill: book
+  oldcobbers: book
 
 
 
@@ -414,3 +414,7 @@ images: images
 
 # Theme version
 version: 5.0.1
+
+reward_comment: 坚持原创技术分享，您的支持将鼓励我继续创作！
+wechatpay: /images/wpay.png
+alipay: /images/alipay.png
