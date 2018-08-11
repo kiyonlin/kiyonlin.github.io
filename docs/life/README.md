@@ -1,5 +1,6 @@
 ---
 title: Life
+layout: Category
 ---
 [[toc]]
 

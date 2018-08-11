@@ -1,7 +1,12 @@
 ---
 title: AAA
+tag: 
+  - 标签
+  - 标签2
+date: 2018-02-11 15:17:00
+updated: 2018-02-11 15:17:00
 ---
-
+{{ $page }}
 [[toc]]
 
 # Hello aaaa

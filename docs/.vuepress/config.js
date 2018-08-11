@@ -22,11 +22,13 @@ module.exports = {
         // }
     },
     themeConfig: {
-        nav: [{ text: "首页", link: "/" }, { text: "认真生活", link: "/life/" }, { text: "开心工作", link: "/work/" }],
-        sidebar: {
-            "/life/": ["", "life", "儿童敏感期"],
-            "/work/": ["", "work"]
-        },
+        nav: [
+            { text: "首页", link: "/" },
+            { text: "认真生活", link: "/life/" },
+            { text: "开心工作", link: "/work/" },
+            { text: "劳逸结合", link: "/relax/" }
+        ],
+        sidebar: 'auto',
         activeHeaderLinks: true, // 默认值：true
         search: true,
         searchMaxSuggestions: 10,

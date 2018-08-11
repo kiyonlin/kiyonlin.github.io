@@ -1,10 +1,10 @@
 ---
-title: work
-layout: Category
+title: Relax
 ---
+
 [[toc]]
 
-# Hello Work
+# Hello aaaa
 ## Table
 | Tables        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
@@ -15,8 +15,6 @@ layout: Category
 ## Image
 ![An image](/ics.png)
 
-
-[这里]("{{ $site.pages[1].path }}")
 
 ## Custom Containers
 ::: tip
@@ -53,7 +51,6 @@ export default {
 <span v-for="i in 3">{{ i }} </span>
 
 {{ $page.path }}
-{{ $site }}
 
 ## Escaping <Badge text="beta" type="warn"/>
 
