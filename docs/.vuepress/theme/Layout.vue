@@ -14,6 +14,7 @@
       <slot name="page-top" slot="top" />
       <slot name="page-bottom" slot="bottom" />
     </Page>
+    <a-back-top />
     <SWUpdatePopup :updateEvent="swUpdateEvent" />
   </div>
 </template>

@@ -3,6 +3,9 @@ module.exports = {
     lang: "zh-CN",
     title: "清峰",
     description: "瞎逼逼乐呵呵",
+    head:[
+        ['link', { rel: 'shortcut icon', href: '/favicon.ico' }],
+    ],
     configureWebpack: {
         resolve: {
             alias: {
@@ -40,6 +43,7 @@ module.exports = {
             //    buttonText: "Refresh"
             // }
         },
+        lastUpdated: true,
         repo: "kiyonlin"
     },
     evergreen: true

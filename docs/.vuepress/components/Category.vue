@@ -1,10 +1,10 @@
 <template>
   <div class="category">
-    分类{{ pages }}
+    分类{{ $page }}
     <a-button @click="handleClick" style="marginTop: 16px">Toggle loading</a-button>
     <div v-for="page in pages" :key="page.key" class="prev mb-20">
       <router-link :to="page.path">
-        <a-card :loading="loading" :title="page.title || page.path">
+        <a-card :loading="loading" :title="page.title || page.path" hoverable>
           whatever content
         </a-card>
       </router-link>
