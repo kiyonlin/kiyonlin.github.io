@@ -9,20 +9,22 @@ const install = (Vue, { theme, pages }) => {
             .filter(page => catRE.test(page.path))
             .sort((page1, page2) => page1.frontmatter.updated < page2.frontmatter.updated);
     });
-    let tags = new Set();
+    let tagsSet = new Set();
     let tagedPages = {};
 
     // 收集tag和tag对应的文章
     pages.forEach(page => {
         page.frontmatter.tag &&
             page.frontmatter.tag.forEach(tag => {
-                if (!tags.has(tag)) {
-                    tags.add(tag);
+                if (!tagsSet.has(tag)) {
+                    tagsSet.add(tag);
                     tagedPages[tag] = [];
                 }
                 tagedPages[tag].push(page);
             });
     });
+
+    let tags = Array.from(tagsSet);
 
     Vue.mixin({
         computed: {

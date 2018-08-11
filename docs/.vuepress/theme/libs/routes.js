@@ -14,7 +14,7 @@ const install = (Vue, { router, theme }) => {
         });
     }
 
-    router.addResource(routes);
+    router.addRoutes(routes);
 };
 
 export default { install };

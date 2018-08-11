@@ -18,5 +18,6 @@ export default ({
     Vue.component(Button.name, Button);
     Vue.component(Card.name, Card);
     Vue.component(Tag.name, Tag);
+    Vue.component(Tag.CheckableTag.name, Tag.CheckableTag);
     Vue.component(BackTop.name, BackTop);
 };
