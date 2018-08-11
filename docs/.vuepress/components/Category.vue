@@ -2,11 +2,16 @@
   <div class="category">
     分类{{ pages }}
     <a-button @click="handleClick" style="marginTop: 16px">Toggle loading</a-button>
-    <router-link v-for="page in pages" :key="page.key" class="prev" :to="page.path">
-      <a-card :loading="loading" :title="page.title || page.path">
-        whatever content
-      </a-card>
-    </router-link>
+    <div v-for="page in pages" :key="page.key" class="prev mb-20">
+      <router-link :to="page.path">
+        <a-card :loading="loading" :title="page.title || page.path">
+          whatever content
+        </a-card>
+      </router-link>
+      <div class="mt-3">
+        <a-tag v-for="(tag, index) in page.frontmatter.tag" :key="index" color="blue">{{tag}}</a-tag>
+      </div>
+    </div>
     <Content custom/>
   </div>
 </template>
