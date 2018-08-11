@@ -5,6 +5,7 @@
     },
     "dependencies": {
         "ant-design-vue": "^1.0.2",
+        "dayjs": "^1.7.5",
         "particles.js": "^2.0.0",
         "tailwindcss": "^0.6.4"
     }

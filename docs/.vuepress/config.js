@@ -3,9 +3,7 @@ module.exports = {
     lang: "zh-CN",
     title: "清峰",
     description: "瞎逼逼乐呵呵",
-    head:[
-        ['link', { rel: 'shortcut icon', href: '/favicon.ico' }],
-    ],
+    head: [["link", { rel: "shortcut icon", href: "/favicon.ico" }]],
     configureWebpack: {
         resolve: {
             alias: {
@@ -31,7 +29,7 @@ module.exports = {
             { text: "开心工作", link: "/work/" },
             { text: "劳逸结合", link: "/relax/" }
         ],
-        sidebar: 'auto',
+        sidebar: "auto",
         activeHeaderLinks: true, // 默认值：true
         search: true,
         searchMaxSuggestions: 10,
@@ -44,7 +42,21 @@ module.exports = {
             // }
         },
         lastUpdated: true,
-        repo: "kiyonlin"
+        repo: "kiyonlin",
+        format: {
+            date: "YYYY-MM-DD",
+            dateTime: "YYYY-MM-DD HH:mm:ss"
+        },
+        pagination: {
+            path: "/page/:pageNum",
+            pageSize: 5
+        },
+        tags: {
+            path: "/tags/:tagName"
+        },
+        categories: {
+            path: "/categories/:category"
+        }
     },
     evergreen: true
 };
