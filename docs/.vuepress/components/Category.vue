@@ -1,8 +1,11 @@
 <template>
   <div class="category">
     分类{{ pages }}
+    <a-button @click="handleClick" style="marginTop: 16px">Toggle loading</a-button>
     <router-link v-for="page in pages" :key="page.key" class="prev" :to="page.path">
-      {{ page.title || page.path }}
+      <a-card :loading="loading" :title="page.title || page.path">
+        whatever content
+      </a-card>
     </router-link>
     <Content custom/>
   </div>
@@ -10,6 +13,11 @@
 
 <script>
   export default {
+    data() {
+      return {
+        loading: true,
+      }
+    },
     computed: {
       data() {
         return this.$page.frontmatter
@@ -21,7 +29,12 @@
           .filter((page) => pageRE.test(page.path))
           .sort((page1, page2) => page1.frontmatter.updated < page2.frontmatter.updated);
       }
-    }
+    },
+    methods: {
+      handleClick() {
+        this.loading = !this.loading
+      }
+    },
   }
 </script>
 
