@@ -1,4 +1,4 @@
-import { Button, Card, Tag, BackTop, Divider } from "ant-design-vue";
+import { Button, Card, Tag, BackTop, Divider, Pagination } from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
 import "tailwindcss/dist/utilities.css";
 import blog from "./theme/libs/blog"
@@ -22,4 +22,5 @@ export default ({
     Vue.component(Tag.CheckableTag.name, Tag.CheckableTag);
     Vue.component(BackTop.name, BackTop);
     Vue.component(Divider.name, Divider);
+    Vue.component(Pagination.name, Pagination);
 };
