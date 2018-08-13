@@ -1,20 +1,21 @@
 import dayjs from "dayjs";
 
 const install = (Vue, { theme, pages }) => {
-    pages = pages.sort((page1, page2) => page1.frontmatter.updated < page2.frontmatter.updated);
-
     const categories = ["life", "work", "relax"];
     let categoriedPages = {};
     categories.forEach(category => {
         const catRE = new RegExp(`/${category}/` + ".+html");
-        categoriedPages[category] = pages.filter(page => catRE.test(page.path));
-        categoriedPages[category] && categoriedPages[category].reduce((prev, current) => {
-            if(prev){
-                prev.frontmatter.next = prev.frontmatter.next || current.path;
-                current.frontmatter.prev = current.frontmatter.prev || prev.path;
-            }
-            return current;
-        }, null);
+        categoriedPages[category] = pages
+            .filter(page => catRE.test(page.path))
+            .sort((page1, page2) => page1.frontmatter.date < page2.frontmatter.date);
+        categoriedPages[category] &&
+            categoriedPages[category].reduce((prev, current) => {
+                if (prev) {
+                    prev.frontmatter.next = prev.frontmatter.next || current.path;
+                    current.frontmatter.prev = current.frontmatter.prev || prev.path;
+                }
+                return current;
+            }, null);
     });
     let tagsSet = new Set();
     let tagedPages = {};
@@ -32,6 +33,10 @@ const install = (Vue, { theme, pages }) => {
     });
 
     let tags = Array.from(tagsSet);
+
+    tags.forEach(tag => {
+        tagedPages[tag] = tagedPages[tag].sort((page1, page2) => page1.frontmatter.date < page2.frontmatter.date);
+    });
 
     Vue.mixin({
         computed: {

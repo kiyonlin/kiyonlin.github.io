@@ -7,7 +7,7 @@
         </template>
 
         <template slot="description">
-          {{ page.updated | dateTime }}
+          {{ page.frontmatter.date | dateTime }}
         </template>
       </a-card-meta>
         

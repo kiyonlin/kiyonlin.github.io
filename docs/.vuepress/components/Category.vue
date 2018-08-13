@@ -1,12 +1,11 @@
 <template>
   <div class="category">
     <Content custom/>
-
     <div v-if="pages.length">
       <div v-for="page in pages" :key="page.key" class="mb-10">
         <page-item :page="page"></page-item>
       </div>
-      <a-pagination simple hideOnSinglePage :current="current" :total="total" :pageSize="pageSize" @change="onPageChange" class="text-right" />
+      <a-pagination simple hideOnSinglePage :current="current" :total="total" :pageSize="pageSize" @change="onPageChange" class="text-right mb-10" />
     </div>
     <div v-else>
       暂无文章
@@ -16,13 +15,15 @@
 
 <script>
   import PageItem from './PageItem.vue'
+  import {
+    toTop
+  } from '../theme/util.js'
   export default {
     components: {
       PageItem
     },
     data() {
       return {
-        current: 1,
         pageSize: 10
       }
     },
@@ -37,11 +38,26 @@
       },
       total() {
         return this.totalPages.length;
+      },
+      maxPage() {
+        return Math.ceil(this.total / this.pageSize);
+      },
+      current() {
+        let page = +this.$route.query.page || 1;
+        if (page < 1) page = 1;
+        if (page > this.maxPage) page = this.maxPage;
+        return page;
       }
     },
     methods: {
       onPageChange(current) {
-        this.current = current;
+        this.$router.push({
+          path: this.$route.path,
+          query: {
+            page: current
+          }
+        });
+        toTop();
       }
     }
   }
