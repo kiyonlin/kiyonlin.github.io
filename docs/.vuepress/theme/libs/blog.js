@@ -1,13 +1,20 @@
 import dayjs from "dayjs";
 
 const install = (Vue, { theme, pages }) => {
+    pages = pages.sort((page1, page2) => page1.frontmatter.updated < page2.frontmatter.updated);
+
     const categories = ["life", "work", "relax"];
     let categoriedPages = {};
     categories.forEach(category => {
         const catRE = new RegExp(`/${category}/` + ".+html");
-        categoriedPages[category] = pages
-            .filter(page => catRE.test(page.path))
-            .sort((page1, page2) => page1.frontmatter.updated < page2.frontmatter.updated);
+        categoriedPages[category] = pages.filter(page => catRE.test(page.path));
+        categoriedPages[category].reduce((prev, current) => {
+            if(prev){
+                prev.frontmatter.next = prev.frontmatter.next || current.path;
+                current.frontmatter.prev = current.frontmatter.prev || prev.path;
+            }
+            return current;
+        });
     });
     let tagsSet = new Set();
     let tagedPages = {};
