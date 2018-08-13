@@ -1,21 +1,23 @@
 <template>
-  <div class="theme-container" :class="pageClasses" @touchstart="onTouchStart" @touchend="onTouchEnd">
-    <Navbar v-if="shouldShowNavbar" @toggle-sidebar="toggleSidebar" />
-    <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
-    <Sidebar :items="sidebarItems" @toggle-sidebar="toggleSidebar">
-      <slot name="sidebar-top" slot="top" />
-      <slot name="sidebar-bottom" slot="bottom" />
-    </Sidebar>
-    <div class="custom-layout" v-if="layout">
-      <component :is="layout" />
+  <div id="particles">
+    <div class="theme-container" :class="pageClasses" @touchstart="onTouchStart" @touchend="onTouchEnd">
+      <Navbar v-if="shouldShowNavbar" @toggle-sidebar="toggleSidebar" />
+      <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
+      <Sidebar :items="sidebarItems" @toggle-sidebar="toggleSidebar">
+        <slot name="sidebar-top" slot="top" />
+        <slot name="sidebar-bottom" slot="bottom" />
+      </Sidebar>
+      <div class="custom-layout" v-if="layout">
+        <component :is="layout" />
+      </div>
+      <Home v-else-if="$page.frontmatter.home" />
+      <Page v-else :sidebar-items="sidebarItems">
+        <slot name="page-top" slot="top" />
+        <slot name="page-bottom" slot="bottom" />
+      </Page>
+      <a-back-top />
+      <SWUpdatePopup :updateEvent="swUpdateEvent" />
     </div>
-    <Home v-else-if="$page.frontmatter.home" />
-    <Page v-else :sidebar-items="sidebarItems">
-      <slot name="page-top" slot="top" />
-      <slot name="page-bottom" slot="bottom" />
-    </Page>
-    <a-back-top />
-    <SWUpdatePopup :updateEvent="swUpdateEvent" />
   </div>
 </template>
 
@@ -30,6 +32,7 @@
   import {
     resolveSidebarItems
   } from './util'
+  import particles from 'particles.js'
   export default {
     components: {
       Home,
@@ -115,6 +118,7 @@
         this.isSidebarOpen = false
       })
       this.$on('sw-updated', this.onSWUpdated)
+      particlesJS.load('particles', '/particles.json');
     },
     methods: {
       toggleSidebar(to) {
@@ -150,3 +154,12 @@
 </style>
 
 <style src="./styles/theme.styl" lang="stylus"></style>
+
+<style lang="stylus">
+.particles-js-canvas-el
+  position fixed
+  top 3.6rem
+  left 0
+  z-index -1
+  background-color #fefefe
+</style>

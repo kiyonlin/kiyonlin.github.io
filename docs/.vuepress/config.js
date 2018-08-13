@@ -42,21 +42,14 @@ module.exports = {
             //    buttonText: "Refresh"
             // }
         },
-        lastUpdated: true,
+        lastUpdated: "最后更新",
         repo: "kiyonlin",
         format: {
             date: "YYYY-MM-DD",
             dateTime: "YYYY-MM-DD HH:mm:ss"
         },
-        pagination: {
-            path: "/page/:pageNum",
-            pageSize: 5
-        },
         tags: {
             path: "/tags/:tagName"
-        },
-        categories: {
-            path: "/categories/:category"
         }
     },
     evergreen: true

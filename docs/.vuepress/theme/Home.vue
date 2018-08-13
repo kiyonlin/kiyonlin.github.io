@@ -1,33 +1,30 @@
 <template>
-  <div id="particles">
-    <div class="home">
-      <div class="hero">
-        <img v-if="data.heroImage" :src="$withBase(data.heroImage)" alt="hero">
-        <h1>{{ data.heroText || $title || 'Hello' }}</h1>
-        <p class="description">
-          {{ data.tagline || $description || 'Welcome to your VuePress site' }}
-        </p>
-        <p class="action" v-if="data.actionText && data.actionLink">
-          <NavLink class="action-button" :item="actionLink" />
-        </p>
+  <div class="home">
+    <div class="hero">
+      <img v-if="data.heroImage" :src="$withBase(data.heroImage)" alt="hero">
+      <h1>{{ data.heroText || $title || 'Hello' }}</h1>
+      <p class="description">
+        {{ data.tagline || $description || 'Welcome to your VuePress site' }}
+      </p>
+      <p class="action" v-if="data.actionText && data.actionLink">
+        <NavLink class="action-button" :item="actionLink" />
+      </p>
+    </div>
+    <div class="features" v-if="data.features && data.features.length">
+      <div class="feature" v-for="feature in data.features">
+        <h2>{{ feature.title }}</h2>
+        <p>{{ feature.details }}</p>
       </div>
-      <div class="features" v-if="data.features && data.features.length">
-        <div class="feature" v-for="feature in data.features">
-          <h2>{{ feature.title }}</h2>
-          <p>{{ feature.details }}</p>
-        </div>
-      </div>
-      <Content custom/>
-      <div class="footer" v-if="data.footer">
-        {{ data.footer }}
-      </div>
+    </div>
+    <Content custom/>
+    <div class="footer" v-if="data.footer">
+      {{ data.footer }}
     </div>
   </div>
 </template>
 
 <script>
   import NavLink from './NavLink.vue'
-  import particles from 'particles.js'
   export default {
     components: {
       NavLink
@@ -42,9 +39,6 @@
           text: this.data.actionText
         }
       }
-    },
-    mounted() {
-      particlesJS.load('particles', 'particles.json');
     }
   }
 </script>
@@ -52,11 +46,6 @@
 <style lang="stylus">
 @import './styles/config.styl'
 
-.particles-js-canvas-el
-  position fixed
-  top 3.6rem
-  left 0
-  z-index -1
 .home
   padding $navbarHeight 2rem 0
   max-width 960px
