@@ -1,8 +1,14 @@
 <template>
   <div class="tags">
-    <a-checkable-tag v-for="(tag, index) in $blog.tags" :key="index" :style="style(tag)" :checked="selectedTag==tag" @change="select(tag)">
+    <a-checkable-tag v-for="(tag, index) in $blog.tags" :key="index" :style="style(tag)" :checked="tagName==tag" @change="select(tag)">
       {{tag}} {{$blog.tagedPages[tag].length}}
     </a-checkable-tag>
+
+    <a-divider></a-divider>
+
+    <div v-for="page in pages" :key="page.key" class="mb-10">
+      <page-item :page="page"></page-item>
+    </div>
     <Content custom/>
   </div>
 </template>
@@ -15,35 +21,24 @@
       }
     },
     computed: {
-      data() {
-        return this.$page.frontmatter
-      },
+      tagName() {
+      return this.$route.params.tagName
+    },
+      pages(){
+        return this.$blog.tagedPages[this.tagName];
+      }
     },
     methods: {
-      colors() {
-        let r = Math.floor(Math.random() * 255);
-        let g = Math.floor(Math.random() * 255);
-        let b = Math.floor(Math.random() * 255);
-        let bg_color = 'rgba(' + r + ',' + g + ',' + b + ',1)';
-        let color = r * 0.299 + g * 0.578 + b * 0.114 >= 192 ? '#111' : '#eee';
-        return {
-          color,
-          bg_color
-        };
-      },
       style(tag) {
         const base = 12 + this.$blog.tagedPages[tag].length;
-        const colors = this.colors();
         return {
           'font-size': base + 'px',
           'height': (base + 10) + 'px',
           'line-height': (base + 8) + 'px',
-          // 'color': colors.color,
-          // 'background-color': colors.bg_color
         }
       },
       select(tag) {
-        this.selectedTag = tag;
+        this.$router.push('/tags/' + tag);
       }
     }
   }

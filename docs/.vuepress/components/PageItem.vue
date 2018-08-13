@@ -14,7 +14,7 @@
       <div v-html="page.excerpt" class="mt-5"></div>
 
       <template slot="actions">
-        <a-tag v-for="(tag, index) in page.frontmatter.tag" :key="index" :to="'/tags' + tag" color="blue" class="m-3">
+        <a-tag v-for="(tag, index) in page.frontmatter.tag" :key="index" color="blue" class="m-3">
           <router-link :to="'/tags/'+tag">{{tag}}</router-link>
         </a-tag>
       </template>
