@@ -6,7 +6,7 @@ updated: 2016-09-29 09:26:10
 category: [技术, apache]
 ---
 来源于[stackoverflow](http://stackoverflow.com/questions/17018586/apache-2-4-php-fpm-and-authorization-headers)
-
+<!-- more -->
 > Various Apache modules will strip the Authorization header, usually for "security reasons". They all have different obscure settings you can tweak to overrule this behaviour, but you'll need to determine exactly which module is to blame.
   
 >  You can work around this issue by passing the header directly to PHP via the env:

@@ -17,7 +17,7 @@ module.exports = {
         // options for markdown-it-anchor
         anchor: { permalink: true },
         // options for markdown-it-toc
-        toc: { includeLevel: [1, 2] }
+        // toc: { includeLevel: [1, 2, 3] }
         // config: md => {
         //     // use more markdown-it plugins!
         //     // md.use(require('markdown-it-xxx'))
