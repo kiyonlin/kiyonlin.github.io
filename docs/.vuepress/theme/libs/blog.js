@@ -8,13 +8,13 @@ const install = (Vue, { theme, pages }) => {
     categories.forEach(category => {
         const catRE = new RegExp(`/${category}/` + ".+html");
         categoriedPages[category] = pages.filter(page => catRE.test(page.path));
-        categoriedPages[category].reduce((prev, current) => {
+        categoriedPages[category] && categoriedPages[category].reduce((prev, current) => {
             if(prev){
                 prev.frontmatter.next = prev.frontmatter.next || current.path;
                 current.frontmatter.prev = current.frontmatter.prev || prev.path;
             }
             return current;
-        });
+        }, null);
     });
     let tagsSet = new Set();
     let tagedPages = {};

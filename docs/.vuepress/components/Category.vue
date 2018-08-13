@@ -1,10 +1,16 @@
 <template>
   <div class="category">
-    <div v-for="page in pages" :key="page.key" class="mb-10">
-      <page-item :page="page"></page-item>
-    </div>
-    <a-pagination simple hideOnSinglePage :current="current" :total="total" :pageSize="pageSize" @change="onPageChange" class="text-right" />
     <Content custom/>
+
+    <div v-if="pages.length">
+      <div v-for="page in pages" :key="page.key" class="mb-10">
+        <page-item :page="page"></page-item>
+      </div>
+      <a-pagination simple hideOnSinglePage :current="current" :total="total" :pageSize="pageSize" @change="onPageChange" class="text-right" />
+    </div>
+    <div v-else>
+      暂无文章
+    </div>
   </div>
 </template>
 
