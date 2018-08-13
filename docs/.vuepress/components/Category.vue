@@ -1,43 +1,21 @@
 <template>
   <div class="category">
-    分类{{ $page }}
-    <a-button @click="handleClick" style="marginTop: 16px">Toggle loading</a-button>
-    <div v-for="page in pages" :key="page.key" class="prev mb-20">
-      <router-link :to="page.path">
-        <a-card :loading="loading" :title="page.title || page.path" hoverable>
-          whatever content
-        </a-card>
-      </router-link>
-      <div class="mt-3">
-        <a-tag v-for="(tag, index) in page.frontmatter.tag" :key="index" color="blue">{{tag}}</a-tag>
-      </div>
+    <div v-for="page in pages" :key="page.key" class="mb-10">
+      <page-item :page="page"></page-item>
     </div>
     <Content custom/>
   </div>
 </template>
 
 <script>
+  import PageItem from './PageItem.vue'
   export default {
-    data() {
-      return {
-        loading: true,
-      }
-    },
+    components: {PageItem},
     computed: {
-      data() {
-        return this.$page.frontmatter
-      },
       pages() {
         // 匹配当前分类下的所有pages
-        const pageRE = new RegExp(this.$page.path + '.+html')
-        return this.$site.pages
-          .filter((page) => pageRE.test(page.path))
-          .sort((page1, page2) => page1.frontmatter.updated < page2.frontmatter.updated);
-      }
-    },
-    methods: {
-      handleClick() {
-        this.loading = !this.loading
+        const category = this.$page.path.replace(/\//g, '');
+        return this.$blog.categoriedPages[category];
       }
     },
   }

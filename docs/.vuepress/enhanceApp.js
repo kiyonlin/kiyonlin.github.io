@@ -17,6 +17,7 @@ export default ({
     // ...apply enhancements to the app
     Vue.component(Button.name, Button);
     Vue.component(Card.name, Card);
+    Vue.component(Card.Meta.name, Card.Meta);
     Vue.component(Tag.name, Tag);
     Vue.component(Tag.CheckableTag.name, Tag.CheckableTag);
     Vue.component(BackTop.name, BackTop);
