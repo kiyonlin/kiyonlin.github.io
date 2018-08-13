@@ -6,8 +6,8 @@
       <slot name="sidebar-top" slot="top" />
       <slot name="sidebar-bottom" slot="bottom" />
     </Sidebar>
-    <div class="custom-layout" v-if="$page.frontmatter.layout">
-      <component :is="$page.frontmatter.layout" />
+    <div class="custom-layout" v-if="layout">
+      <component :is="layout" />
     </div>
     <Home v-else-if="$page.frontmatter.home" />
     <Page v-else :sidebar-items="sidebarItems">
@@ -72,7 +72,8 @@
         return (!frontmatter.layout &&
           !frontmatter.home &&
           frontmatter.sidebar !== false &&
-          this.sidebarItems.length
+          this.sidebarItems.length &&
+          this.layout != 'tags'
         )
       },
       sidebarItems() {
@@ -92,6 +93,9 @@
           },
           userPageClass
         ]
+      },
+      layout() {
+        return this.$page.frontmatter.layout || this.$route.meta.layout;
       }
     },
     mounted() {
