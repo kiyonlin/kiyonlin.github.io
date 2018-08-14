@@ -17,8 +17,12 @@
       </div>
     </div>
     <Content custom/>
-    <div class="footer" v-if="data.footer">
-      {{ data.footer }}
+    <div class="footer text-xl">
+      <a href="/work/">blog</a>
+      <a-divider type="vertical"></a-divider>
+      <a href="https://github.com/kiyonlin"><a-icon type="github"></a-icon></a>
+      <a-divider type="vertical"></a-divider>
+      <a href="https://www.zhihu.com/people/kiyonlin"><a-icon type="zhihu"></a-icon></a>
     </div>
   </div>
 </template>

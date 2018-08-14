@@ -1,8 +1,8 @@
-import { Button, Card, Tag, BackTop, Divider, Pagination } from "ant-design-vue";
+import { Button, Card, Tag, BackTop, Divider, Pagination, Icon } from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
 import "tailwindcss/dist/utilities.css";
-import blog from "./theme/libs/blog"
-import routes from "./theme/libs/routes"
+import blog from "./theme/libs/blog";
+import routes from "./theme/libs/routes";
 
 export default ({
     Vue, // the version of Vue being used in the VuePress app
@@ -23,4 +23,9 @@ export default ({
     Vue.component(BackTop.name, BackTop);
     Vue.component(Divider.name, Divider);
     Vue.component(Pagination.name, Pagination);
+    Vue.component(Icon.name, Icon);
+
+    if (typeof window !== "undefined") {
+        require("particles.js");
+    }
 };

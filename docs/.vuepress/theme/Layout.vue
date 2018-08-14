@@ -32,7 +32,6 @@
   import {
     resolveSidebarItems
   } from './util'
-  import particles from 'particles.js'
   export default {
     components: {
       Home,
@@ -118,7 +117,9 @@
         this.isSidebarOpen = false
       })
       this.$on('sw-updated', this.onSWUpdated)
-      particlesJS.load('particles', '/particles.json');
+      window.onload = function() {
+        particlesJS.load("particles", "/particles.json");
+      };
     },
     methods: {
       toggleSidebar(to) {

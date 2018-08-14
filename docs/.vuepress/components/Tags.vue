@@ -7,7 +7,6 @@
     <div v-for="page in pages" :key="page.key" class="mb-10">
       <page-item :page="page"></page-item>
     </div>
-
     <a-pagination simple hideOnSinglePage :current="current" :total="total" :pageSize="pageSize" @change="onPageChange" class="text-right mb-10" />
     <Content custom/>
   </div>
@@ -31,7 +30,7 @@
         return this.totalPages.slice((this.current - 1) * this.pageSize, this.current * this.pageSize);
       },
       totalPages() {
-        return this.$blog.tagedPages[this.tagName];
+        return this.$blog.tagedPages[this.tagName] || [];
       },
       total() {
         return this.totalPages.length;

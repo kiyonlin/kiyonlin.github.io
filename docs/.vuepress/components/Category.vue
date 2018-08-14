@@ -34,7 +34,7 @@
       totalPages() {
         // 匹配当前分类下的所有pages
         const category = this.$page.path.replace(/\//g, '');
-        return this.$blog.categoriedPages[category];
+        return this.$blog.categoriedPages[category] || [];
       },
       total() {
         return this.totalPages.length;
