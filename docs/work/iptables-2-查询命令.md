@@ -39,6 +39,18 @@ ACCEPT     udp  --  anywhere             anywhere             udp dpt:bootpc
 
 其他查看其他表的命令也是类似的。当省略 `-t filter` 时，默认列出的是 `filter` 表的规则。
 
+## 查看表的指定链
+可以增加链名，指定查看表的具体链规则：
+```bash {1}
+iptables -nL INPUT
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            udp dpt:53
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:53
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            udp dpt:67
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:67
+```
+
 ## 查看规则详情
 使用 `-v` 选项列出更详细的信息：
 ```bash {1}
