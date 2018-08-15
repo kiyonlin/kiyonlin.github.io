@@ -1,5 +1,5 @@
 ---
-title: iptables简介
+title: iptables-1-简介
 tag: [iptables]
 category: [iptables]
 date: 2018-08-15 08:45:33
