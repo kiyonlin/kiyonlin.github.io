@@ -5,9 +5,11 @@ const install = (Vue, { theme, pages }) => {
     let categoriedPages = {};
     categories.forEach(category => {
         const catRE = new RegExp(`/${category}/` + ".+html");
-        categoriedPages[category] = pages
-            .filter(page => catRE.test(page.path))
-            .sort((page1, page2) => page1.frontmatter.date < page2.frontmatter.date);
+        categoriedPages[category] = pages.filter(page => catRE.test(page.path)).sort((page1, page2) => {
+            let d1 = dayjs(page1.frontmatter.date);
+            let d2 = dayjs(page2.frontmatter.date);
+            return d1.isAfter(d2) ? -1 : d1.isBefore(d2) ? 1 : 0;
+        });
         categoriedPages[category] &&
             categoriedPages[category].reduce((prev, current) => {
                 if (prev) {

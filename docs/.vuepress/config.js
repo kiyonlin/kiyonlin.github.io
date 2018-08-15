@@ -17,11 +17,11 @@ module.exports = {
         // options for markdown-it-anchor
         anchor: { permalink: true },
         // options for markdown-it-toc
-        toc: { includeLevel: [2, 3, 4] }
-        // config: md => {
-        //     // use more markdown-it plugins!
-        //     // md.use(require('markdown-it-xxx'))
-        // }
+        toc: { includeLevel: [2, 3, 4] },
+        config: md => {
+            // use more markdown-it plugins!
+            md.use(require("markdown-it-footnote"));
+        }
     },
     themeConfig: {
         nav: [

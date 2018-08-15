@@ -6,6 +6,7 @@
     "dependencies": {
         "ant-design-vue": "^1.0.2",
         "dayjs": "^1.7.5",
+        "markdown-it-footnote": "^3.0.1",
         "particles.js": "^2.0.0",
         "tailwindcss": "^0.6.4"
     }
