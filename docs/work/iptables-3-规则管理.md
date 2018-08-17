@@ -5,7 +5,7 @@ category: [iptables]
 date: 2018-08-15 14:19:31
 ---
 
-本章如何对 `iptables` 规则进行管理。
+本章学习如何对 `iptables` 规则进行管理。
 ::: warning 注意
 本系列测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
 :::

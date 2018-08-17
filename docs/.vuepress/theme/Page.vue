@@ -1,7 +1,8 @@
 <template>
   <div class="page">
     <slot name="top" />
-    <Content :custom="false" />
+    <Content class="-mt-32" :custom="false" />
+    <p class="text-center">欢迎转载分享本章，原创文章请注明出处，谢谢配合!</p>
     <div class="page-edit">
       <div class="edit-link" v-if="editLink">
         <a :href="editLink" target="_blank" rel="noopener noreferrer">{{ editLinkText }}</a>
