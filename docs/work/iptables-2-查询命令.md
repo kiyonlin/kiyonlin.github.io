@@ -1,5 +1,5 @@
 ---
-title: iptables-2-查询命令
+title: iptables详解-2-查询命令
 tag: [iptables]
 category: [iptables]
 date: 2018-08-15 11:37:05
