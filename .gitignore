@@ -7,3 +7,5 @@ db.json
 .deploy*/
 .idea/
 public
+cdn
+source
