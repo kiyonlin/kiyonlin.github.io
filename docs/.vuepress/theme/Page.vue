@@ -16,20 +16,20 @@
     <div class="page-nav" v-if="prev || next">
       <p class="inner">
         <span v-if="prev" class="prev">
-            ←
-            <router-link v-if="prev" class="prev" :to="prev.path">
-              {{ prev.title || prev.path }}
-            </router-link>
-          </span>
+              ←
+              <router-link v-if="prev" class="prev" :to="prev.path">
+                {{ prev.title || prev.path }}
+              </router-link>
+            </span>
         <span v-if="next" class="next">
-          <router-link v-if="next" :to="next.path" >
-            {{ next.title || next.path }}
-          </router-link>
-          →
-        </span>
+            <router-link v-if="next" :to="next.path" >
+              {{ next.title || next.path }}
+            </router-link>
+            →
+          </span>
       </p>
-      <div id="comments" ref="comments"></div>
     </div>
+    <div id="comments" ref="comments"></div>
     <slot name="bottom" />
   </div>
 </template>
@@ -189,8 +189,10 @@
 
 .page
   padding-bottom 2rem
-  .gitment-editor-submit, .gitment-editor-submit:disabled, .gitment-comments-init-btn
-    background-color $accentColor
+  #comments
+    @extend $wrapper
+    .gitment-editor-submit, .gitment-editor-submit:disabled, .gitment-comments-init-btn
+      background-color $accentColor
 .page-edit
   @extend $wrapper
   padding-top 1rem
