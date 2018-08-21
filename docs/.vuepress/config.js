@@ -50,6 +50,14 @@ module.exports = {
         },
         tags: {
             path: "/tags/:tagName"
+        },
+        gitment: {
+            owner: 'kiyonlin',
+            repo: 'kiyonlin.github.io',
+            oauth: {
+                clientID: 'c1f6ff56b40b5e7baecb',
+                client_secret: '81a6ed3f1109e570c0ea825dae1d888c3e57bb52',
+            },
         }
     },
     evergreen: true

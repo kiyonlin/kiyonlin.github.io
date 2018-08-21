@@ -16,25 +16,26 @@
     <div class="page-nav" v-if="prev || next">
       <p class="inner">
         <span v-if="prev" class="prev">
-            ←
-            <router-link
-              v-if="prev"
-              class="prev"
-              :to="prev.path"
-            >
-              {{ prev.title || prev.path }}
-            </router-link>
-          </span>
+                      ←
+                      <router-link
+                        v-if="prev"
+                        class="prev"
+                        :to="prev.path"
+                      >
+                        {{ prev.title || prev.path }}
+                      </router-link>
+                    </span>
         <span v-if="next" class="next">
-            <router-link
-              v-if="next"
-              :to="next.path"
-            >
-              {{ next.title || next.path }}
-            </router-link>
-            →
-          </span>
+                      <router-link
+                        v-if="next"
+                        :to="next.path"
+                      >
+                        {{ next.title || next.path }}
+                      </router-link>
+                      →
+                    </span>
       </p>
+      <div id="comments"></div>
     </div>
     <slot name="bottom" />
   </div>
@@ -47,8 +48,20 @@
     outboundRE,
     endingSlashRE
   } from './util'
+  import Gitment from 'gitment';
   export default {
     props: ['sidebarItems'],
+    mounted() {
+      this.initGitment();
+    },
+    watch: {
+      $page(p1, p2) {
+        if (p1.key != p2.key) {
+          // 页面切换后重新加载 gitment
+          this.initGitment();
+        }
+      }
+    },
     computed: {
       lastUpdated() {
         if (this.$page.lastUpdated) {
@@ -137,6 +150,15 @@
           (docsDir ? '/' + docsDir.replace(endingSlashRE, '') : '') +
           path
         )
+      },
+      initGitment() {
+        const gitment = new Gitment(Object.assign(this.$site.themeConfig.gitment, {
+          id: this.$page.frontmatter.date,
+          repo: 'kiyonlin.github.io',
+          title: this.$page.title,
+          labels: this.$page.frontmatter.tag
+        }));
+        gitment.render('comments');
       }
     }
   }
@@ -170,7 +192,8 @@
 
 .page
   padding-bottom 2rem
-
+  .gitment-editor-submit, .gitment-editor-submit:disabled, .gitment-comments-init-btn
+    background-color $accentColor
 .page-edit
   @extend $wrapper
   padding-top 1rem

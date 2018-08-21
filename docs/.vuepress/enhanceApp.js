@@ -3,6 +3,7 @@ import "ant-design-vue/dist/antd.css";
 import "tailwindcss/dist/utilities.css";
 import blog from "./theme/libs/blog";
 import routes from "./theme/libs/routes";
+import 'gitment/style/default.css';
 
 export default ({
     Vue, // the version of Vue being used in the VuePress app
