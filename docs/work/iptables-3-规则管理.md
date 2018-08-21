@@ -8,7 +8,7 @@ comment: true
 
 本章学习如何对 `iptables` 规则进行管理。
 ::: warning 注意
-本系列测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
+本系列文章测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
 :::
 <!-- more -->
 
@@ -41,6 +41,9 @@ rtt min/avg/max/mdev = 0.266/0.330/0.458/0.092 ms
 ```
 
 ## 增加规则
+`-I, --insert` 选项可以增加规则。 
+
+`-j, --jump` 接收 `target` 作为参数。
 
 > 添加一条规则，拒绝所有来自 `10.211.55.9` 的报文
 
@@ -69,7 +72,7 @@ Chain INPUT (policy ACCEPT 445 packets, 48402 bytes)
    11   924 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
 ```
 
-
+`-A, --append` 选项可以追加规则。
 > 追加一条规则，接受所有来自 `10.211.55.9` 的报文
 
 ```bash {2,6}
@@ -101,6 +104,7 @@ Chain INPUT (policy ACCEPT 904 packets, 100K bytes)
 
 我们可以看到第一条规则报文量更新了，但是第二条规则并未收到任何数据。
 
+`-s, --source` 选项指定源IP地址。
 > 添加一条规则，接受所有来自 `10.211.55.9` 的报文
 
 ```bash {1,2,5}
@@ -194,10 +198,10 @@ Chain INPUT (policy ACCEPT 79 packets, 5905 bytes)
 
 > 删除所有规则
 
-使用 `-F` 选项即可，我们在准备工作中已经操作过。
+使用 `-F, --flush` 选项即可，我们在准备工作中已经操作过。
 
 ## 修改规则
-使用 `-R(--replace)` 选项替换指定编号规则内容。
+使用 `-R, --replace` 选项替换指定编号规则内容。
 > 修改规则， `target` 从 `DROP` 改为 `REJECT`，源IP不变
 ```bash {1,5}
 iptables -R INPUT 1 -s 10.211.55.9 -j REJECT
@@ -235,7 +239,7 @@ Chain INPUT (policy ACCEPT 2844 packets, 248K bytes)
 ```
 
 ### 修改默认策略
-使用 `-P(--policy)` 选项修改链的默认策略，当链中没有规则，或者所有规则都未匹配时，则使用默认规则：
+使用 `-P, --policy` 选项修改链的默认策略，当链中没有规则，或者所有规则都未匹配时，则使用默认规则：
 ```bash {1,2,8}
 iptables -P FORWARD DROP
 iptables -nvL

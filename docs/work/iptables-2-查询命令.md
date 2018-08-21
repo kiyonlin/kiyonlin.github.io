@@ -8,7 +8,7 @@ comment: true
 
 本章介绍 `iptables` 常用的查询命令。
 ::: warning 注意
-本系列测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
+本系列文章测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
 :::
 <!-- more -->
 
@@ -41,7 +41,7 @@ ACCEPT     udp  --  anywhere             anywhere             udp dpt:bootpc
 其他查看其他表的命令也是类似的。当省略 `-t filter` 时，默认列出的是 `filter` 表的规则。
 
 ## 查看表的指定链
-可以增加链名，指定查看表的具体链规则：
+ 参数中可以增加链名，指定查看表的具体链规则：
 ```bash {1}
 iptables -nL INPUT
 Chain INPUT (policy ACCEPT)
@@ -53,7 +53,7 @@ ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:67
 ```
 
 ## 查看规则详情
-使用 `-v` 选项列出更详细的信息：
+使用 `-v, --verbose` 选项列出更详细的信息：
 ```bash {1}
 iptables -vL
 Chain INPUT (policy ACCEPT 724K packets, 80M bytes)
@@ -89,7 +89,7 @@ Chain OUTPUT (policy ACCEPT 710K packets, 74M bytes)
 
 
 ### 链策略 Policy和精确报文数据
-表中每个链都包含了策略 `Policy`，总报文数和总报文大小。`policy ACCEPT`表示链的默认策略为 `ACCEPT`。 总报文数和总报文大小可以使用 `-x` 选项显示精确的数据:
+表中每个链都包含了策略 `Policy`，总报文数和总报文大小。`policy ACCEPT`表示链的默认策略为 `ACCEPT`。 总报文数和总报文大小可以使用 `-x, --exact` 选项显示精确的数据:
 ```bash {1,2,5,8,11}
 iptables -vnxL -t nat
 Chain PREROUTING (policy ACCEPT 6856 packets, 469577 bytes)
@@ -111,7 +111,7 @@ Chain POSTROUTING (policy ACCEPT 97282 packets, 5880717 bytes)
 ```
 
 ## 名称解析
-`iptables` 默认进行了名称解析，这会牺牲效率，可以使用 `-n` 选项直接显示ip。
+`iptables` 默认进行了名称解析，这会牺牲效率，可以使用 `-n, --numeric` 选项直接显示ip。
 ```bash {1}
 iptables -nvL -t nat
 Chain PREROUTING (policy ACCEPT 6854 packets, 469K bytes)
