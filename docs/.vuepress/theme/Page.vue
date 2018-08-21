@@ -16,11 +16,11 @@
     <div class="page-nav" v-if="prev || next">
       <p class="inner">
         <span v-if="prev" class="prev">
-          ←
-          <router-link v-if="prev" class="prev" :to="prev.path">
-            {{ prev.title || prev.path }}
-          </router-link>
-        </span>
+            ←
+            <router-link v-if="prev" class="prev" :to="prev.path">
+              {{ prev.title || prev.path }}
+            </router-link>
+          </span>
         <span v-if="next" class="next">
           <router-link v-if="next" :to="next.path" >
             {{ next.title || next.path }}
@@ -28,7 +28,7 @@
           →
         </span>
       </p>
-      <div id="comments"></div>
+      <div id="comments" ref="comments"></div>
     </div>
     <slot name="bottom" />
   </div>
@@ -153,6 +153,8 @@
             labels: this.$page.frontmatter.tag
           }));
           gitment.render('comments');
+        } else {
+          this.$refs.comments.innerHTML = "";
         }
       }
     }
