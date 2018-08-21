@@ -6,6 +6,7 @@ category:
   - MAC
 date: 2017-02-18 14:08:16
 updated: 2017-02-18 14:08:16
+comment: true
 ---
 ## 已有配置文件
 ```bash

@@ -51,6 +51,8 @@ module.exports = {
         tags: {
             path: "/tags/:tagName"
         },
+        // gitment 评论总开关，默认关闭
+        // comment: false,
         gitment: {
             owner: 'kiyonlin',
             repo: 'kiyonlin.github.io',

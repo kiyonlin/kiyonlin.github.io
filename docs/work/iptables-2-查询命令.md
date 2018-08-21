@@ -3,6 +3,7 @@ title: iptables详解-2-查询命令
 tag: [iptables]
 category: [iptables]
 date: 2018-08-15 11:37:05
+comment: true
 ---
 
 本章介绍 `iptables` 常用的查询命令。

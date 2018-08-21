@@ -2,7 +2,7 @@
   <div class="page">
     <slot name="top" />
     <Content class="-mt-32" :custom="false" />
-    <p class="text-center">欢迎转载分享本章，原创文章请注明出处，谢谢配合!</p>
+    <p class="text-center">欢迎转载分享本文，原创文章请注明出处，谢谢配合!</p>
     <div class="page-edit">
       <div class="edit-link" v-if="editLink">
         <a :href="editLink" target="_blank" rel="noopener noreferrer">{{ editLinkText }}</a>
@@ -16,24 +16,17 @@
     <div class="page-nav" v-if="prev || next">
       <p class="inner">
         <span v-if="prev" class="prev">
-                      ←
-                      <router-link
-                        v-if="prev"
-                        class="prev"
-                        :to="prev.path"
-                      >
-                        {{ prev.title || prev.path }}
-                      </router-link>
-                    </span>
+          ←
+          <router-link v-if="prev" class="prev" :to="prev.path">
+            {{ prev.title || prev.path }}
+          </router-link>
+        </span>
         <span v-if="next" class="next">
-                      <router-link
-                        v-if="next"
-                        :to="next.path"
-                      >
-                        {{ next.title || next.path }}
-                      </router-link>
-                      →
-                    </span>
+          <router-link v-if="next" :to="next.path" >
+            {{ next.title || next.path }}
+          </router-link>
+          →
+        </span>
       </p>
       <div id="comments"></div>
     </div>
@@ -152,13 +145,15 @@
         )
       },
       initGitment() {
-        const gitment = new Gitment(Object.assign(this.$site.themeConfig.gitment, {
-          id: this.$page.frontmatter.date,
-          repo: 'kiyonlin.github.io',
-          title: this.$page.title,
-          labels: this.$page.frontmatter.tag
-        }));
-        gitment.render('comments');
+        const commentConfig = this.$page.frontmatter.comment || this.$site.themeConfig.comment;
+        if (commentConfig) {
+          const gitment = new Gitment(Object.assign(this.$site.themeConfig.gitment, {
+            id: this.$page.frontmatter.date,
+            title: this.$page.title,
+            labels: this.$page.frontmatter.tag
+          }));
+          gitment.render('comments');
+        }
       }
     }
   }

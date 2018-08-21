@@ -5,6 +5,7 @@ category:
   - 技术
 date: 2016-09-17 19:44:52
 updated: 2016-09-17 19:44:52
+comment: true
 ---
 ## status
 `git status`是最常用的命令之一,查看当前项目文件的状态

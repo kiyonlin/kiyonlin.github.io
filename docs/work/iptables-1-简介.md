@@ -3,6 +3,7 @@ title: iptables详解-1-简介
 tag: [iptables]
 category: [iptables]
 date: 2018-08-15 08:45:33
+comment: true
 ---
 
 `iptables` 是各种防火墙的基础，需要系统学习。本篇先了解 `iptables` 的一些基本概念。

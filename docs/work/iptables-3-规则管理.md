@@ -3,6 +3,7 @@ title: iptables详解-3-规则管理
 tag: [iptables]
 category: [iptables]
 date: 2018-08-15 14:19:31
+comment: true
 ---
 
 本章学习如何对 `iptables` 规则进行管理。
