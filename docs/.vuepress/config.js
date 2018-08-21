@@ -62,5 +62,6 @@ module.exports = {
             },
         }
     },
-    evergreen: true
+    evergreen: true,
+    ga: 'UA-124283559-1'
 };
