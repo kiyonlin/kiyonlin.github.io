@@ -1,5 +1,5 @@
 ---
-title: iptables-3-规则管理
+title: iptables详解-3-规则管理
 tag: [iptables]
 category: [iptables]
 date: 2018-08-15 14:19:31

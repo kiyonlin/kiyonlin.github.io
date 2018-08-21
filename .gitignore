@@ -6,3 +6,6 @@ db.json
 *.log
 .deploy*/
 .idea/
+public
+cdn
+source
