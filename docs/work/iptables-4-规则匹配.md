@@ -250,7 +250,12 @@ Chain INPUT (policy ACCEPT 10 packets, 688 bytes)
 ```
 ### multiport模块
 `--dport` 和 `--sport` 只支持连续的端口范围，但不支持离散的端口范围。
-这时候需要使用 `multiport` 模块的 `[!] --source-ports,--sports port[,port|,port:port]...`、`[!] --destination-ports,--dports port[,port|,port:port]...`或者 `[!] --ports port[,port|,port:port]...` 选项来指定离散端口。
+这时候需要使用 `multiport` 模块的 
+- `[!] --source-ports,--sports port[,port|,port:port]...`
+- `[!] --destination-ports,--dports port[,port|,port:port]...`
+- `[!] --ports port[,port|,port:port]...` 
+
+选项来指定离散端口。其中 `--ports` 会匹配源端口和目标端口。
 
 ```bash {1,2,3,6}
 iptables -F INPUT
@@ -262,5 +267,6 @@ Chain INPUT (policy ACCEPT 34 packets, 2248 bytes)
 ```
 
 ::: warning 注意
-`multiport` 只支持 `tcp` 和 `udp` 协议。
+`multiport` 模块只能结合 `tcp` 、 `udp` 、 `udplite` 、 `dccp` 和 `sctp` 协议使用。
+且最多支持15个离散端口，其中范围端口算作两个端口。
 :::
