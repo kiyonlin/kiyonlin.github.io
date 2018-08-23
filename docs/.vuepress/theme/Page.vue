@@ -2,6 +2,7 @@
   <div class="page">
     <slot name="top" />
     <Content class="-mt-32" :custom="false" />
+    <p class="page-edit">（完）</p>
     <p class="text-center">欢迎转载分享本文，原创文章请注明出处，谢谢配合!</p>
     <div class="page-edit">
       <div class="edit-link" v-if="editLink">
