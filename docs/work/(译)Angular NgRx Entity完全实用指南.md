@@ -1,7 +1,7 @@
 ---
 title: (译)Angular NgRx Entity完全实用指南
-tag: [angular, ngrx, ngrx-entity]
-category: [angular, ngrx]
+tag: [angular-university, ngrx, ngrx-store, ngrx-entity]
+category: [ngrx]
 date: 2018-10-12 14:48:58
 comment: true
 ---
