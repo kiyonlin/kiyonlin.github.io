@@ -213,7 +213,7 @@ export class HomeComponent implements OnInit {
 这些展示组件不了解`lesson`事件，因此无法将其冒泡。 那么我们如何实现这一点，以及为什么自定义事件不能简单地冒泡？
 
 ## 为什么自定义事件不会冒泡，就像点击DOM事件一样？
-这不是偶然的，它是设计的，可能是为了避免`event soup`场景，使用类似于`AngularJs``$scope.$emit()`和`$scope.$broadcast()`的服务总线的解决方案往往会意外创建。
+这不是偶然的，它是设计的，可能是为了避免`event soup`场景，使用类似于`AngularJs`的`$scope.$emit()`和`$scope.$broadcast()`的服务总线的解决方案往往会意外创建。
 
 这些类型的机制往往最终会在应用程序的不同位置之间创建紧密的依赖关系，这些依赖关系不应该彼此意识到，事件最终会被触发多次或依次触发，只看一个文件时就不明显了。
 
@@ -278,7 +278,7 @@ export class HomeComponent implements OnInit {
 }
 ```
 
-正如我们所看到的，我们订阅了`selected$``Observable`，它发出了新的`lesson`，我们触发了组件的特定逻辑来处理选择。
+正如我们所看到的，我们订阅了`selected$`这个`Observable`，它发出了新的`lesson`，我们触发了组件的特定逻辑来处理选择。
 
 但请注意，`Home`组件不知道`lesson`列表，它只知道应用程序的其他部分触发了`lesson`选择。 应用程序的两个部分仍然是隔离的：
 - 选择的`Emitter`不知道`Home`组件
