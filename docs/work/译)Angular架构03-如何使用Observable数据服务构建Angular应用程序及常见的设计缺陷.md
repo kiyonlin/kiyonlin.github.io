@@ -1,6 +1,6 @@
 ---
 title: (译)Angular架构03-如何使用`Observable`数据服务构建`Angular`应用程序及常见的设计缺陷
-tag: [angular, architecture, service, observable]
+tag: [angular, architecture, service, rxjs]
 category: [angular, architecture]
 date: 2018-10-17 08:25:57
 comment: true
