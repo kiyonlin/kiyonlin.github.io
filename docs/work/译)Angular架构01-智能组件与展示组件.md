@@ -1,5 +1,5 @@
 ---
-title: (译)Angular架构-智能组件与展示组件
+title: (译)Angular架构01-智能组件与展示组件
 tag: [angular, architecture, component]
 category: [angular, architecture]
 date: 2018-10-15 14:04:46
@@ -7,7 +7,7 @@ comment: true
 ---
 这篇文章是正在进行的`Angular`架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列：
 - 视图层架构-智能组件与展示组件
-- 视图层架构-容器与展示组件常见缺陷
+- 视图层架构-容器与展示组件常见的设计缺陷
 - 服务层架构-如何使用`Observable`数据服务构建`Angular`应用程序
 - 服务层架构-`Redux`和`Ngrx Store`-何时使用`Store`？为什么？
 - 服务层架构-`Ngrx Store`-架构指南
