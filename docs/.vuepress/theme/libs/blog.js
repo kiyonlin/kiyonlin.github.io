@@ -1,6 +1,9 @@
 import dayjs from "dayjs";
 
 const install = (Vue, { theme, pages }) => {
+    // 过滤草稿文章
+    pages = pages.filter(page => !page.frontmatter.draft);
+
     const categories = ["life", "work", "relax"];
     let categoriedPages = {};
     categories.forEach(category => {
