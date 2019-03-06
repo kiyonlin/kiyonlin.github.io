@@ -4,6 +4,11 @@
     <Content class="-mt-32" :custom="false" />
     <p class="page-edit">（完）</p>
     <p class="text-center">欢迎转载分享本文，原创文章请注明出处，谢谢配合!</p>
+    <p class="page-edit">
+      <a-tag v-for="(tag, index) in $page.frontmatter.tag" :key="index" color="blue" class="m-3">
+        <router-link :to="'/tags/'+tag">{{tag}}</router-link>
+      </a-tag>
+    </p>
     <div class="page-edit">
       <div class="edit-link" v-if="editLink">
         <a :href="editLink" target="_blank" rel="noopener noreferrer">{{ editLinkText }}</a>
