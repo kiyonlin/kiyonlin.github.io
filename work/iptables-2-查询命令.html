@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>iptables详解-2-查询命令 | 清峰</title>
+    <meta name="description" content="瞎逼逼乐呵呵">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.0d62e7eb.css" as="style"><link rel="preload" href="/assets/js/app.2d955dbb.js" as="script"><link rel="preload" href="/assets/js/31.0021887b.js" as="script"><link rel="prefetch" href="/assets/js/30.345400e7.js"><link rel="prefetch" href="/assets/js/2.f5f0c793.js"><link rel="prefetch" href="/assets/js/3.0c53a62e.js"><link rel="prefetch" href="/assets/js/4.6dc6e921.js"><link rel="prefetch" href="/assets/js/5.f0d8b77a.js"><link rel="prefetch" href="/assets/js/6.7a9758ae.js"><link rel="prefetch" href="/assets/js/7.b51204e9.js"><link rel="prefetch" href="/assets/js/8.c6e4b2c3.js"><link rel="prefetch" href="/assets/js/9.b42a1ed6.js"><link rel="prefetch" href="/assets/js/10.cd90217d.js"><link rel="prefetch" href="/assets/js/11.b90dd23f.js"><link rel="prefetch" href="/assets/js/12.7fd7f019.js"><link rel="prefetch" href="/assets/js/13.5dd26e27.js"><link rel="prefetch" href="/assets/js/14.edbc82f6.js"><link rel="prefetch" href="/assets/js/15.57d836d3.js"><link rel="prefetch" href="/assets/js/16.a6c01c03.js"><link rel="prefetch" href="/assets/js/17.8b192702.js"><link rel="prefetch" href="/assets/js/18.881fd6a9.js"><link rel="prefetch" href="/assets/js/19.2a77eb47.js"><link rel="prefetch" href="/assets/js/20.3125fd14.js"><link rel="prefetch" href="/assets/js/21.65d186d5.js"><link rel="prefetch" href="/assets/js/22.b212c0f6.js"><link rel="prefetch" href="/assets/js/23.f8565e0f.js"><link rel="prefetch" href="/assets/js/24.a5d020f5.js"><link rel="prefetch" href="/assets/js/25.8d212baf.js"><link rel="prefetch" href="/assets/js/26.e32b59c8.js"><link rel="prefetch" href="/assets/js/27.8fee8fa6.js"><link rel="prefetch" href="/assets/js/28.10d662c5.js"><link rel="prefetch" href="/assets/js/29.fc2b7d6f.js"><link rel="prefetch" href="/assets/js/32.6d8cc34a.js"><link rel="prefetch" href="/assets/js/33.400472c3.js"><link rel="prefetch" href="/assets/js/34.d0b5b557.js"><link rel="prefetch" href="/assets/js/35.dab3d66c.js"><link rel="prefetch" href="/assets/js/36.4204741a.js"><link rel="prefetch" href="/assets/js/37.185d1621.js"><link rel="prefetch" href="/assets/js/38.550aada5.js"><link rel="prefetch" href="/assets/js/39.9e92ee1e.js"><link rel="prefetch" href="/assets/js/40.03a52358.js"><link rel="prefetch" href="/assets/js/41.ef831165.js"><link rel="prefetch" href="/assets/js/42.e0c38418.js"><link rel="prefetch" href="/assets/js/43.da8459a5.js"><link rel="prefetch" href="/assets/js/44.4f569cce.js"><link rel="prefetch" href="/assets/js/45.38642093.js"><link rel="prefetch" href="/assets/js/46.7b97ef73.js"><link rel="prefetch" href="/assets/js/47.f8d75afb.js"><link rel="prefetch" href="/assets/js/48.2e2cb42a.js"><link rel="prefetch" href="/assets/js/49.60a17578.js"><link rel="prefetch" href="/assets/js/50.d45ed52e.js"><link rel="prefetch" href="/assets/js/51.d7919b6f.js"><link rel="prefetch" href="/assets/js/52.99ec12e9.js"><link rel="prefetch" href="/assets/js/53.493ba67b.js"><link rel="prefetch" href="/assets/js/54.5e33cfde.js"><link rel="prefetch" href="/assets/js/55.c8831137.js"><link rel="prefetch" href="/assets/js/56.297ec3bb.js"><link rel="prefetch" href="/assets/js/57.7044d604.js"><link rel="prefetch" href="/assets/js/58.244520da.js"><link rel="prefetch" href="/assets/js/59.7a54d002.js"><link rel="prefetch" href="/assets/js/60.dd3227c0.js"><link rel="prefetch" href="/assets/js/61.2489adfb.js"><link rel="prefetch" href="/assets/js/62.b788d9b9.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0d62e7eb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="particles"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">清峰</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  首页</a></div><div class="nav-item"><a href="/life/" class="nav-link">
+  认真生活</a></div><div class="nav-item"><a href="/work/" class="nav-link router-link-active">
+  开心工作</a></div><div class="nav-item"><a href="/relax/" class="nav-link">
+  劳逸结合</a></div> <a href="https://github.com/kiyonlin" target="_blank" rel="noopener noreferrer" class="repo-link">
+      GitHub
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  首页</a></div><div class="nav-item"><a href="/life/" class="nav-link">
+  认真生活</a></div><div class="nav-item"><a href="/work/" class="nav-link router-link-active">
+  开心工作</a></div><div class="nav-item"><a href="/relax/" class="nav-link">
+  劳逸结合</a></div> <a href="https://github.com/kiyonlin" target="_blank" rel="noopener noreferrer" class="repo-link">
+      GitHub
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>iptables详解-2-查询命令</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/work/iptables-2-%E6%9F%A5%E8%AF%A2%E5%91%BD%E4%BB%A4.html#查看表规则" class="sidebar-link">查看表规则</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/work/iptables-2-%E6%9F%A5%E8%AF%A2%E5%91%BD%E4%BB%A4.html#查看表的指定链" class="sidebar-link">查看表的指定链</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/work/iptables-2-%E6%9F%A5%E8%AF%A2%E5%91%BD%E4%BB%A4.html#查看规则详情" class="sidebar-link">查看规则详情</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/work/iptables-2-%E6%9F%A5%E8%AF%A2%E5%91%BD%E4%BB%A4.html#链策略-policy和精确报文数据" class="sidebar-link">链策略 Policy和精确报文数据</a></li></ul></li><li><a href="/work/iptables-2-%E6%9F%A5%E8%AF%A2%E5%91%BD%E4%BB%A4.html#名称解析" class="sidebar-link">名称解析</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/work/iptables-2-%E6%9F%A5%E8%AF%A2%E5%91%BD%E4%BB%A4.html#显示规则序号" class="sidebar-link">显示规则序号</a><ul class="sidebar-sub-headers"></ul></li></ul></div></li></ul> </div> <div class="page"> <div class="content -mt-32"><p>本章介绍 <code>iptables</code> 常用的查询命令。</p> <div class="warning custom-block"><p class="custom-block-title">注意</p> <p>本系列文章测试环境为 <code>centos 7</code>，<code>iptables</code> 版本 <code>1.4.21</code>。</p></div> <h2 id="查看表规则"><a href="#查看表规则" aria-hidden="true" class="header-anchor">#</a> 查看表规则</h2> <p><code>iptables</code> 内置了5张表，分别是 <code>raw</code>、 <code>nat</code>、 <code>mangle</code>、 <code>filter</code>、 <code>security</code>。</p> <p>我们要查看 <code>filter</code> 表下的所有规则，可以使用如下命令：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -t filter -L
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT<span class="token punctuation">)</span>
+target     prot opt <span class="token function">source</span>               destination
+ACCEPT     udp  --  anywhere             anywhere             udp dpt:domain
+ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:domain
+ACCEPT     udp  --  anywhere             anywhere             udp dpt:bootps
+ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:bootps
+
+Chain FORWARD <span class="token punctuation">(</span>policy ACCEPT<span class="token punctuation">)</span>
+target     prot opt <span class="token function">source</span>               destination
+ACCEPT     all  --  anywhere             192.168.122.0/24     ctstate RELATED,ESTABLISHED
+ACCEPT     all  --  192.168.122.0/24     anywhere
+ACCEPT     all  --  anywhere             anywhere
+REJECT     all  --  anywhere             anywhere             reject-with icmp-port-unreachable
+REJECT     all  --  anywhere             anywhere             reject-with icmp-port-unreachable
+
+Chain OUTPUT <span class="token punctuation">(</span>policy ACCEPT<span class="token punctuation">)</span>
+target     prot opt <span class="token function">source</span>               destination
+ACCEPT     udp  --  anywhere             anywhere             udp dpt:bootpc
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>其他查看其他表的命令也是类似的。当省略 <code>-t filter</code> 时，默认列出的是 <code>filter</code> 表的规则。</p> <h2 id="查看表的指定链"><a href="#查看表的指定链" aria-hidden="true" class="header-anchor">#</a> 查看表的指定链</h2> <p>参数中可以增加链名，指定查看表的具体链规则：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -nL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT<span class="token punctuation">)</span>
+target     prot opt <span class="token function">source</span>               destination
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            udp dpt:53
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:53
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0            udp dpt:67
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:67
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h2 id="查看规则详情"><a href="#查看规则详情" aria-hidden="true" class="header-anchor">#</a> 查看规则详情</h2> <p>使用 <code>-v, --verbose</code> 选项列出更详细的信息：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -vL
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 724K packets, 80M bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 ACCEPT     udp  --  virbr0 any     anywhere             anywhere             udp dpt:domain
+    0     0 ACCEPT     tcp  --  virbr0 any     anywhere             anywhere             tcp dpt:domain
+    0     0 ACCEPT     udp  --  virbr0 any     anywhere             anywhere             udp dpt:bootps
+    0     0 ACCEPT     tcp  --  virbr0 any     anywhere             anywhere             tcp dpt:bootps
+
+Chain FORWARD <span class="token punctuation">(</span>policy ACCEPT 0 packets, 0 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 ACCEPT     all  --  any    virbr0  anywhere             192.168.122.0/24     ctstate RELATED,ESTABLISHED
+    0     0 ACCEPT     all  --  virbr0 any     192.168.122.0/24     anywhere
+    0     0 ACCEPT     all  --  virbr0 virbr0  anywhere             anywhere
+    0     0 REJECT     all  --  any    virbr0  anywhere             anywhere             reject-with icmp-port-unreachable
+    0     0 REJECT     all  --  virbr0 any     anywhere             anywhere             reject-with icmp-port-unreachable
+
+Chain OUTPUT <span class="token punctuation">(</span>policy ACCEPT 710K packets, 74M bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 ACCEPT     udp  --  any    virbr0  anywhere             anywhere             udp dpt:bootpc
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>字段含义：</p> <ul><li>pkts: 报文数量</li> <li>bytes: 报文大小</li> <li>target: target动作</li> <li>port: 协议</li> <li>opt: 选项</li> <li>in: 入口网卡</li> <li>out: 出口网卡</li> <li>source: 源ip/ip段</li> <li>destination: 目标ip/ip段</li></ul> <h3 id="链策略-policy和精确报文数据"><a href="#链策略-policy和精确报文数据" aria-hidden="true" class="header-anchor">#</a> 链策略 Policy和精确报文数据</h3> <p>表中每个链都包含了策略 <code>Policy</code>，总报文数和总报文大小。<code>policy ACCEPT</code>表示链的默认策略为 <code>ACCEPT</code>。 总报文数和总报文大小可以使用 <code>-x, --exact</code> 选项显示精确的数据:</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><div class="highlighted"> </div><br><br><div class="highlighted"> </div><br><br><div class="highlighted"> </div><br><br><div class="highlighted"> </div><br><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -vnxL -t nat
+Chain PREROUTING <span class="token punctuation">(</span>policy ACCEPT 6856 packets, 469577 bytes<span class="token punctuation">)</span>
+    pkts      bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 6661 packets, 424028 bytes<span class="token punctuation">)</span>
+    pkts      bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+
+Chain OUTPUT <span class="token punctuation">(</span>policy ACCEPT 97282 packets, 5880717 bytes<span class="token punctuation">)</span>
+    pkts      bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+
+Chain POSTROUTING <span class="token punctuation">(</span>policy ACCEPT 97282 packets, 5880717 bytes<span class="token punctuation">)</span>
+    pkts      bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+       0        0 RETURN     all  --  *      *       192.168.122.0/24     224.0.0.0/24
+       0        0 RETURN     all  --  *      *       192.168.122.0/24     255.255.255.255
+       0        0 MASQUERADE  tcp  --  *      *       192.168.122.0/24    <span class="token operator">!</span>192.168.122.0/24     masq ports: 1024-65535
+       0        0 MASQUERADE  udp  --  *      *       192.168.122.0/24    <span class="token operator">!</span>192.168.122.0/24     masq ports: 1024-65535
+       0        0 MASQUERADE  all  --  *      *       192.168.122.0/24    <span class="token operator">!</span>192.168.122.0/24
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h2 id="名称解析"><a href="#名称解析" aria-hidden="true" class="header-anchor">#</a> 名称解析</h2> <p><code>iptables</code> 默认进行了名称解析，这会牺牲效率，可以使用 <code>-n, --numeric</code> 选项直接显示ip。</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -nvL -t nat
+Chain PREROUTING <span class="token punctuation">(</span>policy ACCEPT 6854 packets, 469K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 6659 packets, 424K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+
+Chain OUTPUT <span class="token punctuation">(</span>policy ACCEPT 96829 packets, 5853K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+
+Chain POSTROUTING <span class="token punctuation">(</span>policy ACCEPT 96829 packets, 5853K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 RETURN     all  --  *      *       192.168.122.0/24     224.0.0.0/24
+    0     0 RETURN     all  --  *      *       192.168.122.0/24     255.255.255.255
+    0     0 MASQUERADE  tcp  --  *      *       192.168.122.0/24    <span class="token operator">!</span>192.168.122.0/24     masq ports: 1024-65535
+    0     0 MASQUERADE  udp  --  *      *       192.168.122.0/24    <span class="token operator">!</span>192.168.122.0/24     masq ports: 1024-65535
+    0     0 MASQUERADE  all  --  *      *       192.168.122.0/24    <span class="token operator">!</span>192.168.122.0/24
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h2 id="显示规则序号"><a href="#显示规则序号" aria-hidden="true" class="header-anchor">#</a> 显示规则序号</h2> <p>使用 --line[-number] 展示规则行号：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -L --line
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT<span class="token punctuation">)</span>
+num  target     prot opt <span class="token function">source</span>               destination
+1    ACCEPT     udp  --  anywhere             anywhere             udp dpt:domain
+2    ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:domain
+3    ACCEPT     udp  --  anywhere             anywhere             udp dpt:bootps
+4    ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:bootps
+
+Chain FORWARD <span class="token punctuation">(</span>policy ACCEPT<span class="token punctuation">)</span>
+num  target     prot opt <span class="token function">source</span>               destination
+1    ACCEPT     all  --  anywhere             192.168.122.0/24     ctstate RELATED,ESTABLISHED
+2    ACCEPT     all  --  192.168.122.0/24     anywhere
+3    ACCEPT     all  --  anywhere             anywhere
+4    REJECT     all  --  anywhere             anywhere             reject-with icmp-port-unreachable
+5    REJECT     all  --  anywhere             anywhere             reject-with icmp-port-unreachable
+
+Chain OUTPUT <span class="token punctuation">(</span>policy ACCEPT<span class="token punctuation">)</span>
+num  target     prot opt <span class="token function">source</span>               destination
+1    ACCEPT     udp  --  anywhere             anywhere             udp dpt:bootpc
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div></div> <p class="page-edit">（完）</p> <p class="text-center">欢迎转载分享本文，原创文章请注明出处，谢谢配合!</p> <p class="page-edit"><div class="m-3 ant-tag ant-tag-blue" style="background-color:null;"><a href="/tags/iptables">iptables</a></div></p> <div class="page-edit"><!----> <div class="last-updated"><span class="prefix">最后更新: </span> <span class="time">8/21/2018, 5:31:48 PM</span></div></div> <div class="page-nav"><p class="inner"><span class="prev">
+            ←
+            <a href="/work/iptables-3-规则管理.html" class="prev">
+              iptables详解-3-规则管理
+            </a></span> <span class="next"><a href="/work/iptables-1-简介.html">
+            iptables详解-1-简介
+          </a>
+          →
+        </span></p></div> <div id="comments"></div> </div> <!----> <!----></div></div></div>
+    <script src="/assets/js/31.0021887b.js" defer></script><script src="/assets/js/app.2d955dbb.js" defer></script>
+  </body>
+</html>

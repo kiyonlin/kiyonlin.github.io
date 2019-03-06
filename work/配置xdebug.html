@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>配置xdebug | 清峰</title>
+    <meta name="description" content="瞎逼逼乐呵呵">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.0d62e7eb.css" as="style"><link rel="preload" href="/assets/js/app.2d955dbb.js" as="script"><link rel="preload" href="/assets/js/55.c8831137.js" as="script"><link rel="prefetch" href="/assets/js/30.345400e7.js"><link rel="prefetch" href="/assets/js/2.f5f0c793.js"><link rel="prefetch" href="/assets/js/3.0c53a62e.js"><link rel="prefetch" href="/assets/js/4.6dc6e921.js"><link rel="prefetch" href="/assets/js/5.f0d8b77a.js"><link rel="prefetch" href="/assets/js/6.7a9758ae.js"><link rel="prefetch" href="/assets/js/7.b51204e9.js"><link rel="prefetch" href="/assets/js/8.c6e4b2c3.js"><link rel="prefetch" href="/assets/js/9.b42a1ed6.js"><link rel="prefetch" href="/assets/js/10.cd90217d.js"><link rel="prefetch" href="/assets/js/11.b90dd23f.js"><link rel="prefetch" href="/assets/js/12.7fd7f019.js"><link rel="prefetch" href="/assets/js/13.5dd26e27.js"><link rel="prefetch" href="/assets/js/14.edbc82f6.js"><link rel="prefetch" href="/assets/js/15.57d836d3.js"><link rel="prefetch" href="/assets/js/16.a6c01c03.js"><link rel="prefetch" href="/assets/js/17.8b192702.js"><link rel="prefetch" href="/assets/js/18.881fd6a9.js"><link rel="prefetch" href="/assets/js/19.2a77eb47.js"><link rel="prefetch" href="/assets/js/20.3125fd14.js"><link rel="prefetch" href="/assets/js/21.65d186d5.js"><link rel="prefetch" href="/assets/js/22.b212c0f6.js"><link rel="prefetch" href="/assets/js/23.f8565e0f.js"><link rel="prefetch" href="/assets/js/24.a5d020f5.js"><link rel="prefetch" href="/assets/js/25.8d212baf.js"><link rel="prefetch" href="/assets/js/26.e32b59c8.js"><link rel="prefetch" href="/assets/js/27.8fee8fa6.js"><link rel="prefetch" href="/assets/js/28.10d662c5.js"><link rel="prefetch" href="/assets/js/29.fc2b7d6f.js"><link rel="prefetch" href="/assets/js/31.0021887b.js"><link rel="prefetch" href="/assets/js/32.6d8cc34a.js"><link rel="prefetch" href="/assets/js/33.400472c3.js"><link rel="prefetch" href="/assets/js/34.d0b5b557.js"><link rel="prefetch" href="/assets/js/35.dab3d66c.js"><link rel="prefetch" href="/assets/js/36.4204741a.js"><link rel="prefetch" href="/assets/js/37.185d1621.js"><link rel="prefetch" href="/assets/js/38.550aada5.js"><link rel="prefetch" href="/assets/js/39.9e92ee1e.js"><link rel="prefetch" href="/assets/js/40.03a52358.js"><link rel="prefetch" href="/assets/js/41.ef831165.js"><link rel="prefetch" href="/assets/js/42.e0c38418.js"><link rel="prefetch" href="/assets/js/43.da8459a5.js"><link rel="prefetch" href="/assets/js/44.4f569cce.js"><link rel="prefetch" href="/assets/js/45.38642093.js"><link rel="prefetch" href="/assets/js/46.7b97ef73.js"><link rel="prefetch" href="/assets/js/47.f8d75afb.js"><link rel="prefetch" href="/assets/js/48.2e2cb42a.js"><link rel="prefetch" href="/assets/js/49.60a17578.js"><link rel="prefetch" href="/assets/js/50.d45ed52e.js"><link rel="prefetch" href="/assets/js/51.d7919b6f.js"><link rel="prefetch" href="/assets/js/52.99ec12e9.js"><link rel="prefetch" href="/assets/js/53.493ba67b.js"><link rel="prefetch" href="/assets/js/54.5e33cfde.js"><link rel="prefetch" href="/assets/js/56.297ec3bb.js"><link rel="prefetch" href="/assets/js/57.7044d604.js"><link rel="prefetch" href="/assets/js/58.244520da.js"><link rel="prefetch" href="/assets/js/59.7a54d002.js"><link rel="prefetch" href="/assets/js/60.dd3227c0.js"><link rel="prefetch" href="/assets/js/61.2489adfb.js"><link rel="prefetch" href="/assets/js/62.b788d9b9.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0d62e7eb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="particles"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">清峰</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  首页</a></div><div class="nav-item"><a href="/life/" class="nav-link">
+  认真生活</a></div><div class="nav-item"><a href="/work/" class="nav-link router-link-active">
+  开心工作</a></div><div class="nav-item"><a href="/relax/" class="nav-link">
+  劳逸结合</a></div> <a href="https://github.com/kiyonlin" target="_blank" rel="noopener noreferrer" class="repo-link">
+      GitHub
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  首页</a></div><div class="nav-item"><a href="/life/" class="nav-link">
+  认真生活</a></div><div class="nav-item"><a href="/work/" class="nav-link router-link-active">
+  开心工作</a></div><div class="nav-item"><a href="/relax/" class="nav-link">
+  劳逸结合</a></div> <a href="https://github.com/kiyonlin" target="_blank" rel="noopener noreferrer" class="repo-link">
+      GitHub
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>配置xdebug</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/work/%E9%85%8D%E7%BD%AExdebug.html#phpstorm中配置xdebug" class="sidebar-link">PHPSTORM中配置xdebug</a><ul class="sidebar-sub-headers"></ul></li></ul></div></li></ul> </div> <div class="page"> <div class="content -mt-32"><h2 id="phpstorm中配置xdebug"><a href="#phpstorm中配置xdebug" aria-hidden="true" class="header-anchor">#</a> PHPSTORM中配置xdebug</h2> <p>使用homebrew安装与php版本相对应的xdebug<br>
+会自动生成配置文件(使用php --ini可以查看php的所有配置文件)</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code>/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>可以在ext-xdebug.ini中完善配置个性化信息，一般只加载扩展就可以运行</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>[xdebug]
+zend_extension=&quot;/usr/local/opt/php70-xdebug/xdebug.so&quot;
+;下面都是默认配置
+
+
+;允许远程IDE调试
+xdebug.remote_enable        = 1
+;远程主机
+xdebug.remote_host          = localhost
+xdebug.remote_port          = 9000 ;默认端口 9000
+xdebug.profiler_autostart   = 1
+xdebug.profiler_enable      = 1
+;临时跟踪信息输出
+xdebug.profiler_output_dir  = &quot;~/tmp&quot;
+xdebug.idekey = PHPSTORM
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>打开PHPSTORM配置,在Languages &amp; Frameworks的PHP中,配置php language level和interpreter(没有需要新增)<br>
+在菜单栏RUN-Edit Configurations中添加PHP Web Application</p></div> <p class="page-edit">（完）</p> <p class="text-center">欢迎转载分享本文，原创文章请注明出处，谢谢配合!</p> <p class="page-edit"><div class="m-3 ant-tag ant-tag-blue" style="background-color:null;"><a href="/tags/xdebug">xdebug</a></div><div class="m-3 ant-tag ant-tag-blue" style="background-color:null;"><a href="/tags/php">php</a></div><div class="m-3 ant-tag ant-tag-blue" style="background-color:null;"><a href="/tags/phpstorm">phpstorm</a></div></p> <div class="page-edit"><!----> <div class="last-updated"><span class="prefix">最后更新: </span> <span class="time">8/13/2018, 5:20:00 PM</span></div></div> <div class="page-nav"><p class="inner"><span class="prev">
+            ←
+            <a href="/work/git常用命令集合.html" class="prev">
+              git常用命令集合
+            </a></span> <span class="next"><a href="/work/linux学习二.html">
+            linux学习(二)
+          </a>
+          →
+        </span></p></div> <div id="comments"></div> </div> <!----> <!----></div></div></div>
+    <script src="/assets/js/55.c8831137.js" defer></script><script src="/assets/js/app.2d955dbb.js" defer></script>
+  </body>
+</html>

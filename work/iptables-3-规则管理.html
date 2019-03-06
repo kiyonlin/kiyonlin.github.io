@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>iptables详解-3-规则管理 | 清峰</title>
+    <meta name="description" content="瞎逼逼乐呵呵">
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.0d62e7eb.css" as="style"><link rel="preload" href="/assets/js/app.2d955dbb.js" as="script"><link rel="preload" href="/assets/js/32.6d8cc34a.js" as="script"><link rel="prefetch" href="/assets/js/30.345400e7.js"><link rel="prefetch" href="/assets/js/2.f5f0c793.js"><link rel="prefetch" href="/assets/js/3.0c53a62e.js"><link rel="prefetch" href="/assets/js/4.6dc6e921.js"><link rel="prefetch" href="/assets/js/5.f0d8b77a.js"><link rel="prefetch" href="/assets/js/6.7a9758ae.js"><link rel="prefetch" href="/assets/js/7.b51204e9.js"><link rel="prefetch" href="/assets/js/8.c6e4b2c3.js"><link rel="prefetch" href="/assets/js/9.b42a1ed6.js"><link rel="prefetch" href="/assets/js/10.cd90217d.js"><link rel="prefetch" href="/assets/js/11.b90dd23f.js"><link rel="prefetch" href="/assets/js/12.7fd7f019.js"><link rel="prefetch" href="/assets/js/13.5dd26e27.js"><link rel="prefetch" href="/assets/js/14.edbc82f6.js"><link rel="prefetch" href="/assets/js/15.57d836d3.js"><link rel="prefetch" href="/assets/js/16.a6c01c03.js"><link rel="prefetch" href="/assets/js/17.8b192702.js"><link rel="prefetch" href="/assets/js/18.881fd6a9.js"><link rel="prefetch" href="/assets/js/19.2a77eb47.js"><link rel="prefetch" href="/assets/js/20.3125fd14.js"><link rel="prefetch" href="/assets/js/21.65d186d5.js"><link rel="prefetch" href="/assets/js/22.b212c0f6.js"><link rel="prefetch" href="/assets/js/23.f8565e0f.js"><link rel="prefetch" href="/assets/js/24.a5d020f5.js"><link rel="prefetch" href="/assets/js/25.8d212baf.js"><link rel="prefetch" href="/assets/js/26.e32b59c8.js"><link rel="prefetch" href="/assets/js/27.8fee8fa6.js"><link rel="prefetch" href="/assets/js/28.10d662c5.js"><link rel="prefetch" href="/assets/js/29.fc2b7d6f.js"><link rel="prefetch" href="/assets/js/31.0021887b.js"><link rel="prefetch" href="/assets/js/33.400472c3.js"><link rel="prefetch" href="/assets/js/34.d0b5b557.js"><link rel="prefetch" href="/assets/js/35.dab3d66c.js"><link rel="prefetch" href="/assets/js/36.4204741a.js"><link rel="prefetch" href="/assets/js/37.185d1621.js"><link rel="prefetch" href="/assets/js/38.550aada5.js"><link rel="prefetch" href="/assets/js/39.9e92ee1e.js"><link rel="prefetch" href="/assets/js/40.03a52358.js"><link rel="prefetch" href="/assets/js/41.ef831165.js"><link rel="prefetch" href="/assets/js/42.e0c38418.js"><link rel="prefetch" href="/assets/js/43.da8459a5.js"><link rel="prefetch" href="/assets/js/44.4f569cce.js"><link rel="prefetch" href="/assets/js/45.38642093.js"><link rel="prefetch" href="/assets/js/46.7b97ef73.js"><link rel="prefetch" href="/assets/js/47.f8d75afb.js"><link rel="prefetch" href="/assets/js/48.2e2cb42a.js"><link rel="prefetch" href="/assets/js/49.60a17578.js"><link rel="prefetch" href="/assets/js/50.d45ed52e.js"><link rel="prefetch" href="/assets/js/51.d7919b6f.js"><link rel="prefetch" href="/assets/js/52.99ec12e9.js"><link rel="prefetch" href="/assets/js/53.493ba67b.js"><link rel="prefetch" href="/assets/js/54.5e33cfde.js"><link rel="prefetch" href="/assets/js/55.c8831137.js"><link rel="prefetch" href="/assets/js/56.297ec3bb.js"><link rel="prefetch" href="/assets/js/57.7044d604.js"><link rel="prefetch" href="/assets/js/58.244520da.js"><link rel="prefetch" href="/assets/js/59.7a54d002.js"><link rel="prefetch" href="/assets/js/60.dd3227c0.js"><link rel="prefetch" href="/assets/js/61.2489adfb.js"><link rel="prefetch" href="/assets/js/62.b788d9b9.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0d62e7eb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="particles"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">清峰</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  首页</a></div><div class="nav-item"><a href="/life/" class="nav-link">
+  认真生活</a></div><div class="nav-item"><a href="/work/" class="nav-link router-link-active">
+  开心工作</a></div><div class="nav-item"><a href="/relax/" class="nav-link">
+  劳逸结合</a></div> <a href="https://github.com/kiyonlin" target="_blank" rel="noopener noreferrer" class="repo-link">
+      GitHub
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  首页</a></div><div class="nav-item"><a href="/life/" class="nav-link">
+  认真生活</a></div><div class="nav-item"><a href="/work/" class="nav-link router-link-active">
+  开心工作</a></div><div class="nav-item"><a href="/relax/" class="nav-link">
+  劳逸结合</a></div> <a href="https://github.com/kiyonlin" target="_blank" rel="noopener noreferrer" class="repo-link">
+      GitHub
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>iptables详解-3-规则管理</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/work/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86.html#准备工作" class="sidebar-link">准备工作</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/work/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86.html#初始化" class="sidebar-link">初始化</a></li><li class="sidebar-sub-header"><a href="/work/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86.html#测试机" class="sidebar-link">测试机</a></li></ul></li><li><a href="/work/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86.html#增加规则" class="sidebar-link">增加规则</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/work/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86.html#删除规则" class="sidebar-link">删除规则</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/work/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86.html#修改规则" class="sidebar-link">修改规则</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/work/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86.html#drop-和-reject-的区别" class="sidebar-link">DROP 和 REJECT 的区别</a></li><li class="sidebar-sub-header"><a href="/work/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86.html#修改默认策略" class="sidebar-link">修改默认策略</a></li></ul></li><li><a href="/work/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86.html#保存规则" class="sidebar-link">保存规则</a><ul class="sidebar-sub-headers"></ul></li></ul></div></li></ul> </div> <div class="page"> <div class="content -mt-32"><p>本章学习如何对 <code>iptables</code> 规则进行管理。</p> <div class="warning custom-block"><p class="custom-block-title">注意</p> <p>本系列文章测试环境为 <code>centos 7</code>，<code>iptables</code> 版本 <code>1.4.21</code>。</p></div> <h2 id="准备工作"><a href="#准备工作" aria-hidden="true" class="header-anchor">#</a> 准备工作</h2> <p>iptables 中最常用的匹配条件就是源ip，源端口，目标ip，目标端口等。最常用的动作有 <code>ACCEPT</code>、<code>DROP</code>、<code>REJECT</code>等。</p> <h3 id="初始化"><a href="#初始化" aria-hidden="true" class="header-anchor">#</a> 初始化</h3> <p>让我们先清空系统提供的默认规则，准备一个初始化环境：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br></div><pre class="language-bash"><code>iptables -F INPUT
+iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 298 packets, 30644 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>因为 <code>filter</code> 表的 <code>INPUT</code> 链默认策略为 <code>ACCEPT</code> ，所以所有到达本机的报文都会通过。</p> <h3 id="测试机"><a href="#测试机" aria-hidden="true" class="header-anchor">#</a> 测试机</h3> <p>准备另一台测试机，接下来的规则都会针对这台测试机而做：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br></div><pre class="language-bash"><code><span class="token function">ping</span> 10.211.55.19
+PING 10.211.55.19 <span class="token punctuation">(</span>10.211.55.19<span class="token punctuation">)</span> 56<span class="token punctuation">(</span>84<span class="token punctuation">)</span> bytes of data.
+64 bytes from 10.211.55.19: icmp_seq<span class="token operator">=</span>1 ttl<span class="token operator">=</span>64 time<span class="token operator">=</span>0.458 ms
+64 bytes from 10.211.55.19: icmp_seq<span class="token operator">=</span>2 ttl<span class="token operator">=</span>64 time<span class="token operator">=</span>0.268 ms
+64 bytes from 10.211.55.19: icmp_seq<span class="token operator">=</span>3 ttl<span class="token operator">=</span>64 time<span class="token operator">=</span>0.266 ms
+^C
+--- 10.211.55.19 <span class="token function">ping</span> statistics ---
+3 packets transmitted, 3 received, 0% packet loss, <span class="token function">time</span> 2002ms
+rtt min/avg/max/mdev <span class="token operator">=</span> 0.266/0.330/0.458/0.092 ms
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h2 id="增加规则"><a href="#增加规则" aria-hidden="true" class="header-anchor">#</a> 增加规则</h2> <p><code>-I, --insert</code> 选项可以增加规则。</p> <p><code>-j, --jump</code> 接收 <code>target</code> 作为参数。</p> <blockquote><p>添加一条规则，拒绝所有来自 <code>10.211.55.9</code> 的报文</p></blockquote> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br><br></div><pre class="language-bash"><code>iptables -t filter -I INPUT -s 10.211.55.9 -j DROP
+iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 93 packets, 8970 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>再使用测试机 <code>ping</code> 一下，会发现不通：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><div class="highlighted"> </div><br></div><pre class="language-bash"><code><span class="token function">ping</span> 10.211.55.19                                      
+PING 10.211.55.19 <span class="token punctuation">(</span>10.211.55.19<span class="token punctuation">)</span> 56<span class="token punctuation">(</span>84<span class="token punctuation">)</span> bytes of data.
+^C
+--- 10.211.55.19 <span class="token function">ping</span> statistics ---
+11 packets transmitted, 0 received, 100% packet loss, <span class="token function">time</span> 10003ms
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>但是目标机器的报文量会增加(11个报文，总大小924b)：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><div class="highlighted"> </div><br></div><pre class="language-bash"><code>iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 445 packets, 48402 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+   11   924 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p><code>-A, --append</code> 选项可以追加规则。</p> <blockquote><p>追加一条规则，接受所有来自 <code>10.211.55.9</code> 的报文</p></blockquote> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><br><div class="highlighted"> </div><br><br><br><div class="highlighted"> </div><br></div><pre class="language-bash"><code>iptables -A INPUT -s 10.211.55.9 -j ACCEPT
+iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 30 packets, 2072 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+   11   924 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+    0     0 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>再次用测试机 <code>ping</code>，还是不通:</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><div class="highlighted"> </div><br></div><pre class="language-bash"><code><span class="token function">ping</span> 10.211.55.19                                      
+PING 10.211.55.19 <span class="token punctuation">(</span>10.211.55.19<span class="token punctuation">)</span> 56<span class="token punctuation">(</span>84<span class="token punctuation">)</span> bytes of data.
+^C
+--- 10.211.55.19 <span class="token function">ping</span> statistics ---
+5 packets transmitted, 0 received, 100% packet loss, <span class="token function">time</span> 4001ms
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>查看现在规则情况:</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><br><br><br><div class="highlighted"> </div><div class="highlighted"> </div><br></div><pre class="language-bash"><code>iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 904 packets, 100K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+   16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+    0     0 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>我们可以看到第一条规则报文量更新了，但是第二条规则并未收到任何数据。</p> <p><code>-s, --source</code> 选项指定源IP地址。</p> <blockquote><p>添加一条规则，接受所有来自 <code>10.211.55.9</code> 的报文</p></blockquote> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><div class="highlighted"> </div><br><br><div class="highlighted"> </div><br><br><br></div><pre class="language-bash"><code>iptables -I INPUT -s 10.211.55.9 -j ACCEPT
+iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 92 packets, 8870 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+   16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+    0     0 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>现在第一条规则接受所有来自 <code>10.211.55.9</code> 的报文，再使用测试机 <code>ping</code> 一下：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><div class="highlighted"> </div><br><br><br></div><pre class="language-bash"><code><span class="token function">ping</span> 10.211.55.19                                      
+PING 10.211.55.19 <span class="token punctuation">(</span>10.211.55.19<span class="token punctuation">)</span> 56<span class="token punctuation">(</span>84<span class="token punctuation">)</span> bytes of data.
+64 bytes from 10.211.55.19: icmp_seq<span class="token operator">=</span>1 ttl<span class="token operator">=</span>64 time<span class="token operator">=</span>0.367 ms
+64 bytes from 10.211.55.19: icmp_seq<span class="token operator">=</span>2 ttl<span class="token operator">=</span>64 time<span class="token operator">=</span>0.296 ms
+64 bytes from 10.211.55.19: icmp_seq<span class="token operator">=</span>3 ttl<span class="token operator">=</span>64 time<span class="token operator">=</span>0.278 ms
+^C
+--- 10.211.55.19 <span class="token function">ping</span> statistics ---
+3 packets transmitted, 3 received, 0% packet loss, <span class="token function">time</span> 2001ms
+rtt min/avg/max/mdev <span class="token operator">=</span> 0.278/0.313/0.367/0.043 ms
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>又可以 ping 通了，而且第一条规则的报文数据也发生了改变：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><div class="highlighted"> </div><br><br><br></div><pre class="language-bash"><code>iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 15096 packets, 1693K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    3   252 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+   16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+    0     0 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>从这里，我们可以看出 <code>iptables</code> 的工作机制：只要匹配了一条规则，就不会再去匹配接下来的规则。</p> <blockquote><p>在指定顺序规则前添加一条规则</p></blockquote> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br><div class="highlighted"> </div><br><br><br></div><pre class="language-bash"><code>iptables -I INPUT 2 -s 10.211.55.9 -j DROP
+iptables -nvL INPUT --line
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 236 packets, 23798 bytes<span class="token punctuation">)</span>
+num   pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+1        3   252 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+2        0     0 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+3       16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+4        0     0 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="删除规则"><a href="#删除规则" aria-hidden="true" class="header-anchor">#</a> 删除规则</h2> <p>删除规则有两种方式：</p> <ul><li>根据序号删除</li> <li>根据匹配条件删除</li></ul> <blockquote><p>根据序号删除指定规则</p></blockquote> <p>先查看一下目前所有的规则：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -nvL INPUT --line
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 236 packets, 23798 bytes<span class="token punctuation">)</span>
+num   pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+1        3   252 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+2        0     0 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+3       16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+4        0     0 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>删除第4条规则，命令如下:</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -D INPUT 4
+iptables -nvL INPUT --line
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 108 packets, 8771 bytes<span class="token punctuation">)</span>
+num   pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+1        3   252 ACCEPT     all  --  *      *       10.211.55.9          0.0.0.0/0
+2        0     0 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+3       16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><blockquote><p>根据匹配条件进行删除</p></blockquote> <p>我们删除 <code>target</code> 是 <code>ACCEPT</code> 的规则：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -D INPUT -s 10.211.55.9 -j ACCEPT
+iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 79 packets, 5905 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+   16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><blockquote><p>删除所有规则</p></blockquote> <p>使用 <code>-F, --flush</code> 选项即可，我们在准备工作中已经操作过。</p> <h2 id="修改规则"><a href="#修改规则" aria-hidden="true" class="header-anchor">#</a> 修改规则</h2> <p>使用 <code>-R, --replace</code> 选项替换指定编号规则内容。</p> <blockquote><p>修改规则， <code>target</code> 从 <code>DROP</code> 改为 <code>REJECT</code>，源IP不变</p></blockquote> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><div class="highlighted"> </div><br><br></div><pre class="language-bash"><code>iptables -R INPUT 1 -s 10.211.55.9 -j REJECT
+iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 282 packets, 24058 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 REJECT     all  --  *      *       10.211.55.9          0.0.0.0/0            reject-with icmp-port-unreachable
+   16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="warning custom-block"><p class="custom-block-title">注意</p> <p>若不指定 <code>-s</code> 内容，则默认会被设置为 <code>0.0.0.0/0</code>，这可能会导致严重错误（例如 <code>DROP</code>  或者 <code>REJECT</code> 了所有报文，那么当前连接也会断开）。所以使用 <code>-R</code> 命令可以理解为替换当前顺序的规则的所有内容，这些内容必须写全，而不能写一部分；也可以理解为先删除这条指定的规则，再在同一位置插入新规则。</p></div> <h3 id="drop-和-reject-的区别"><a href="#drop-和-reject-的区别" aria-hidden="true" class="header-anchor">#</a> <code>DROP</code> 和 <code>REJECT</code> 的区别</h3> <p>将 <code>DROP</code> 替换为 <code>REJECT</code> 后，我们使用测试机 <code>ping</code> 一下，看看两者的区别：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><div class="highlighted"> </div><br><br><br><br><div class="highlighted"> </div><br></div><pre class="language-bash"><code><span class="token function">ping</span> 10.211.55.19                             
+PING 10.211.55.19 <span class="token punctuation">(</span>10.211.55.19<span class="token punctuation">)</span> 56<span class="token punctuation">(</span>84<span class="token punctuation">)</span> bytes of data.
+From 10.211.55.19 icmp_seq<span class="token operator">=</span>1 Destination Port Unreachable
+From 10.211.55.19 icmp_seq<span class="token operator">=</span>2 Destination Port Unreachable
+From 10.211.55.19 icmp_seq<span class="token operator">=</span>3 Destination Port Unreachable
+^C
+--- 10.211.55.19 <span class="token function">ping</span> statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, <span class="token function">time</span> 2000ms
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>我们可以看到，<code>REJECT</code> 会给出明确的回应，而不像 <code>DROP</code> 体现为毫无反应。</p> <p>此时我们再看看规则情况，第一条规则报文量也发生了改变，说明匹配到了这条规则：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><div class="highlighted"> </div><br><br></div><pre class="language-bash"><code>iptables -nvL INPUT
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 2844 packets, 248K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    3   252 REJECT     all  --  *      *       10.211.55.9          0.0.0.0/0            reject-with icmp-port-unreachable
+   16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h3 id="修改默认策略"><a href="#修改默认策略" aria-hidden="true" class="header-anchor">#</a> 修改默认策略</h3> <p>使用 <code>-P, --policy</code> 选项修改链的默认策略，当链中没有规则，或者所有规则都未匹配时，则使用默认规则：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br><br><br><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables -P FORWARD DROP
+iptables -nvL
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT 112 packets, 8478 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    3   252 REJECT     all  --  *      *       10.211.55.9          0.0.0.0/0            reject-with icmp-port-unreachable
+   16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
+
+Chain FORWARD <span class="token punctuation">(</span>policy DROP 0 packets, 0 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 ACCEPT     all  --  *      virbr0  0.0.0.0/0            192.168.122.0/24     ctstate RELATED,ESTABLISHED
+    0     0 ACCEPT     all  --  virbr0 *       192.168.122.0/24     0.0.0.0/0
+    0     0 ACCEPT     all  --  virbr0 virbr0  0.0.0.0/0            0.0.0.0/0
+    0     0 REJECT     all  --  *      virbr0  0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable
+    0     0 REJECT     all  --  virbr0 *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable
+
+Chain OUTPUT <span class="token punctuation">(</span>policy ACCEPT 80 packets, 7108 bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token function">source</span>               destination
+    0     0 ACCEPT     udp  --  *      virbr0  0.0.0.0/0            0.0.0.0/0            udp dpt:68
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><h2 id="保存规则"><a href="#保存规则" aria-hidden="true" class="header-anchor">#</a> 保存规则</h2> <p>通常情况下，我们对 <code>iptables</code> 做的操作都是临时的。就好比在 <code>word</code> 中写了一段话，假如强制关闭了 <code>word</code> 或者重启了电脑，那么刚才所些的那段话也会消失。当我们保存成 <code>word</code> 文件后， 那段话就不会丢失。同理，设置 <code>iptables</code> 后也需要保存。</p> <p>因为在 <code>centos 7</code> 中，默认的防火墙服务是 <code>firewalld</code> ，而不是 <code>iptables</code> 。所以我们需要安装 <code>iptables</code> 服务，替换默认防火墙。</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>yum <span class="token function">install</span> -y iptables-services
+<span class="token comment"># 关闭 firewalld 服务</span>
+systemctl stop firewalld
+<span class="token comment"># 禁止 firewalld 服务开机启动</span>
+systemctl disable firewalld
+<span class="token comment"># 开启 iptables 服务</span>
+systemctl start iptables
+<span class="token comment"># 设置 iptables 服务开机启动</span>
+systemctl <span class="token function">enable</span> iptables
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>安装 iptables 服务成功后，即可保存规则：</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code><span class="token function">service</span> iptables save
+iptables: Saving firewall rules to /etc/sysconfig/iptables:<span class="token punctuation">[</span>  OK  <span class="token punctuation">]</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>我们可以看到，所有的规则被写入了 <code>/etc/sysconfig/iptables</code> 文件。</p> <p>这里还有一种手动保存方法，当我们运行 <code>iptables-save</code> 命令时，会有将所有当前的规则输出：</p> <div class="language-bash line-numbers-mode"><div class="highlight-lines"><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div><pre class="language-bash"><code>iptables-save
+<span class="token comment"># Generated by iptables-save v1.4.21 on Fri Aug 17 16:51:10 2018</span>
+*security
+:INPUT ACCEPT <span class="token punctuation">[</span>2409:202386<span class="token punctuation">]</span>
+<span class="token punctuation">..</span>.
+*raw
+:PREROUTING ACCEPT <span class="token punctuation">[</span>2413:203008<span class="token punctuation">]</span>
+<span class="token punctuation">..</span>.
+*mangle
+:PREROUTING ACCEPT <span class="token punctuation">[</span>2413:203008<span class="token punctuation">]</span>
+<span class="token punctuation">..</span>.
+*nat
+:PREROUTING ACCEPT <span class="token punctuation">[</span>4:622<span class="token punctuation">]</span>
+<span class="token punctuation">..</span>.
+*filter
+<span class="token punctuation">..</span>.
+-A INPUT -s 10.211.55.9/32 -j REJECT --reject-with icmp-port-unreachable
+-A INPUT -s 10.211.55.9/32 -j DROP
+<span class="token punctuation">..</span>.
+COMMIT
+<span class="token comment"># Completed on Fri Aug 17 16:51:10 2018</span>
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>所以只要将输出重定向到 <code>/etc/sysconfig/iptables</code> 文件，也可以完成保存操作:</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>iptables-save <span class="token operator">&gt;</span> /etc/sysconfig/iptables
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>同时可以使用 <code>iptables-restore</code> 命令恢复 <code>iptables</code> 规则，现有规则会被覆盖:</p> <div class="language-bash line-numbers-mode"><pre class="language-bash"><code>iptables-restore <span class="token operator">&lt;</span> /etc/sysconfig/iptables
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div></div> <p class="page-edit">（完）</p> <p class="text-center">欢迎转载分享本文，原创文章请注明出处，谢谢配合!</p> <p class="page-edit"><div class="m-3 ant-tag ant-tag-blue" style="background-color:null;"><a href="/tags/iptables">iptables</a></div></p> <div class="page-edit"><!----> <div class="last-updated"><span class="prefix">最后更新: </span> <span class="time">8/21/2018, 5:31:48 PM</span></div></div> <div class="page-nav"><p class="inner"><span class="prev">
+            ←
+            <a href="/work/iptables-4-规则匹配.html" class="prev">
+              iptables详解-4-规则匹配
+            </a></span> <span class="next"><a href="/work/iptables-2-查询命令.html">
+            iptables详解-2-查询命令
+          </a>
+          →
+        </span></p></div> <div id="comments"></div> </div> <!----> <!----></div></div></div>
+    <script src="/assets/js/32.6d8cc34a.js" defer></script><script src="/assets/js/app.2d955dbb.js" defer></script>
+  </body>
+</html>
