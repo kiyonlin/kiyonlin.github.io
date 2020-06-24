@@ -6,7 +6,6 @@ baseURL = "http://localhost:1313/"
 title = "Tsing Wind - 清风徐来 水波不兴"
 enableRobotsTXT = true
 enableEmoji = true
-theme = "kiyon"
 
 hasCJKLanguage = true     # has chinese/japanese/korean ? # 自动检测是否包含 中文\日文\韩文
 paginate = 5              # Number of articles displayed on the homepage  # 首页每页显示的文章数
