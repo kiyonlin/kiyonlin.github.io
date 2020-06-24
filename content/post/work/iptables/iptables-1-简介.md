@@ -7,9 +7,9 @@ comment: true
 ---
 
 `iptables` 是各种防火墙的基础，需要系统学习。本篇先了解 `iptables` 的一些基本概念。
-::: warning 注意
+{{% notice warning 注意%}}
 本系列文章测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
-:::
+{{% /notice %}}
 <!-- more -->
 
 ## 说明

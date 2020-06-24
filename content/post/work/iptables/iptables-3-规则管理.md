@@ -7,9 +7,9 @@ comment: true
 ---
 
 本章学习如何对 `iptables` 规则进行管理。
-::: warning 注意
+{{% notice warning 注意%}}
 本系列文章测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
-:::
+{{% /notice %}}
 <!-- more -->
 
 ## 准备工作
@@ -211,9 +211,9 @@ Chain INPUT (policy ACCEPT 282 packets, 24058 bytes)
     0     0 REJECT     all  --  *      *       10.211.55.9          0.0.0.0/0            reject-with icmp-port-unreachable
    16  1344 DROP       all  --  *      *       10.211.55.9          0.0.0.0/0
 ```
-::: warning 注意
+{{% notice warning 注意%}}
 若不指定 `-s` 内容，则默认会被设置为 `0.0.0.0/0`，这可能会导致严重错误（例如 `DROP`  或者 `REJECT` 了所有报文，那么当前连接也会断开）。所以使用 `-R` 命令可以理解为替换当前顺序的规则的所有内容，这些内容必须写全，而不能写一部分；也可以理解为先删除这条指定的规则，再在同一位置插入新规则。
-:::
+{{% /notice %}}
 
 ### `DROP` 和 `REJECT` 的区别
 将 `DROP` 替换为 `REJECT` 后，我们使用测试机 `ping` 一下，看看两者的区别：

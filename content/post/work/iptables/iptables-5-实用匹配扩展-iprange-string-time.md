@@ -8,9 +8,10 @@ comment: true
 
 本章介绍三个实用的规则匹配扩展模块[^1]：`iprange` 、`string` 和 `time`。
 [^1]: man iptables-extensions 8
-::: warning 注意
+
+{{% notice warning 注意%}}
 本系列文章测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
-:::
+{{% /notice %}}
 
 <!-- more -->
 
@@ -171,7 +172,7 @@ Chain OUTPUT (policy ACCEPT 490 packets, 34180 bytes)
   108  8640 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            STRING match  "world" ALGO name kmp TO 65535 reject-with icmp-port-unreachable
 ```
 
-::: warning 注意
+{{% notice warning 注意%}}
 `http` 协议是基于 `tcp` 协议的可靠连接，当客户端未得到响应时，会尝试重传，尝试一定次数后才确认请求失败。所以上述两条规则匹配到的报文数最后都会达到108。
 ```bash
 iptables -nvL OUTPUT
@@ -180,11 +181,11 @@ Chain OUTPUT (policy ACCEPT 2202 packets, 279K bytes)
   108  8208 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            STRING match  "|64726f700a6d65|" ALGO name kmp TO 65535 reject-with icmp-port-unreachable
   108  8640 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            STRING match  "world" ALGO name kmp TO 65535 reject-with icmp-port-unreachable
 ```
-:::
+{{% /notice %}}
 
-::: warning 注意
+{{% notice warning 注意%}}
 实验过程中，发现使用 `bm` 算法时，无法匹配目标字符串。
-:::
+{{% /notice %}}
 
 ## time扩展
 `time` 扩展可以匹配报文到达时间。该扩展的常用选项有：

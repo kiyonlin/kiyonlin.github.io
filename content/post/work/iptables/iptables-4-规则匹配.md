@@ -7,9 +7,9 @@ comment: true
 ---
 
 本章介绍更多的规则匹配条件。
-::: warning 注意
+{{% notice warning 注意%}}
 本系列文章测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
-:::
+{{% /notice %}}
 
 <!-- more -->
 
@@ -266,7 +266,7 @@ Chain INPUT (policy ACCEPT 34 packets, 2248 bytes)
     0     0 REJECT     tcp  --  *      *       10.211.55.9          0.0.0.0/0            multiport dports 22,23,80:88,9000 reject-with icmp-port-unreachable
 ```
 
-::: warning 注意
+{{% notice warning 注意%}}
 `multiport` 模块只能结合 `tcp` 、 `udp` 、 `udplite` 、 `dccp` 和 `sctp` 协议使用。
 且最多支持15个离散端口，其中范围端口算作两个端口。
-:::
+{{% /notice %}}

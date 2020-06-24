@@ -7,9 +7,9 @@ comment: true
 ---
 
 本章介绍 `iptables` 常用的查询命令。
-::: warning 注意
+{{% notice warning 注意%}}
 本系列文章测试环境为 `centos 7`，`iptables` 版本 `1.4.21`。
-:::
+{{% /notice %}}
 <!-- more -->
 
 ## 查看表规则
