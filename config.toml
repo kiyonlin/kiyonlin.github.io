@@ -2,7 +2,7 @@
 # If you want to see the full configuration, please check `full-config.toml` .
 # And see https://gohugo.io/getting-started/configuration/ .
 
-baseURL = "http://localhost:1313/"
+baseURL = "https://kiyonlin.github.io/"
 title = "Tsing Wind - 清风徐来 水波不兴"
 enableRobotsTXT = true
 enableEmoji = true
