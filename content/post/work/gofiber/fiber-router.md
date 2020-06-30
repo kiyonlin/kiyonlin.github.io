@@ -27,7 +27,6 @@ type Route struct {
 	routeParser routeParser // 路由解析器
 	routeParams []string    // 大小写敏感的参数 key
 
-	// Public fields
 	Name     string    // 路由第一个处理器的名称
 	Path     string    // 原始注册路由路径
 	Method   string    // HTTP method
@@ -204,3 +203,16 @@ path
 ```go
 
 ```
+
+## 其他
+`Fiber`作者[Fenny](https://github.com/Fenny)关于为什么不使用[基数树](https://en.wikipedia.org/wiki/Radix_tree)管理路由的回答：
+
+> We discussed using a radix tree, but we would lose the stack order flexibility (like express has).
+>
+> Another thing I would like to mention which is misconception by many, the performance of decent routers will not impact your application.
+>
+> When you have 10,000 routes, you still talking about nano seconds. If you have a database query in one of your handlers, the performance of the router would not matter anymore. 
+>
+> However, we made sure our router is :100: regarding allocation and performance. And [@René](https://github.com/ReneWerner87) did an awesome job to replicate most key features of the expressjs path behaviour.
+>
+> Which makes routes like /api/*/:param/:param2 ~> /api/joker/batman/robin/2/1 possible, only in Fiber.
