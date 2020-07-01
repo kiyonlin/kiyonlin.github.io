@@ -1,10 +1,9 @@
 ---
 title: "解析Fiber路由管理"
 date: 2020-06-23T13:18:48+08:00
-lastmod: 2020-06-30T10:26:46+08:00
+lastmod: 2020-07-01T16:29:31+08:00
 tags: [golang, gofiber, web]
 categories: [golang, web]
-draft: true
 ---
 本文主要通过阅读[Fiber](https://github.com/gofiber/fiber)源码，解析`Fiber`是如何管理路由的：
 1. 路由注册
@@ -59,7 +58,7 @@ type Router interface {
 }
 ```
 
-[App](https://github.com/gofiber/fiber/blob/v1.12.1/app.go#L45-L58)和[Group](https://github.com/gofiber/fiber/blob/v1.12.1/group.go#L12-L16)结构都实现了`Router`接口，它们的`Get`、`Head`、`Post`、`Put`、`Delete`、`Connect`、`Options`、`Trace`和`Patch`方法是`Add`方法的别名。`App`的`Add`方法其实也是对`register`方法的封装，而`Group`的实现只是组装了路由路径，再直接调用`App`的相关方法。
+[App](https://github.com/gofiber/fiber/blob/v1.12.1/app.go#L45-L58)和[Group](https://github.com/gofiber/fiber/blob/v1.12.1/group.go#L12-L16)结构都实现了`Router`接口，它们的`Get`、`Head`、`Post`、`Put`、`Delete`、`Connect`、`Options`、`Trace`和`Patch`方法是对`Add`方法的封装。`App`的`Add`方法其实也是对其`register`方法的封装，而`Group`的实现只是组装了路由路径，再直接调用`App`的相关方法。
 
 ### `App`的注册方法
 我们先看`func (app *App) register(method, pathRaw string, handlers ...Handler) *Route`方法([源码](https://github.com/gofiber/fiber/blob/v1.12.1/router.go#L138-L216))：
@@ -169,16 +168,16 @@ type paramSeg struct {
 }
 ```
 
-我们再从上述注册方法中使用的`func parseRoute(pattern string) (p routeParser)`方法([源码](https://github.com/gofiber/fiber/blob/v1.12.1/path.go#L38-L95))开始分析，再以`/api/v1/:year-:month.:day/*/:param?`当参数，作为例子讲解：
+我们从上述注册方法中使用的`func parseRoute(pattern string) (p routeParser)`方法([源码](https://github.com/gofiber/fiber/blob/v1.12.1/path.go#L38-L95))开始分析，再以`/api/v1/:year-:month.:day/*/:param?`当参数，作为例子讲解：
 
-- 找到匹配串`/`，这是一个特殊情况，`pattern`变为`api/v1/:year-:month.:day/*/:param?`
-- 找到匹配串`api/`，这是一个常量匹配串，所以生成一个常量`segment`，常量`Const`字段为`api`，终止字符为`/`，`pattern`变为`v1/:year-:month.:day/*/:param?`
-- 找到匹配串`v1/`，这是一个常量匹配串，且上一个`segment`是常量类型，所以追加`/v1`到上一个`segment`的`Const`字段中，`pattern`变为`:year-:month.:day/*/:param?`
-- 找到匹配串`:year-`，`:`开头，所以这个`segment`是一个参数，参数名为`year`，终止字符为`-`，`pattern`变为`:month.:day/*/:param?`
-- 找到匹配串`:month.`，`:`开头，所以这个`segment`是一个参数，参数名为`month`，终止字符为`.`，`pattern`变为`:day/*/:param?`
-- 找到匹配串`:day/`，`:`开头，所以这个`segment`是一个参数，参数名为`day`，终止字符为`/`，`pattern`变为`*/:param?`
-- 找到匹配串`*/`，`*`开头，所以这个`segment`是一个参数，而且可选(`*`是通配符)，参数名为`*`，终止字符为`/`，`pattern`变为`:param?`
-- 找不到分隔符，剩余的`pattern`作为匹配串，即`:param?`，`:`开头，所以这个`segment`是一个参数，`?`结尾，所以这个`segment`也是可选的，参数名为`param`，因为接下来`pattern`已经没有了，所以终止字符使用默认值`/`，且这个`segment`的`IsLast`字段标记为`true`
+1. 找到匹配串`/`，这是一个特殊情况，`pattern`变为`api/v1/:year-:month.:day/*/:param?`
+1. 找到匹配串`api/`，这是一个常量匹配串，所以生成一个常量`segment`，常量`Const`字段为`api`，终止字符为`/`，`pattern`变为`v1/:year-:month.:day/*/:param?`
+1. 找到匹配串`v1/`，这是一个常量匹配串，且上一个`segment`是常量类型，所以追加`/v1`到上一个`segment`的`Const`字段中，`pattern`变为`:year-:month.:day/*/:param?`
+1. 找到匹配串`:year-`，`:`开头，所以这个`segment`是一个参数，参数名为`year`，终止字符为`-`，`pattern`变为`:month.:day/*/:param?`
+1. 找到匹配串`:month.`，`:`开头，所以这个`segment`是一个参数，参数名为`month`，终止字符为`.`，`pattern`变为`:day/*/:param?`
+1. 找到匹配串`:day/`，`:`开头，所以这个`segment`是一个参数，参数名为`day`，终止字符为`/`，`pattern`变为`*/:param?`
+1. 找到匹配串`*/`，`*`开头，所以这个`segment`是一个参数，而且可选(`*`是通配符)，参数名为`*`，终止字符为`/`，`pattern`变为`:param?`
+1. 找不到分隔符，剩余的`pattern`作为匹配串，即`:param?`，`:`开头，所以这个`segment`是一个参数，`?`结尾，所以这个`segment`也是可选的，参数名为`param`，因为接下来`pattern`已经没有了，所以终止字符使用默认值`/`，且这个`segment`的`IsLast`字段标记为`true`
 
 最终的`routeParser`结果为：
 
@@ -191,10 +190,10 @@ segs: [
 {Param:"*" Const"": IsParam:true IsOptional:true IsLast:false EndChar:'/'},
 {Param:"param" Const"": IsParam:true IsOptional:true IsLast:true EndChar:'/}
 ]
-params:[year month day * param]
+params:["year" "month" "day" "*" "param"]
 ```
 
-### 总结
+### 小结
 路由注册到这里就差不多了，我们可以看到主要的工作就是解析路由路径，保存好元数据，供路由匹配使用。其实还剩下静态资源路由注册`registerStatic`没讲，它封装了`fasthttp`的相关方法，有兴趣的同学可以自行查看[源码](https://github.com/gofiber/fiber/blob/v1.12.1/router.go#L218-L320)。
 
 ## 路由匹配
@@ -260,7 +259,7 @@ func (r *Route) match(path, original string) (match bool, values []string) {
 	if len(r.routeParams) > 0 {
 		// 匹配参数
 		if paramPos, match := r.routeParser.getMatch(path, r.use); match {
-			// 从源路径中解析出参数值
+			// 从源请求路径中解析出参数值
 			return match, r.routeParser.paramsForPos(original, paramPos)
 		}
 	}
@@ -281,93 +280,41 @@ func (r *Route) match(path, original string) (match bool, values []string) {
 
 路由匹配函数的匹配过程如下：
 1. 匹配根路径`/`
-1. 通配符路径`/*`，参数`*`的值就是源路径的去掉首字符`original[1:]`
-1. 路由包含参数的话，使用解析器[匹配](#路由参数匹配)参数位置，匹配时，从源路径获取参数对应的值
+1. 通配符路径`/*`，参数`*`的值就是源请求路径的去掉首字符之后的字符串`original[1:]`
+1. 路由包含参数的话，使用路由解析器[匹配](#路由参数匹配)参数位置，匹配时，从源请求路径获取参数对应的值
 1. 中间件路由的情况下，根路由或者路由路径是请求路径的前缀也算匹配，例如`/api`匹配`/api/v1`
-1. 否则检查路径是否相等
+1. 最后检查路径是否相等
 
 ### 路由参数匹配
 带参数的路由匹配`func (p *routeParser) getMatch(s string, partialCheck bool) ([][2]int, bool)`方法，是最复杂的部分，我们单独拎出来讲，代码不贴了，详见[源码](https://github.com/gofiber/fiber/blob/v1.12.1/path.go#L109-L169)：
 
 - 根据参数数量，获取预分配内存的参数位置切片
-- 遍历`routeParser`中所有的`segment`
+- 遍历路由解析器`routeParser`中所有的`segment`
 - `partLen = len(s)`获取需要匹配的请求路径长度
 - 先看常量类型的`segment`匹配：
     - `i = len(segment.Const)`获取常量字符串长度
     - `partLen < i || (i == 0 && partLen > 0)`先匹配长度
-    - `s[:i] != segment.Const`匹配常量字符串值
-    - `(partLen > i && s[i] != segment.EndChar)`匹配终止符
-    - 若以上不匹配，则直接返回
+    - `s[:i] != segment.Const`再匹配常量字符串值
+    - `(partLen > i && s[i] != segment.EndChar)`最后匹配终止符
+    - 若以上有不匹配的，则直接返回
 - 再看参数类型的`segment`匹配，目标是计算出参数长度：
     - 通配符参数
         - 当前`segment`是最后一个时，参数长度为剩余请求路径长度
         - 从右向左贪婪匹配([源码](https://github.com/gofiber/fiber/blob/v1.12.1/path.go#L186-L213))最长的字符串长度，当作参数长度
-    - 非通配符参数，根据当前`segment`的终止符查找
-    - 
+    - 非通配符参数，根据当前`segment`的终止符查找，没找到的话，参数长度为剩余请求路径长度
+    - `segment`不是可选参数且参数长度为0，直接返回
+    - 终止符不匹配，也直接返回
+    - 记录当前`segment`参数对应的位置，自增参数位置下标迭代器
+- 根据匹配串的长度，调整请求路径切片和下一个参数起始位置
+- 若请求路径未匹配完全，且不是部分匹配（中间件前缀匹配），则直接返回
+- 成功返回参数切片位置和匹配成功标识
 
-```go
-// getMatch parses the passed url and tries to match it against the route segments and determine the parameter positions
-func (p *routeParser) getMatch(s string, partialCheck bool) ([][2]int, bool) {
-	lenKeys := len(p.params)
-	paramsPositions := getAllocFreeParamsPos(lenKeys)
-	var i, j, paramsIterator, partLen, paramStart int
-	if len(s) > 0 {
-		s = s[1:]
-		paramStart++
-	}
-	for index, segment := range p.segs {
-		partLen = len(s)
-		// check parameter
-		if segment.IsParam {
-			// determine parameter length
-			if segment.Param == wildcardParam {
-				if segment.IsLast {
-					i = partLen
-				} else {
-					i = findWildcardParamLen(s, p.segs, index)
-				}
-			} else {
-				i = strings.IndexByte(s, segment.EndChar)
-			}
-			if i == -1 {
-				i = partLen
-			}
+取得参数位置后，我们就可以在源请求路径中截取出参数对应的值([源码](https://github.com/gofiber/fiber/blob/v1.12.1/path.go#L171-L184))。
 
-			if !segment.IsOptional && i == 0 {
-				return nil, false
-				// special case for not slash end character
-			} else if i > 0 && partLen >= i && segment.EndChar != '/' && s[i-1] == '/' {
-				return nil, false
-			}
-
-			paramsPositions[paramsIterator][0], paramsPositions[paramsIterator][1] = paramStart, paramStart+i
-			paramsIterator++
-		} else {
-			// check const segment
-			i = len(segment.Const)
-			if partLen < i || (i == 0 && partLen > 0) || s[:i] != segment.Const || (partLen > i && s[i] != segment.EndChar) {
-				return nil, false
-			}
-		}
-
-		// reduce founded part from the string
-		if partLen > 0 {
-			j = i + 1
-			if segment.IsLast || partLen < j {
-				j = i
-			}
-			paramStart += j
-
-			s = s[j:]
-		}
-	}
-	if len(s) != 0 && !partialCheck {
-		return nil, false
-	}
-
-	return paramsPositions, true
-}
-```
+## 总结
+`Fiber`的路由管理使用了很简单的数据结构——`slice`，每种`Http method`对应一组路由栈，而不是像[gin](https://github.com/gin-gonic/gin)一样使用[基数树](https://en.wikipedia.org/wiki/Radix_tree)这种数据结构，详细原因见[文末](#其他)。最后作一下总结：
+- 注册路由时，分析路径，将其分段，保存元数据到路由栈中
+- 匹配路由时，逐个匹配请求`method`对应的路由栈，匹配时执行相应的处理器
 
 ## 其他
 `Fiber`作者[Fenny](https://github.com/Fenny)关于为什么不使用[基数树](https://en.wikipedia.org/wiki/Radix_tree)管理路由的回答：
