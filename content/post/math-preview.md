@@ -4,8 +4,8 @@ author: "Murray Bourne"
 date: 2019-03-04T16:01:23+08:00
 lastmod: 2019-03-05T16:01:23+08:00
 draft: true
-tags: ["preview", "math", "tag-6"]
-categories: ["docs", "math", "index"]
+tags: ["hugo"]
+categories: ["hugo"]
 
 # mathjax: true
 

@@ -3,8 +3,8 @@ title: "This is a very long title This is a very long title This is a very long 
 date: 2017-08-30T15:43:48+08:00
 lastmod: 2017-08-30T15:43:48+08:00
 draft: true
-tags: ["preview", "English", "tag-2"]
-categories: ["English", "index", "test"]
+tags: ["hugo"]
+categories: ["hugo"]
 author: ted
 
 # You can also close(false) or open(true) something for this content.

@@ -3,8 +3,8 @@ title: "Jane-Theme Footnote Preview"
 date: 2018-03-01T16:01:23+08:00
 lastmod: 2018-03-01T16:01:23+08:00
 draft: true
-tags: ["footnote", "markdown", "tag-11"]
-categories: ["docs", "index"]
+tags: ["hugo"]
+categories: ["hugo"]
 author: "xianmin"
 ---
 
