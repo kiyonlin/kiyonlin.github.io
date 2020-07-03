@@ -44,15 +44,15 @@ func main() {
 	// assume static file at dist folder
 	app.Static("/", "public")
 
-    // intercept api routes
+	// intercept api routes
 	apiGroup := app.Group("/api")
 	{
 		apiGroup.Get("/user", func(c *fiber.Ctx) {
 			c.JSON(fiber.Map{"id": 1, "name": "kiyon"})
 		})
 	}
-    
-    // other routes just return `public/index.html`, angular will handle them
+
+	// other routes just return `public/index.html`, angular will handle them
 	app.Get("/*", func(c *fiber.Ctx) {
 		if err := c.SendFile("public/index.html"); err != nil {
 			c.Next(fiber.ErrInternalServerError)
