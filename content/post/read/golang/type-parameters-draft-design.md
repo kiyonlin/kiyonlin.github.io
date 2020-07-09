@@ -1253,23 +1253,77 @@ func F() {
 var f func(x(T))
 ```
 
-在此示例中，我们不知道该函数是否具有实例化类型`x(T)`的单个未命名参数，或者是类型`(T)`的命名参数`x`（带括号）。
+在此示例中，我们不知道该函数是具有实例化类型`x(T)`的单个未命名参数，或者是类型`(T)`的命名参数`x`（带括号）。
 {{< expand "原文" >}}
 <p>In this example we don't know whether the function has a single unnamed parameter of the instantiated type x(T), or whether this is a named parameter x of the type (T) (written with parentheses).</p>
 {{< /expand >}}
 
-我们希望这表示前者：实例化类型`x(T)`的未命名参数。这实际上与当前语言并不向后兼容，这意味着后者。但是，`gofmt`程序当前将`func(x(T))`重写为`func(x T)`，因此`func(x(T))`在普通Go代码中非常罕见。
+我们希望这表示前者：实例化类型`x(T)`的未命名参数。这实际上与当前语言并不向后兼容，现在意味着后者。但是，`gofmt`程序当前将`func(x(T))`重写为`func(x T)`，因此`func(x(T))`在普通Go代码中非常罕见。
 {{< expand "原文" >}}
 <p>We would prefer that this mean the former: an unnamed parameter of the instantiated type <code>x(T)</code>. This is not actually backward compatible with the current language, where it means the latter. However, the gofmt program currently rewrites <code>func(x(T))</code> to <code>func(x T)</code>, so <code>func(x(T))</code> is very unusual in plain Go code.</p>
 {{< /expand >}}
 
-因此，我们建议更改语言，以便`func(x(T))`现在表示类型为`x(T)`的单个参数。这可能会破坏一些现有程序，但解决方法是仅运行`gofmt`。这可能会改变编写`func(x(T))`的程序的含义，这些程序不使用`gofmt`，而是选择引入与具有括号类型的函数参数同名的泛型类型`x`。我们认为，此类程序将极为罕见。
+因此，我们建议更改语言，以便`func(x(T))`现在表示类型为`x(T)`的单个参数。这可能会破坏一些现有程序，但解决方法仅仅是运行`gofmt`。这可能会改变编写`func(x(T))`的程序的含义，这些程序不使用`gofmt`，而是选择引入与具有括号类型的函数参数同名的泛型类型`x`。我们认为，此类程序将极为罕见。
 
 尽管如此，这仍然是一种风险，如果风险太大，我们可以避免进行此更改。
 {{< expand "原文" >}}
 <p>Therefore, we propose that the language change so that func(x(T)) now means a single parameter of type x(T). This will potentially break some existing programs, but the fix will be to simply run gofmt. This will potentially change the meaning of programs that write func(x(T)), that don't use gofmt, and that choose to introduce a generic type x with the same name as a function parameter with a parenthesized type. We believe that such programs will be exceedingly rare.</p>
 <p>Still, this is a risk, and if the risk seems too large we can avoid making this change.</p>
 {{< /expand >}}
+
+### 类型参数的值未装箱
+在Go的当前实现中，接口值始终包含指针。将非指针值放在接口变量中会使该值被*装箱*。这意味着实际值存储在堆或堆栈上的其他位置，并且接口值保存指向该位置的指针。
+{{< expand "原文" >}}
+<p>In the current implementations of Go, interface values always hold pointers. Putting a non-pointer value in an interface variable causes the value to be <I>boxed</I>. That means that the actual value is stored somewhere else, on the heap or stack, and the interface value holds a pointer to that location.</p>
+{{< /expand >}}
+
+在这种设计中，泛型类型的值未装箱。例如，让我们回顾一下前面的`from.Strings`示例。当用`Settable`类型实例化它时，它返回`[]Settable`类型的值。例如，我们可以这样写
+{{< expand "原文" >}}
+<p>In this design, values of generic types are not boxed. For example, let's look back at our earlier example of <code>from.Strings</code>. When it is instantiated with type <code>Settable</code>, it returns a value of type <code>[]Settable</code>. For example, we can write</p>
+{{< /expand >}}
+
+```go
+// Settable 是可以从字符串设置的整数类型。
+type Settable int
+
+// Set 从字符串中设置 *p 的值。
+func (p *Settable) Set(s string) (err error) {
+	// 同上
+}
+
+func F() {
+	// nums 的类型是 []Settable.
+	nums, err := from.Strings(Settable)([]string{"1", "2"})
+	if err != nil { ... }
+	// 可将 Settable 直接转换为 int 。
+	// 这将 first 设置为 1。
+	first := int(nums[0])
+	...
+}
+```
+
+当我们调用类型为`Settable`的`from.Strings`时，我们会返回一个`[]Settable`（和一个错误）。该切片的元素将是可设置的值，也就是说，它们将是整数。即使它们是由通用函数创建和设置的，也不会被装箱。
+
+同样，当实例化泛型类型时，它将具有预期的类型作为组件。
+{{< expand "原文" >}}
+<p>When we call <code>from.Strings</code> with the type <code>Settable</code> we get back a <code>[]Settable</code> (and an error). The elements of that slice will be <code>Settable</code> values, which is to say, they will be integers. They will not be boxed, even though they were created and set by a generic function.</p>
+<p>Similarly, when a generic type is instantiated it will have the expected types as components.</p>
+{{< /expand >}}
+
+```go
+type Pair(type F1, F2) struct {
+	first  F1
+	second F2
+}
+```
+
+实例化该字段时，这些字段将不会被装箱，并且不会发生意外的内存分配。 `Pair(int, string)`类型可以转换为`struct { first int; second string }`。
+{{< expand "原文" >}}
+<p>When this is instantiated, the fields will not be boxed, and no unexpected memory allocations will occur. The type <code>Pair(int, string)</code> is convertible to <code>struct { first int; second string }</code>.</p>
+{{< /expand >}}
+
+### More on type lists
+
 
 
 
