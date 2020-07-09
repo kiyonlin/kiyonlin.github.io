@@ -1243,9 +1243,33 @@ func F() {
 <p>To be clear, using type <code>*T Setter</code> does not mean that the <code>Set</code> method must only be a pointer method. <code>Set</code> could still be a value method. That would be OK because all value methods are also in the pointer type's method set. In this example that only makes sense if <code>Set</code> can be written as a value method, which might be the case when defining the method on a struct that contains pointer fields.</p>
 {{< /expand >}}
 
+### 使用泛型类型作为未命名的函数参数类型
+在将实例化类型解析为未命名函数参数类型时，存在解析歧义。
+{{< expand "原文" >}}
+<p>When parsing an instantiated type as an unnamed function parameter type, there is a parsing ambiguity.</p>
+{{< /expand >}}
 
+```go
+var f func(x(T))
+```
 
+在此示例中，我们不知道该函数是否具有实例化类型`x(T)`的单个未命名参数，或者是类型`(T)`的命名参数`x`（带括号）。
+{{< expand "原文" >}}
+<p>In this example we don't know whether the function has a single unnamed parameter of the instantiated type x(T), or whether this is a named parameter x of the type (T) (written with parentheses).</p>
+{{< /expand >}}
 
+我们希望这表示前者：实例化类型`x(T)`的未命名参数。这实际上与当前语言并不向后兼容，这意味着后者。但是，`gofmt`程序当前将`func(x(T))`重写为`func(x T)`，因此`func(x(T))`在普通Go代码中非常罕见。
+{{< expand "原文" >}}
+<p>We would prefer that this mean the former: an unnamed parameter of the instantiated type <code>x(T)</code>. This is not actually backward compatible with the current language, where it means the latter. However, the gofmt program currently rewrites <code>func(x(T))</code> to <code>func(x T)</code>, so <code>func(x(T))</code> is very unusual in plain Go code.</p>
+{{< /expand >}}
+
+因此，我们建议更改语言，以便`func(x(T))`现在表示类型为`x(T)`的单个参数。这可能会破坏一些现有程序，但解决方法是仅运行`gofmt`。这可能会改变编写`func(x(T))`的程序的含义，这些程序不使用`gofmt`，而是选择引入与具有括号类型的函数参数同名的泛型类型`x`。我们认为，此类程序将极为罕见。
+
+尽管如此，这仍然是一种风险，如果风险太大，我们可以避免进行此更改。
+{{< expand "原文" >}}
+<p>Therefore, we propose that the language change so that func(x(T)) now means a single parameter of type x(T). This will potentially break some existing programs, but the fix will be to simply run gofmt. This will potentially change the meaning of programs that write func(x(T)), that don't use gofmt, and that choose to introduce a generic type x with the same name as a function parameter with a parenthesized type. We believe that such programs will be exceedingly rare.</p>
+<p>Still, this is a risk, and if the risk seems too large we can avoid making this change.</p>
+{{< /expand >}}
 
 
 
