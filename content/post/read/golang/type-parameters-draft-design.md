@@ -1105,7 +1105,8 @@ type Setter2(type B) interface {
 	type *B
 }
 
-// FromStrings2 提取字符串切片，并返回 T 切片，调用 Set 方法设置每个返回的值。
+// FromStrings2 提取字符串切片，并返回 T 切片，
+// 调用 Set 方法设置每个返回的值。
 //
 // 我们使用两个不同的类型参数，以便我们可以返回 T 类型的切片，但是在 *T 上调用方法。
 // Setter2 约束确保 PT 是指向 T 的指针。
@@ -1145,6 +1146,121 @@ func F2() {
 <p>This approach works as expected, but it is awkward. It forces <code>F2</code> to work around a problem in <code>FromStrings2</code> by passing two type arguments. The second type argument is required to be a pointer to the first type argument. This is a complex requirement for what seems like it ought to be a reasonably simple case.</p>
 <p>Another approach would be to pass in a function rather than calling a method.</p>
 {{< /expand >}}
+
+```go
+// FromStrings3 提取字符串切片，并返回 T 切片，
+// 调用 set 函数设置每个返回值。
+func FromStrings3(type T)(s []string, set func(*T, string)) []T {
+	results := make([]T, len(s))
+	for i, v := range s {
+		set(&results[i], v)
+	}
+	return results
+}
+```
+
+我们将这样调用`Strings3`：
+{{< expand "原文" >}}
+<p>We would call <code>Strings3</code> like this:</p>
+{{< /expand >}}
+
+```go
+func F3() {
+	// FromStrings3 使用一个函数来设置值。
+	// Settable 同上.
+	nums := FromStrings3(Settable)([]string{"1", "2"},
+		func(p *Settable, s string) { p.Set(s) })
+	// 现在 nums 是 []Settable{1, 2}.
+}
+```
+
+这种方法也可以按预期工作，但也很尴尬。调用方必须传入一个函数才可以调用`Set`方法。这是我们在使用泛型时希望避免的样板代码。
+{{< expand "原文" >}}
+<p>This approach also works as expected, but it is also awkward. The caller has to pass in a function just to call the <code>Set</code> method. This is the kind of boilerplate code that we would hope to avoid when using generics.</p>
+{{< /expand >}}
+
+尽管这些方法很尴尬，但它们确实有效。就是说，我们建议另一个解决此类问题的功能：一种表示对类型参数的指针（而不是对类型参数本身）约束的方法，将类型参数写为指针类型：（`type *T Constraint`）。
+{{< expand "原文" >}}
+<p>Although these approaches are awkward, they do work. That said, we suggest another feature to address this kind of issue: a way to express constraints on the pointer to the type parameter, rather than on the type parameter itself. The way to do this is to write the type parameter as though it were a pointer type: (<code>type *T Constraint</code>).</p>
+{{< /expand >}}
+
+在类型参数列表中用`*T`代替`T`改变了两件事。假设调用时的类型参数为`A`，并且约束为`Constraint`（可以使用此语法而没有约束，但是没有理由这样做）。
+{{< expand "原文" >}}
+<p>Writing <code>*T</code> instead of <code>T</code> in a type parameter list changes two things. Let's assume that the type argument at the call site is <code>A</code>, and the constraint is <code>Constraint</code> (this syntax may be used without a constraint, but there is no reason to do so).</p>
+{{< /expand >}}
+
+第一个变化是将约束应用于`*A`而不是`A`。也就是说，`*A`必须实现约束。如果`A`实现了`Constraint`，则可以，但是要求`*A`实现它。请注意，如果`Constraint`有任何方法，则意味着`A`一定不能是指针类型：如果`A`是指针类型，则`*A`是指向指针的指针，并且此类类型永远不会有任何方法。
+{{< expand "原文" >}}
+<p>The first thing that changes is that Constraint is applied to <code>*A</code> rather than <code>A</code>. That is, <code>*A</code> must implement Constraint. It's OK if <code>A</code> implements <code>Constraint</code>, but the requirement is that <code>*A</code> implement it. Note that if <code>Constraint</code> has any methods, this implies that <code>A</code> must not be a pointer type: if <code>A</code> is a pointer type, then <code>*A</code> is a pointer to a pointer, and such types never have any methods.</p>
+{{< /expand >}}
+
+第二个变化是，在函数体内，`Constraint`中的任何方法都被视为指针方法。它们只能在`*T`类型的值或`T`类型的可寻址值上调用。
+{{< expand "原文" >}}
+<p>The second thing that changes is that within the body of the function, any methods in <code>Constraint</code> are treated as though they were pointer methods. They may only be invoked on values of type <code>*T</code> or addressable values of type <code>T</code>.</p>
+{{< /expand >}}
+
+```go
+// FromStrings 提取字符串切片，并返回 T 切片，
+// 调用 Set 方法设置每个返回的值。
+//
+// 我们写 *T，表示给定类型参数 A，
+// 指针类型 *A 必须实现 Setter。
+//
+// 请注意，因为 T 仅用于结果参数，
+// 所以调用此函数时类型推断不起作用。
+// 必须在调用时显式传递类型参数。
+func FromStrings(type *T Setter)(s []string) []T {
+	result := make([]T, len(s))
+	for i, v := range s {
+		// result[i] 是类型T的可寻址值，
+		// 因此可以调用 Set。
+		result[i].Set(v)
+	}
+	return result
+}
+```
+
+同样，这里使用`*T`意味着给定类型参数`A`，类型`*A`必须实现约束`Setter`。在这种情况下，`Set`必须位于`*A`的方法集中。在`FromStrings`中，使用`*T`表示只能在类型为`T`的可寻址值上调用`Set`方法。
+
+我们现在可以这样用
+{{< expand "原文" >}}
+<p>Again, using <code>*T</code> here means that given a type argument <code>A</code>, the type <code>*A</code> must implement the constraint <code>Setter</code>. In this case, <code>Set</code> must be in the method set of <code>*A</code>. Within <code>FromStrings</code>, using <code>*T</code> means that the <code>Set</code> method may only be called on an addressable value of type <code>T</code>.</p>
+<p>We can now use this as</p>
+{{< /expand >}}
+
+```go
+func F() {
+	// 使用重写的 FromStrings，现在可以了。
+	// *Settable 实现了 Setter.
+	nums := from.Strings(Settable)([]string{"1", "2"})
+	// 这里的 nums 是 []Settable{1, 2}.
+	...
+}
+```
+
+明确地说，使用`*T Setter`类型并不意味着`Set`方法只能是指针方法。 `Set`可能仍然是值方法，因为所有值方法也都在指针类型的方法集中。在此示例中，只有将`Set`可以写作值方法才有意义，在包含指针字段的结构上定义方法时可能就是这种情况。
+{{< expand "原文" >}}
+<p>To be clear, using type <code>*T Setter</code> does not mean that the <code>Set</code> method must only be a pointer method. <code>Set</code> could still be a value method. That would be OK because all value methods are also in the pointer type's method set. In this example that only makes sense if <code>Set</code> can be written as a value method, which might be the case when defining the method on a struct that contains pointer fields.</p>
+{{< /expand >}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 示例
