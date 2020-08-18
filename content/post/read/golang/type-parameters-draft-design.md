@@ -1302,7 +1302,7 @@ func F() {
 }
 ```
 
-当我们调用类型为`Settable`的`from.Strings`时，我们会返回一个`[]Settable`（和一个错误）。该切片的元素将是可设置的值，也就是说，它们将是整数。即使它们是由通用函数创建和设置的，也不会被装箱。
+当我们调用类型为`Settable`的`from.Strings`时，我们会返回一个`[]Settable`（和一个错误）。该切片的元素将是`Settable`类型的值，也就是说，它们将是整数。即使它们是由通用函数创建和设置的，也不会被装箱。
 
 同样，当实例化泛型类型时，它将具有预期的类型作为组件。
 {{< expand "原文" >}}
@@ -1322,11 +1322,27 @@ type Pair(type F1, F2) struct {
 <p>When this is instantiated, the fields will not be boxed, and no unexpected memory allocations will occur. The type <code>Pair(int, string)</code> is convertible to <code>struct { first int; second string }</code>.</p>
 {{< /expand >}}
 
-### More on type lists
+### 有关类型列表的更多信息
+现在让我们返回到类型列表，以涵盖一些仍然不重要的次要细节。这些不是其他规则或概念，而是类型列表工作方式的结果。
+{{< expand "原文" >}}
+<p>Let's return now to type lists to cover some less important details that are still worth noting. These are not additional rules or concepts, but are consequences of how type lists work.</p>
+{{< /expand >}}
 
+#### 约束中的类型列表和方法
+约束可以同时使用类型列表和方法。
+{{< expand "原文" >}}
+<p>A constraint may use both type lists and methods.</p>
+{{< /expand >}}
 
-
-
+```go
+// StringableSignedInteger 是与任何类型匹配的类型约束当其包含
+// 1) 定义为有符号整数类型；
+// 2) 有一个 String 方法。
+type StringableSignedInteger interface {
+	type int, int8, int16, int32, int64
+	String() string
+}
+```
 
 
 
