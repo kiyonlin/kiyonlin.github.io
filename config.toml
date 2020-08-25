@@ -50,11 +50,6 @@ languageCode = "zh-cn"
   weight = 40
   identifier = "categories"
   url = "/categories/"
-  [[menu.main]]
-    name = "关于"
-    weight = 50
-    identifier = "about"
-    url = "/about"
 [[menu.main]]
   name = "Github"
   weight = 60
