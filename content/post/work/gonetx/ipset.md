@@ -2,7 +2,7 @@
 title: "在Golang中轻松使用ipset"
 date: 2020-09-15T10:26:01+08:00
 lastmod: 2020-09-15T10:26:07+08:00
-tags: [golang, ispet]
+tags: [golang, ipset]
 categories: [golang, ipset]
 ---
 
