@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>磁盘管理 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/</link>
+    <description>Recent content in 磁盘管理 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 09 Jan 2017 13:56:50 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>鸟哥Linux基础-Linux磁盘与文件系统管理</title>
+      <link>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-linux%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Mon, 09 Jan 2017 13:56:50 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-linux%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</guid>
+      <description>原文鸟哥的 Linux私房菜 第七章、Linux 磁碟与档案系统管理 在本章我们的重点在于如何制作档案系统，包括分割、格式化与挂载等。⭐⭐文字比较多</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>(译)Angular架构01-智能组件与展示组件 - Tsing Wind - 清风徐来 水波不兴</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Kiyon Lin" />
+  <meta name="description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组" />
+
+  <meta name="keywords" content="Hugo, theme, kiyon, kiyonlin" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.72.0" />
+
+
+<link rel="canonical" href="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8401-%E6%99%BA%E8%83%BD%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/kiyon.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css" integrity="sha256-&#43;j2UHR0ODdyYWAQif&#43;q//qVciYg&#43;sK804FMqeukTUVE=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="(译)Angular架构01-智能组件与展示组件" />
+<meta property="og:description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8401-%E6%99%BA%E8%83%BD%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6/" />
+<meta property="article:published_time" content="2018-10-15T14:04:46+00:00" />
+<meta property="article:modified_time" content="2018-10-15T14:04:46+00:00" />
+<meta itemprop="name" content="(译)Angular架构01-智能组件与展示组件">
+<meta itemprop="description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组">
+<meta itemprop="datePublished" content="2018-10-15T14:04:46&#43;00:00" />
+<meta itemprop="dateModified" content="2018-10-15T14:04:46&#43;00:00" />
+<meta itemprop="wordCount" content="5596">
+
+
+
+<meta itemprop="keywords" content="angular,architecture,component," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="(译)Angular架构01-智能组件与展示组件"/>
+<meta name="twitter:description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Tsing Wind</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Tsing Wind
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">(译)Angular架构01-智能组件与展示组件</h1>
+      
+      <div class="post-meta">
+        <time datetime="2018-10-15" class="post-time">
+          2018-10-15
+        </time>
+        <div class="post-category">
+            <a href="https://kiyonlin.github.io/categories/web/"> web </a>
+            <a href="https://kiyonlin.github.io/categories/angular/"> angular </a>
+            
+          </div>
+        <span class="more-meta"> 约 5596 字 </span>
+          <span class="more-meta"> 预计阅读 12 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#视图层架构简介">视图层架构简介</a></li>
+    <li><a href="#将应用程序拆分为不同类型的组件">将应用程序拆分为不同类型的组件</a>
+      <ul>
+        <li><a href="#理解问题">理解问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#让我们创建一个展示组件">让我们创建一个展示组件</a></li>
+    <li><a href="#让我们创建一个智能组件">让我们创建一个智能组件</a></li>
+    <li><a href="#home组件是什么类型的组件">Home组件是什么类型的组件？</a></li>
+    <li><a href="#智能组件和展示组件之间的典型交互">智能组件和展示组件之间的典型交互</a></li>
+    <li><a href="#拆分智能与展示组件的明确方法">拆分智能与展示组件的明确方法？</a></li>
+    <li><a href="#导致自定义事件不冒泡的问题是什么">导致自定义事件不冒泡的问题是什么？</a></li>
+    <li><a href="#为什么自定义事件不会冒泡就像点击dom事件一样">为什么自定义事件不会冒泡，就像点击DOM事件一样？</a></li>
+    <li><a href="#那么我们如何解决选项卡面板场景中可折叠面板内lesson列表的情况呢">那么我们如何解决选项卡面板场景中可折叠面板内<code>lesson</code>列表的情况呢？</a></li>
+    <li><a href="#在home组件中使用新服务">在<code>Home</code>组件中使用新服务</a></li>
+    <li><a href="#如何将lessonslistcomponent保持为展示组件">如何将<code>LessonsListComponent</code>保持为展示组件？</a></li>
+    <li><a href="#智能组件不仅仅是顶级组件">智能组件不仅仅是顶级组件</a></li>
+    <li><a href="#将lessonslistcomponent保持为展示组件的另一种解决方案">将<code>LessonsListComponent</code>保持为展示组件的另一种解决方案</a></li>
+    <li><a href="#如何确定要构建的组件">如何确定要构建的组件？</a></li>
+    <li><a href="#如何进行组件设计">如何进行组件设计</a></li>
+    <li><a href="#结论">结论</a>
+      <ul>
+        <li><a href="#智能与展示组件是有用的区别">智能与展示组件是有用的区别</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>这篇文章是正在进行的<code>Angular</code>架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列：</p>
+<ul>
+<li>视图层架构-智能组件与展示组件</li>
+<li>视图层架构-容器与展示组件常见的设计缺陷</li>
+<li>服务层架构-如何使用<code>Observable</code>数据服务构建<code>Angular</code>应用程序</li>
+<li>服务层架构-<code>Redux</code>和<code>Ngrx Store</code>-何时使用<code>Store</code>？为什么？</li>
+<li>服务层架构-<code>Ngrx Store</code>-架构指南</li>
+</ul>
+<!-- raw HTML omitted -->
+<h2 id="视图层架构简介">视图层架构简介</h2>
+<p>在构建<code>Angular</code>应用程序时，我们在开始时遇到的最常见问题是：我们如何构建应用程序？</p>
+<p>我们可能会找到的直接答案是：我们将所有内容拆分为组件！ 但我们很快发现还有更多问题：</p>
+<ul>
+<li>有哪些类型的组件？</li>
+<li>组件应如何互动？</li>
+<li>我应该将服务注入任何组件吗？</li>
+<li>如何使我的组件可以跨视图重用？</li>
+</ul>
+<p>我们将尝试通过将组件基本上分成两种类型来解答这个问题和其他问题（但还有更多内容）：</p>
+<ul>
+<li>智能组件：有时也称为应用程序级组件，容器组件或控制器组件</li>
+<li>展示组件：有时也称为纯组件或哑组件</li>
+</ul>
+<p>让我们找出这两种组件之间的差异，我们何时应该使用它们以及为什么！</p>
+<p>你也可以通过<a href="https://youtu.be/TzrZNpSfswA">视频</a>学习，它将一个组件重构为两个组件，视频中的示例我们将在下面描述。</p>
+<h2 id="将应用程序拆分为不同类型的组件">将应用程序拆分为不同类型的组件</h2>
+<p>为了理解两种类型组件之间的区别，让我们从一个简单的应用程序开始，其中尚不存在组件分离。</p>
+<p>我们开始构建应用程序的主屏幕，并为单个模板添加了多个功能：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;app-home&#39;</span><span class="p">,</span>
+  <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">    &lt;h2&gt;All Lessons&lt;/h2&gt;
+</span><span class="sb">    &lt;h4&gt;Total Lessons: {{lessons?.length}}&lt;/h4&gt;
+</span><span class="sb">    &lt;div class=&#34;lessons-list-container v-h-center-block-parent&#34;&gt;
+</span><span class="sb">        &lt;table class=&#34;table lessons-list card card-strong&#34;&gt;
+</span><span class="sb">            &lt;tbody&gt;
+</span><span class="sb">            &lt;tr *ngFor=&#34;let lesson of lessons&#34; (click)=&#34;selectLesson(lesson)&#34;&gt;
+</span><span class="sb">                &lt;td class=&#34;lesson-title&#34;&gt; {{lesson.description}} &lt;/td&gt;
+</span><span class="sb">                &lt;td class=&#34;duration&#34;&gt;
+</span><span class="sb">                    &lt;i class=&#34;md-icon duration-icon&#34;&gt;access_time&lt;/i&gt;
+</span><span class="sb">                    &lt;span&gt;{{lesson.duration}}&lt;/span&gt;
+</span><span class="sb">                &lt;/td&gt;
+</span><span class="sb">            &lt;/tr&gt;
+</span><span class="sb">            &lt;/tbody&gt;
+</span><span class="sb">        &lt;/table&gt;
+</span><span class="sb">    &lt;/div&gt;
+</span><span class="sb">`</span><span class="p">,</span>
+  <span class="nx">styleUrls</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./home.component.css&#39;</span><span class="p">]</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">HomeComponent</span> <span class="kr">implements</span> <span class="nx">OnInit</span> <span class="p">{</span>
+
+    <span class="nx">lessons</span>: <span class="kt">Lesson</span><span class="p">[];</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">lessonsService</span>: <span class="kt">LessonsService</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
+
+  <span class="nx">ngOnInit() {</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">lessonsService</span><span class="p">.</span><span class="nx">findAllLessons</span><span class="p">()</span>
+          <span class="p">.</span><span class="k">do</span><span class="p">(</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
+              <span class="nx">lessons</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">allLessons</span> <span class="o">=</span> <span class="nx">lessons</span>
+          <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">selectLesson</span><span class="p">(</span><span class="nx">lesson</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="理解问题">理解问题</h3>
+<p>虽然这个主页组件仍然非常简单，但它已经开始具有相当大的尺寸。 例如，我们已经实现了一个包含<code>lesson</code>列表的表。</p>
+<p>但是应用程序的其他部分可能还需要此功能，例如，假设我们有另一个屏幕显示给定<code>course</code>的目录。</p>
+<p>在该屏幕中，我们还希望显示<code>lesson</code>列表，但仅显示属于该<code>course</code>的<code>lesson</code>。 在这种情况下，我们需要的东西与我们在主屏幕中实现的内容非常相似。</p>
+<p>我们不应该只是跨组件复制粘贴，我们应该创建一个可重用的组件。</p>
+<h2 id="让我们创建一个展示组件">让我们创建一个展示组件</h2>
+<p>在这种情况下我们想要做的是将屏幕的表部分提取到一个单独的组件中，让我们称之为<code>LessonsListComponent</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">import</span> <span class="p">{</span><span class="nx">Component</span><span class="p">,</span> <span class="nx">OnInit</span><span class="p">,</span> <span class="nx">Input</span><span class="p">,</span> <span class="nx">EventEmitter</span><span class="p">,</span> <span class="nx">Output</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@angular/core&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span><span class="nx">Lesson</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;../shared/model/lesson&#34;</span><span class="p">;</span>
+
+<span class="kd">@Component</span><span class="p">({</span>
+  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;lessons-list&#39;</span><span class="p">,</span>
+  <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">      &lt;table class=&#34;table lessons-list card card-strong&#34;&gt;
+</span><span class="sb">          &lt;tbody&gt;
+</span><span class="sb">          &lt;tr *ngFor=&#34;let lesson of lessons&#34; (click)=&#34;selectLesson(lesson)&#34;&gt;
+</span><span class="sb">              &lt;td class=&#34;lesson-title&#34;&gt; {{lesson.description}} &lt;/td&gt;
+</span><span class="sb">              &lt;td class=&#34;duration&#34;&gt;
+</span><span class="sb">                  &lt;i class=&#34;md-icon duration-icon&#34;&gt;access_time&lt;/i&gt;
+</span><span class="sb">                  &lt;span&gt;{{lesson.duration}}&lt;/span&gt;
+</span><span class="sb">              &lt;/td&gt;
+</span><span class="sb">          &lt;/tr&gt;
+</span><span class="sb">          &lt;/tbody&gt;
+</span><span class="sb">      &lt;/table&gt;  
+</span><span class="sb">  `</span><span class="p">,</span>
+  <span class="nx">styleUrls</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./lessons-list.component.css&#39;</span><span class="p">]</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">LessonsListComponent</span> <span class="p">{</span>
+
+  <span class="kd">@Input</span><span class="p">()</span>
+  <span class="nx">lessons</span>: <span class="kt">Lesson</span><span class="p">[];</span>
+
+  <span class="kd">@Output</span><span class="p">(</span><span class="s1">&#39;lesson&#39;</span><span class="p">)</span>
+  <span class="nx">lessonEmitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;();</span>
+
+    <span class="nx">selectLesson</span><span class="p">(</span><span class="nx">lesson</span>:<span class="kt">Lesson</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">lessonEmitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">lesson</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>现在让我们仔细看看这个组件：它没有通过构造函数注入<code>lesson</code>服务。 相反，它通过<code>@Input</code>接收输入属性中的<code>lessons</code>。</p>
+<p>这意味着组件本身不知道<code>lessons</code>的来源：</p>
+<ul>
+<li><code>lessons</code>可能是所有<code>lessons</code>的清单</li>
+<li>或者<code>lessons</code>可能是特定<code>course</code>所有<code>lessons</code>的清单</li>
+<li>甚至<code>lessons</code>可能是任何给定搜索列表中的页面</li>
+</ul>
+<p>我们可以在所有这些场景中重用此组件，因为<code>lesson-list</code>组件不知道数据来自何处。 组件的责任纯粹是向用户呈现数据而不是从特定位置获取数据。</p>
+<p>这就是我们通常将这种类型的组件称为展示组件的原因。 但是<code>Home</code>组件发生了什么？</p>
+<h2 id="让我们创建一个智能组件">让我们创建一个智能组件</h2>
+<p>如果我们回到<code>Home</code>组件，这就是重构后的样子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Component</span><span class="p">,</span> <span class="nx">OnInit</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@angular/core&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span><span class="nx">LessonsService</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;../shared/model/lessons.service&#34;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span><span class="nx">Lesson</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;../shared/model/lesson&#34;</span><span class="p">;</span>
+
+<span class="kd">@Component</span><span class="p">({</span>
+  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;app-home&#39;</span><span class="p">,</span>
+  <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">      &lt;h2&gt;All Lessons&lt;/h2&gt;
+</span><span class="sb">      &lt;h4&gt;Total Lessons: {{lessons?.length}}&lt;/h4&gt;
+</span><span class="sb">      &lt;div class=&#34;lessons-list-container v-h-center-block-parent&#34;&gt;
+</span><span class="sb">          &lt;lessons-list [lessons]=&#34;lessons&#34; (lesson)=&#34;selectLesson($event)&#34;&gt;&lt;/lessons-list&gt;
+</span><span class="sb">      &lt;/div&gt;
+</span><span class="sb">`</span><span class="p">,</span>
+  <span class="nx">styleUrls</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./home.component.css&#39;</span><span class="p">]</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">HomeComponent</span> <span class="kr">implements</span> <span class="nx">OnInit</span> <span class="p">{</span>
+
+    <span class="nx">lessons</span>: <span class="kt">Lesson</span><span class="p">[];</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">lessonsService</span>: <span class="kt">LessonsService</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
+
+  <span class="nx">ngOnInit() {</span>
+     <span class="p">...</span>
+  <span class="p">}</span>
+
+  <span class="nx">selectLesson</span><span class="p">(</span><span class="nx">lesson</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以看到，我们已经用新的可重用<code>lessons-list</code>组件替换了主屏幕的列表部分。 主组件仍然知道如何从服务中检索<code>lesson</code>列表，以及这是什么类型的列表（如果这些<code>lesson</code>是某个<code>course</code>的<code>lesson</code>等）。</p>
+<p>但Home组件不知道如何向用户提供<code>lesson</code>。</p>
+<h2 id="home组件是什么类型的组件">Home组件是什么类型的组件？</h2>
+<p>让我们给这种类型的组件命名，类似于home组件，它是一个特定于应用程序的组件：让我们称之为智能组件。</p>
+<p>这种类型的组件固有地绑定到应用程序本身，因此我们可以看到它在构造函数中接收一些特定于应用程序的依赖项，如<code>LessonsService</code>。</p>
+<blockquote>
+<p>在另一个应用程序中使用此组件将非常困难。</p>
+</blockquote>
+<p>我们视图的顶级组件可能永远是智能组件。 即使我们将数据加载转移到路由器数据解析器，该组件仍然至少必须将<code>ActivatedRoute</code>服务注入其中。</p>
+<p>因此，我们希望通过使用一组展示组件在内部编写来实现顶级智能组件。 这就是那么简单。</p>
+<h2 id="智能组件和展示组件之间的典型交互">智能组件和展示组件之间的典型交互</h2>
+<p>我们在这里看到的示例非常频繁，我们让智能组件通过<code>@Input</code>将数据注入展示组件，并接收展示组件可能通过<code>@Output</code>触发的任何操作。</p>
+<p>在这种情况下，我们使用自定义<code>lesson</code>事件来指示我们已在列表中选择了给定<code>lesson</code>。</p>
+<p>使用<code>@Output</code>，展示组件通过明确定义的界面与智能组件保持隔离：</p>
+<ul>
+<li><code>lesson-list</code>展示组件只知道它发出了一个事件，但不知道事件的接收者是什么，或接收者为响应事件做了什么</li>
+<li><code>Home</code>智能组件订阅<code>lesson</code>自定义事件并对事件做出反应，但它不知道是什么触发了事件。 用户是否双击<code>lesson</code>列表或用户是否单击了视图按钮？ 这对智能组件是透明的。</li>
+</ul>
+<p>所以这一切都清楚简单，这里可能出现什么问题？</p>
+<h2 id="拆分智能与展示组件的明确方法">拆分智能与展示组件的明确方法？</h2>
+<p>有了这个，我们可能会在这一点上得出结论，构建我们的应用程序就像使所有顶级组件成为智能组件一样简单，并使用本地展示组件树构建它们。</p>
+<p>但问题是，它有时并不那么简单，因为像<code>lesson</code>这样的自定义事件不会冒泡。 因此，如果您有一个深层组件，并且您希望上面有多个级别的组件来了解该事件，则该事件不会冒泡。</p>
+<h2 id="导致自定义事件不冒泡的问题是什么">导致自定义事件不冒泡的问题是什么？</h2>
+<p>假设<code>lesson</code>列表和<code>Home</code>组件之间只有一层嵌套，我们有几个级别：<code>lesson</code>列表位于选项卡面板内的可折叠面板内。</p>
+<p><code>lesson</code>列表仍然希望通过<code>lesson</code>事件通知<code>Home</code>组件已选择<code>lesson</code>。 但是中间<code>TabPanel</code>和<code>CollapsiblePanel</code>中的两个组件是非特定于应用程序的展示组件。</p>
+<blockquote>
+<p>想象它们是Angular Material库的组成部分！</p>
+</blockquote>
+<p>这些展示组件不了解<code>lesson</code>事件，因此无法将其冒泡。 那么我们如何实现这一点，以及为什么自定义事件不能简单地冒泡？</p>
+<h2 id="为什么自定义事件不会冒泡就像点击dom事件一样">为什么自定义事件不会冒泡，就像点击DOM事件一样？</h2>
+<p>这不是偶然的，它是设计的，可能是为了避免<code>event soup</code>场景，使用类似于<code>AngularJs</code>的<code>$scope.$emit()</code>和<code>$scope.$broadcast()</code>的服务总线的解决方案往往会意外创建。</p>
+<p>这些类型的机制往往最终会在应用程序的不同位置之间创建紧密的依赖关系，这些依赖关系不应该彼此意识到，事件最终会被触发多次或依次触发，只看一个文件时就不明显了。</p>
+<p>因此，展示组件的自定义事件只能由其父组件可见，而不能在更深的组件树可见。</p>
+<p>如果由于某种原因我们确实需要冒泡行为，我们仍然可以使用<code>Javascript</code>原生的<code>element.dispatchEvent()</code>实现它。 但大多数情况下，这不是我们想要实施的。</p>
+<h2 id="那么我们如何解决选项卡面板场景中可折叠面板内lesson列表的情况呢">那么我们如何解决选项卡面板场景中可折叠面板内<code>lesson</code>列表的情况呢？</h2>
+<p>我们仍然应该为<code>lesson</code>列表创建一个展示组件。 提供<code>lesson</code>的功能可以被隔离，因此<code>LessonsListComponent</code>的版本仍然适用，它只是在应用程序的各个地方使用的东西。 但是这个列表如何通知<code>Home</code>组件？</p>
+<p>为此，有几种解决方案。 我们应该研究的一个解决方案，特别是在构建大规模应用程序时，应该研究像<code>ngrx/store</code>这样的解决方案。</p>
+<p>但即使使用<code>store</code>解决方案，我们也可能不希望在展示组件中注入<code>store</code>。 因为选择<code>lesson</code>的结果可能并不总是将事件分派给<code>store</code>。</p>
+<p>为了简化示例，让我们首先创建一个专门的类似于<code>store</code>的服务来解决这个<code>lesson</code>选择问题：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Injectable</span><span class="p">()</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">LessonSelectedService</span> <span class="p">{</span>
+
+    <span class="kr">private</span> <span class="nx">_selected</span>: <span class="kt">BehaviorSubject</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BehaviorSubject</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+
+    <span class="kr">public</span> <span class="nx">selected$</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_selected</span><span class="p">.</span><span class="nx">asObservable</span><span class="p">().</span><span class="nx">filter</span><span class="p">(</span><span class="nx">lesson</span> <span class="o">=&gt;</span> <span class="o">!!</span><span class="nx">lesson</span><span class="p">);</span>
+    
+    
+    <span class="nx">select</span><span class="p">(</span><span class="nx">lesson</span>:<span class="kt">Lesson</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">this</span><span class="p">.</span><span class="nx">_selected</span><span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="nx">lesson</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>正如我们所看到的，<code>LessonSelectedService</code>公开了一个可观察的<code>selected$</code>，它将在每次选择新<code>lesson</code>时发出一个值。</p>
+<p>请注意，我们在服务内部创建了一个<code>subject</code>，但我们没有将它暴露给外部。 这是因为<code>subject</code>本质上是一个事件总线，因此我们希望控制谁可以在服务中发出事件。</p>
+<p>如果我们公开<code>subject</code>，我们会给应用程序的任何其他部分代表服务发出事件的能力，这是应该避免的。</p>
+<p>那么如何使用这个服务，因为我们不能将它注入<code>LessonsListComponent</code>，对吧？ 我们将讨论该部分，现在让我们首先看看如何在<code>Home</code>组件中使用这个新服务。</p>
+<h2 id="在home组件中使用新服务">在<code>Home</code>组件中使用新服务</h2>
+<p><code>Home</code>组件将做的是，它将在其构造函数中注入新组件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({...})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">HomeComponent</span> <span class="kr">implements</span> <span class="nx">OnInit</span> <span class="p">{</span>
+
+    <span class="nx">lessons</span>: <span class="kt">Lesson</span><span class="p">[];</span>
+
+  <span class="kr">constructor</span><span class="p">(</span>
+        <span class="kr">private</span> <span class="nx">lessonsService</span>: <span class="kt">LessonsService</span><span class="p">,</span> 
+        <span class="kr">private</span> <span class="nx">lessonSelectedService</span>: <span class="kt">LessonSelectedService</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span>
+
+  <span class="nx">ngOnInit() {</span>
+      <span class="p">....</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">lessonSelectedService</span><span class="p">.</span><span class="nx">selected$</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">lesson</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">selectLesson</span><span class="p">(</span><span class="nx">lesson</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="nx">selectLesson</span><span class="p">(</span><span class="nx">lesson</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>正如我们所看到的，我们订阅了<code>selected$</code>这个<code>Observable</code>，它发出了新的<code>lesson</code>，我们触发了组件的特定逻辑来处理选择。</p>
+<p>但请注意，<code>Home</code>组件不知道<code>lesson</code>列表，它只知道应用程序的其他部分触发了<code>lesson</code>选择。 应用程序的两个部分仍然是隔离的：</p>
+<ul>
+<li>选择的<code>Emitter</code>不知道<code>Home</code>组件</li>
+<li><code>Home</code>组件不知道该<code>lesson</code></li>
+<li>两个角色只知道<code>LessonSelectedService</code></li>
+</ul>
+<p>所以我们已经解决了这个问题吗？ 还没有，因为我们仍然不想在<code>LessonListComponent</code>中注入新服务，这将使它成为一个智能组件，我们希望将它保持为展示组件。 那么如何解决这个问题呢？</p>
+<h2 id="如何将lessonslistcomponent保持为展示组件">如何将<code>LessonsListComponent</code>保持为展示组件？</h2>
+<p>实际上，解决问题的一种方法是使其成为智能组件;-)我们可以得出结论，在该表存在的应用程序的任何地方，我们总是想要触发对<code>LessonSelectedService</code>的调用。</p>
+<p>这将使<code>lesson-list</code>组件成为应用程序特定组件，无论如何它可能已经存在。 例如，我们可能不会发布此组件并在多个应用程序中使用它。</p>
+<p>因此，这将解决问题，这意味着像<code>Home</code>组件这样的顶级应用程序组件可能由不仅仅是展示组件的组件树组成。</p>
+<h2 id="智能组件不仅仅是顶级组件">智能组件不仅仅是顶级组件</h2>
+<p>智能组件不必仅是顶级路由器组件。 我们可以看到树中可能还有其他组件也会注入像<code>LessonSelectedService</code>这样的服务，并且不一定只从<code>@Input()</code>获取它们的数据。</p>
+<h2 id="将lessonslistcomponent保持为展示组件的另一种解决方案">将<code>LessonsListComponent</code>保持为展示组件的另一种解决方案</h2>
+<p>解决问题的另一种方法是保持<code>lesson-list</code>组件不变，并在需要的地方使用它。 但在这种情况下，我们可以将它包装在一个智能组件中，该组件将注入<code>LessonSelectedService</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;custom-lessons-list&#39;</span><span class="p">,</span>
+  <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">       &lt;lessons-list [lessons]=&#34;lessons&#34; (lesson)=&#34;selectLesson($event)&#34;&gt;&lt;/lessons-list&gt;  
+</span><span class="sb">  `</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">CustomLessonsListComponent</span> <span class="p">{</span>
+
+   <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">lessonSelectedService</span>: <span class="kt">LessonSelectedService</span><span class="p">)</span> <span class="p">{</span>
+
+   <span class="p">}</span>
+
+   <span class="nx">selectLesson</span><span class="p">(</span><span class="nx">lesson</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">this</span><span class="p">.</span><span class="nx">lessonSelectedService</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">lesson</span><span class="p">);</span> 
+   <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在此我们创建了一个包装器智能组件，并将其称为<code>CustomLessonsListComponent</code>。 在这种情况下，我们包装了我们自己的展示组件，但我们也可以包装来自第三方库的组件。</p>
+<p>想象一下<code>MyCustomCountrySelectDropdown</code>，它包含一个通用下拉列表并使用来自具体服务的数据注入它。</p>
+<h2 id="如何确定要构建的组件">如何确定要构建的组件？</h2>
+<p>在开始构建我们的应用程序时，并不总是很明显区分什么是智能组件，什么是展示组件。</p>
+<p>那么如何在许多组件中拆分应用程序？ 即使页面的标题只使用一次，它应该是一个组件吗？</p>
+<p>组织和可读性是创建组件的唯一原因，即使它仅在一个地方使用。 在较小的文件中分隔内容有助于保持代码库的可维护性，并且使用<code>Angular CLI</code>在创建新组件时没有任何开销：使用单个命令，我们有一个工作组件，可以在几秒钟内粘贴标头。</p>
+<h2 id="如何进行组件设计">如何进行组件设计</h2>
+<p>解决这个问题的一种方法是避免从一开始就定义什么是组件以及什么类型：我们可以从仅使用纯HTML和第三方组件构建顶级组件开始。</p>
+<p>只有当模板开始变大时，我们才开始将其分解为组件。 如果在屏幕的多个部分中使用了某些内容并且总是触发给定的操作（如调用<code>store</code>调度），我们可能会考虑重构为较小的智能组件。</p>
+<p>如果稍后我们意识到我们需要呈现与我们刚刚创建的智能组件相同的数据，我们可以将展示部分从它中提取到展示组件中。</p>
+<p>获得一组精心设计的组件的最佳方法是通过连续重构，这可以通过使用<code>Angular CLI</code>无负担地完成。</p>
+<h2 id="结论">结论</h2>
+<p>在构建应用程序时，我们可以寻找机会将纯展示逻辑提取到展示组件中：这些只使用<code>@Input</code>和<code>Output</code>，并且在我们需要隔离展示逻辑并重用它时非常有用。</p>
+<p>如果我们想要保持两个组件分离并且彼此不知道，则可以使用共享服务或<code>store</code>来完成组件树中的不同级别的智能组件之间或甚至兄弟之间的通信。</p>
+<p>但我们可能还希望将组件完全注入到彼此中并创建紧密耦合，有时这是最佳解决方案。 在这种情况下，通过例如<code>@ViewChild</code>将组件相互注入可能是最好的方法。</p>
+<h3 id="智能与展示组件是有用的区别">智能与展示组件是有用的区别</h3>
+<p>一般而言，智能与展示组件之间的区别是非常好记的，但它可能不适用于应用程序的所有组件。</p>
+<p>我们可以拥有一个既知道服务又可以在树中更深层次地呈现一些数据的小组件，就像在<code>lesson</code>选择时调用<code>store</code>的<code>lesson</code>列表。</p>
+<p>将此组件进一步拆分为智能和展示组件可能并非总是必要的。</p>
+<p>智能与展示组件在自我省问时促进我们的思维方式：</p>
+<ul>
+<li>这种展示逻辑在应用程序的其他地方是否有用？</li>
+<li>将事情进一步分解会有用吗？</li>
+<li>我们是否在应用中创建了意外的紧耦合？</li>
+</ul>
+<p>我们不一定需要将构建的每个组件的所有渲染逻辑提取到单独的展示组件中。 它更多的是在任何给定时间构建对我们的应用程序最有意义的组件，并且如果需要在<code>CLI</code>的简单连续迭代过程中进行重构。</p>
+<p>我希望你喜欢这篇文章，并且它有助于开始使用视图层设计。 请务必查看上面链接的架构系列上的其他文章！</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Kiyon Lin</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2018-10-15
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://kiyonlin.github.io/tags/angular/">angular</a>
+          <a href="https://kiyonlin.github.io/tags/architecture/">architecture</a>
+          <a href="https://kiyonlin.github.io/tags/component/">component</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8402-%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">(译)Angular架构02-容器与展示组件常见的设计缺陷</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/work/web/angular/%E8%AF%91angular-ngrx-entity%E5%AE%8C%E5%85%A8%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/">
+            <span class="next-text nav-default">(译)Angular NgRx Entity完全实用指南</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kiyonlin/kiyonlin.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:kiyonlin@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+    <a href="https://github.com/kiyonlin" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+  
+    <a href="https://www.zhihu.com/people/kiyonlin" rel="me noopener" class="iconfont"
+      title="zhihu"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z"></path>
+  <path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+<a href="https://kiyonlin.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2016 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Kiyon Lin
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

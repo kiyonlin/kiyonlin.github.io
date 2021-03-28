@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>测试 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/categories/%E6%B5%8B%E8%AF%95/</link>
+    <description>Recent content in 测试 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 06 Mar 2017 13:17:59 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/categories/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PHPUnit</title>
+      <link>https://kiyonlin.github.io/post/work/php/phpunit/</link>
+      <pubDate>Mon, 06 Mar 2017 13:17:59 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/php/phpunit/</guid>
+      <description>编写PHPUnit测试 针对类 Class 的测试写在类 ClassTest中。 ClassTest（通常）继承自 PHPUnit\Framework\Test</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>文本 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/%E6%96%87%E6%9C%AC/</link>
+    <description>Recent content in 文本 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 28 Oct 2016 08:55:38 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/%E6%96%87%E6%9C%AC/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>javascript-4 文本格式化</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript-4/</link>
+      <pubDate>Fri, 28 Oct 2016 08:55:38 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript-4/</guid>
+      <description>参考： mozilla JavaScript ECMAScript 6入门 JavaScript 秘密花园 字符串 国际化 Intl 对象是ECMAScript国际化API的命名空间, 它提供了语言敏感的字符串比较，数字格式化和日期时</description>
+    </item>
+    
+  </channel>
+</rss>

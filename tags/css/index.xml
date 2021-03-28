@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>css on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/css/</link>
+    <description>Recent content in css on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 11 Feb 2017 15:17:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/css/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CSS小技巧</title>
+      <link>https://kiyonlin.github.io/post/work/web/css/css%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Sat, 11 Feb 2017 15:17:00 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/css/css%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>聊天框添加小三角 重点是.chat-box样式的position属性设置为relative，再利用::after伪元素设置小三角相对位置。 1 2</description>
+    </item>
+    
+  </channel>
+</rss>

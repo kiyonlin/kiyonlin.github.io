@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>javascript on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/categories/javascript/</link>
+    <description>Recent content in javascript on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 23 Feb 2017 16:51:37 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/categories/javascript/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>页面向导introjs</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/%E9%A1%B5%E9%9D%A2%E5%90%91%E5%AF%BCintrojs/</link>
+      <pubDate>Thu, 23 Feb 2017 16:51:37 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/%E9%A1%B5%E9%9D%A2%E5%90%91%E5%AF%BCintrojs/</guid>
+      <description>页面操作向导js包 没有其他依赖，响应速度比较快。 使用时查看文档即可。 所有配置如下： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 steps: For defining steps using JSON configuration (see this</description>
+    </item>
+    
+    <item>
+      <title>Javascript Object 学习</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript-object-%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Thu, 16 Feb 2017 08:59:17 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript-object-%E5%AD%A6%E4%B9%A0/</guid>
+      <description>原文MDN Object.assign() 把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象。 语法 Object.assign(target, ...sources) 参数 target 目标对象。 sources 任意多个源对象。 返回值 目标对象会被</description>
+    </item>
+    
+    <item>
+      <title>javascript中的apply,call,bind</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript%E4%B8%AD%E7%9A%84apply-call-bind/</link>
+      <pubDate>Wed, 15 Feb 2017 10:01:44 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript%E4%B8%AD%E7%9A%84apply-call-bind/</guid>
+      <description>apply和call apply和call的作用一致，只是接受的参数方式不同 1 2 func.apply(this, [arg1, arg2]); func.call(this, arg1, arg2); bind bind()方法会创建一个新函数。当这个新函数被</description>
+    </item>
+    
+    <item>
+      <title>javascript-4 文本格式化</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript-4/</link>
+      <pubDate>Fri, 28 Oct 2016 08:55:38 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript-4/</guid>
+      <description>参考： mozilla JavaScript ECMAScript 6入门 JavaScript 秘密花园 字符串 国际化 Intl 对象是ECMAScript国际化API的命名空间, 它提供了语言敏感的字符串比较，数字格式化和日期时</description>
+    </item>
+    
+    <item>
+      <title>javascript-3 数字和日期</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript-3/</link>
+      <pubDate>Thu, 27 Oct 2016 08:29:49 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript-3/</guid>
+      <description>参考： mozilla JavaScript ECMAScript 6入门 JavaScript 秘密花园 数字 在 JavaScript 里面，数字都是双精度浮点类型的（也就是说一个数字只能在 -(2^53^ -1) 和 2^53^ -1之间）。没有特定的整型数据类型。除了能</description>
+    </item>
+    
+    <item>
+      <title>javascript-2 函数</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript-2/</link>
+      <pubDate>Wed, 26 Oct 2016 16:24:48 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript-2/</guid>
+      <description>参考： mozilla JavaScript ECMAScript 6入门 JavaScript 秘密花园 作用域和函数堆栈(Scope and Function stack)递归(recursion) 命名冲突 当同一个闭包作用域下两个参数或者变</description>
+    </item>
+    
+    <item>
+      <title>javascript-1 语法和数据类型</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript-1/</link>
+      <pubDate>Thu, 20 Oct 2016 20:07:11 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript-1/</guid>
+      <description>系统学一遍javascript 参考： mozilla JavaScript ECMAScript 6入门 JavaScript 秘密花园 声明 JavaScript有三种声明。 var 声明一个变量，可选择将其初始化为一个值。 let 声</description>
+    </item>
+    
+  </channel>
+</rss>

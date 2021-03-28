@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>rateLimiter on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/ratelimiter/</link>
+    <description>Recent content in rateLimiter on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 20 Jun 2020 10:53:18 +0800</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/ratelimiter/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>基于延迟计算令牌桶的gofiber频率限制中间件实现</title>
+      <link>https://kiyonlin.github.io/post/work/gofiber/fiber-limiter/</link>
+      <pubDate>Sat, 20 Jun 2020 10:53:18 +0800</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/gofiber/fiber-limiter/</guid>
+      <description>前言 后端的api接口一般都需要限制访问频率，一般的实现算法有令牌桶，漏桶等等。其中令牌桶支持突发流量，更合适访问流量整形。 关于令牌桶算法这里</description>
+    </item>
+    
+  </channel>
+</rss>

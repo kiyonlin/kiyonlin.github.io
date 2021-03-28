@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>函数 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/%E5%87%BD%E6%95%B0/</link>
+    <description>Recent content in 函数 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 26 Oct 2016 16:24:48 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/%E5%87%BD%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>javascript-2 函数</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript-2/</link>
+      <pubDate>Wed, 26 Oct 2016 16:24:48 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript-2/</guid>
+      <description>参考： mozilla JavaScript ECMAScript 6入门 JavaScript 秘密花园 作用域和函数堆栈(Scope and Function stack)递归(recursion) 命名冲突 当同一个闭包作用域下两个参数或者变</description>
+    </item>
+    
+  </channel>
+</rss>

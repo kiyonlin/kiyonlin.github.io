@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>(译)Angular架构03-如何使用`Observable`数据服务构建`Angular`应用程序及常见的设计缺陷 - Tsing Wind - 清风徐来 水波不兴</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Kiyon Lin" />
+  <meta name="description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组" />
+
+  <meta name="keywords" content="Hugo, theme, kiyon, kiyonlin" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.72.0" />
+
+
+<link rel="canonical" href="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8403-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8observable%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A1%E6%9E%84%E5%BB%BAangular%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/kiyon.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css" integrity="sha256-&#43;j2UHR0ODdyYWAQif&#43;q//qVciYg&#43;sK804FMqeukTUVE=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="(译)Angular架构03-如何使用`Observable`数据服务构建`Angular`应用程序及常见的设计缺陷" />
+<meta property="og:description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8403-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8observable%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A1%E6%9E%84%E5%BB%BAangular%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/" />
+<meta property="article:published_time" content="2018-10-17T08:25:57+00:00" />
+<meta property="article:modified_time" content="2018-10-17T08:25:57+00:00" />
+<meta itemprop="name" content="(译)Angular架构03-如何使用`Observable`数据服务构建`Angular`应用程序及常见的设计缺陷">
+<meta itemprop="description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组">
+<meta itemprop="datePublished" content="2018-10-17T08:25:57&#43;00:00" />
+<meta itemprop="dateModified" content="2018-10-17T08:25:57&#43;00:00" />
+<meta itemprop="wordCount" content="3292">
+
+
+
+<meta itemprop="keywords" content="angular,architecture,service,rxjs," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="(译)Angular架构03-如何使用`Observable`数据服务构建`Angular`应用程序及常见的设计缺陷"/>
+<meta name="twitter:description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Tsing Wind</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Tsing Wind
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">(译)Angular架构03-如何使用`Observable`数据服务构建`Angular`应用程序及常见的设计缺陷</h1>
+      
+      <div class="post-meta">
+        <time datetime="2018-10-17" class="post-time">
+          2018-10-17
+        </time>
+        <div class="post-category">
+            <a href="https://kiyonlin.github.io/categories/web/"> web </a>
+            <a href="https://kiyonlin.github.io/categories/angular/"> angular </a>
+            
+          </div>
+        <span class="more-meta"> 约 3292 字 </span>
+          <span class="more-meta"> 预计阅读 7 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#用于构建angular应用程序的替代架构">用于构建<code>Angular</code>应用程序的替代架构</a></li>
+    <li><a href="#什么是observable数据服务">什么是<code>Observable</code>数据服务</a></li>
+    <li><a href="#如何使用observable数据服务">如何使用<code>Observable</code>数据服务</a></li>
+    <li><a href="#如何修改服务的数据">如何修改服务的数据</a>
+      <ul>
+        <li><a href="#关于observable数据服务的一些有趣的事情">关于<code>Observable</code>数据服务的一些有趣的事情</a></li>
+      </ul>
+    </li>
+    <li><a href="#rxjs的subject以及如何使用它"><code>RxJs</code>的<code>subject</code>以及如何使用它</a></li>
+    <li><a href="#behaviorsubject以及如何使用它"><code>BehaviorSubject</code>以及如何使用它</a></li>
+    <li><a href="#如何构建observable数据服务">如何构建<code>Observable</code>数据服务</a></li>
+    <li><a href="#陷阱1---不要直接暴露subject">陷阱＃1 - 不要直接暴露<code>subject</code></a>
+      <ul>
+        <li><a href="#避免event-soup">避免<code>event soup</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#写一个action方法">写一个<code>action</code>方法</a></li>
+    <li><a href="#陷阱2---避免重复的http调用">陷阱＃2 - 避免重复的<code>HTTP</code>调用</a></li>
+    <li><a href="#结论">结论</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>这篇文章是正在进行的<code>Angular</code>架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列：</p>
+<ul>
+<li>视图层架构-智能组件与展示组件</li>
+<li>视图层架构-容器与展示组件常见的设计缺陷</li>
+<li>服务层架构-如何使用<code>Observable</code>数据服务构建<code>Angular</code>应用程序</li>
+<li>服务层架构-<code>Redux</code>和<code>Ngrx Store</code>-何时使用<code>Store</code>？为什么？</li>
+<li>服务层架构-<code>Ngrx Store</code>-架构指南</li>
+</ul>
+<p>在这篇文章中，我们将看到如何围绕<code>Observable</code>数据服务的概念构建<code>Angular</code>应用程序。 这是构建应用程序服务层的几种策略之一。 我们来看看以下主题：</p>
+<ul>
+<li>用于构建<code>Angular</code>应用程序的替代架构</li>
+<li>什么是<code>Observable</code>数据服务</li>
+<li>如何使用它</li>
+<li><code>RxJs</code>的<code>subject</code>以及如何使用它</li>
+<li><code>BehaviourSubject</code>以及如何使用它</li>
+<li>如何构建<code>Observable</code>数据服务</li>
+<li>要避免的陷阱</li>
+<li>结论</li>
+</ul>
+<p>如果您想看一个非常简单的方法来调试<code>RxJs Observables</code>，请看一下这篇文章 - <a href="https://blog.angular-university.io/debug-rxjs/">如何调试<code>RxJs</code>——一种调试<code>Rxjs Observables</code>的简单方法</a>。</p>
+<!-- raw HTML omitted -->
+<h2 id="用于构建angular应用程序的替代架构">用于构建<code>Angular</code>应用程序的替代架构</h2>
+<p>有几种可能性可用于构建<code>Angular</code>应用程序。 最近有一种趋势，用类似于<code>Redux</code>的风格构建具有单个原子状态的类似<code>Flux</code>的应用程序。 以下是以这种方式构建应用程序的几种替代方法：</p>
+<ul>
+<li>如果使用集中存储模式构建应用程序的应用程序，建议使用<a href="https://blog.angular-university.io/angular-ngrx-store-and-effects-crash-course/"><code>@ngrx/store</code>指南</a>。</li>
+<li>如果使用<code>Redux</code>本身构建应用程序，请参阅此<a href="https://angular-university.io/angular-2-application-architecture-building-flux-like-apps-using-redux-and-immutable-js-js/">文章</a>以获取更多详细信息和示例应用程序</li>
+<li>如果使用<code>Redux</code>和单个状态原子的概念构建应用程序，但在<code>Rxjs</code>中实现它。 请参阅此其他<a href="https://angular-university.io/angular-2-application-architecture-building-applications-using-rxjs-and-functional-reactive-programming-vs-redux/">文章</a>，了解其执行方式和示例应用</li>
+</ul>
+<p>这篇文章将提供一个不使用单个状态原子的替代方案，并且包含使用<code>Observable</code>数据服务。 如果你开始使用<code>Observables</code>和<code>Angular</code>，你可能想看看这篇文章，我们将讨论一些常见的故障情况。</p>
+<h2 id="什么是observable数据服务">什么是<code>Observable</code>数据服务</h2>
+<p><code>Observable</code>数据服务是<code>Angular</code>可注入服务，可用于向应用程序的多个部分提供数据。 可以将名为<code>store</code>的服务注入到需要数据的任何位置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">App</span> <span class="p">{</span>
+    <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">todoStore</span>: <span class="kt">TodoStore</span><span class="p">,</span> 
+                <span class="kr">private</span> <span class="nx">uiStateStore</span>: <span class="kt">UiStateStore</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在这种情况下，我们注入两个服务，一个包含应用程序数据，这是一个待办事项列表，另一个服务包含<code>UI</code>的当前状态：例如，当前显示给用户的错误消息。</p>
+<h2 id="如何使用observable数据服务">如何使用<code>Observable</code>数据服务</h2>
+<p>数据服务公开了一个<code>observable</code>，例如<code>TodoStore</code>公开了<code>todos observable</code>。 这个<code>observable</code>的每个值都是一个新的待办事项列表。</p>
+<p>然后可以使用数据服务直接在模板中使用<code>async</code>管道：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">ul</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;todo-list&#34;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span> <span class="err">*</span><span class="na">ngFor</span><span class="o">=</span><span class="s">&#34;let todo of todoStore.todos | async&#34;</span> <span class="p">&gt;</span>
+        ...
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="如何修改服务的数据">如何修改服务的数据</h2>
+<p>服务中的数据通过调用它们的动作方法来修改，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">onAddTodo</span><span class="p">(</span><span class="nx">description</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">todoStore</span><span class="p">.</span><span class="nx">addTodo</span><span class="p">(</span><span class="nx">newTodo</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
+            <span class="nx">res</span> <span class="o">=&gt;</span> <span class="p">{},</span>
+            <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">uiStateStore</span><span class="p">.</span><span class="nx">endBackendAction</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>然后，数据存储将根据操作方法调用为其数据发出新值，并且所有订户将接收新值并相应地更新。</p>
+<h3 id="关于observable数据服务的一些有趣的事情">关于<code>Observable</code>数据服务的一些有趣的事情</h3>
+<p>请注意，<code>TodoStore</code>的用户不知道是什么触发了新的<code>todos</code>列表：添加<code>todo</code>，删除<code>todo</code>或切换<code>todo</code>状态。 <code>store</code>的消费者只知道可以获得新值，并且视图将相应地进行调整。 这有效地解耦了应用程序的多个部分，因为数据的使用者不知道何时发生了修改。</p>
+<p>另请注意，注入存储的应用程序的智能组件没有任何状态变量，这是一件好事，因为这些是编程错误的常见来源。</p>
+<p>另外值得注意的是，智能组件中没有一个是直接使用<code>Http</code>后端服务的，只有对存储的调用才能触发数据修改。</p>
+<p>现在我们已经了解了如何使用<code>Observable</code>数据服务，让我们看看如何使用<code>RxJ</code>构建。</p>
+<h2 id="rxjs的subject以及如何使用它"><code>RxJs</code>的<code>subject</code>以及如何使用它</h2>
+<p><code>Observable</code>数据服务的核心是<code>RxJs</code>的<code>subject</code>。 <code>subject</code>实现<code>Observer</code>和<code>Observable</code>接口，这意味着我们可以使用它们来发出值以及注册订阅者。</p>
+<p><code>subject</code>不仅是传统的事件总线，而且更强大，因为它为所有<code>RxJs</code>功能操作提供了它。 但从本质上讲，我们只是使用它来订阅，就像一个常规的<code>observable</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">let</span> <span class="nx">subject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Subject</span><span class="p">();</span>
+<span class="nx">subject</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">value</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Received new subject value: &#39;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>但与常规<code>observable</code>不同，<code>Subject</code>也可用于向其订阅者发送值：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">subject</span><span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="nx">newValue</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>Subject</code>有一个特殊性，妨碍我们使用它来构建<code>Observable</code>数据服务：如果我们订阅它，我们将得不到最后一个值，我们不得不等到应用程序的某个部分调用next()。</p>
+<p>这引起了一个问题，特别是在程序引导情况下，应用程序仍在初始化并且并非所有订户都已注册，例如并非所有<code>async</code>管道都有机会自行注册，因为并非所有模板都已初始化。</p>
+<h2 id="behaviorsubject以及如何使用它"><code>BehaviorSubject</code>以及如何使用它</h2>
+<p>解决方案是使用<code>BehaviorSubject</code>。 这种类型的主题将在订阅时返回流的最后一个值，或者如果尚未发出值则返回初始状态：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">let</span> <span class="nx">BehaviorSubject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BehaviorSubject</span><span class="p">(</span><span class="nx">initialState</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>BehaviorSubject</code>还有另一个有趣的属性：我们可以随时检索流的当前值：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">let</span> <span class="nx">currentValue</span> <span class="o">=</span> <span class="nx">behaviorSubject</span><span class="p">.</span><span class="nx">getValue</span><span class="p">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这使得<code>BehaviorSubject</code>成为<code>Observable</code>数据服务的核心。 我们来看一个具体的例子。</p>
+<h2 id="如何构建observable数据服务">如何构建<code>Observable</code>数据服务</h2>
+<p>您可以在<a href="https://github.com/jhades/angular2-rxjs-observable-data-services/blob/master/src/state/TodoStore.ts">此处</a>找到<code>store</code>的完整示例，但这是该服务中最重要的部分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Injectable</span><span class="p">()</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">TodoStore</span> <span class="p">{</span>
+    <span class="kr">private</span> <span class="nx">_todos</span>: <span class="kt">BehaviorSubject</span><span class="p">&lt;</span><span class="nt">List</span><span class="err">&lt;</span><span class="na">Todo</span><span class="p">&gt;</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BehaviorSubject</span><span class="p">(</span><span class="nx">List</span><span class="p">([]));</span>
+
+    <span class="kr">public</span> <span class="nx">readonly</span> <span class="nx">todos</span>: <span class="kt">Observable</span><span class="p">&lt;</span><span class="nt">List</span><span class="err">&lt;</span><span class="na">Todo</span><span class="p">&gt;</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_todos</span><span class="p">.</span><span class="nx">asObservable</span><span class="p">();</span>
+
+    <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">todoBackendService</span>: <span class="kt">TodoBackendService</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loadInitialData</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以看到<code>store</code>包含一个私有成员变量<code>_todos</code>，它是一个<code>BehaviorSubject</code>，其初始状态为<code>Todos</code>的空列表。</p>
+<p>构造函数注入了<code>Http</code>后端服务，这是应用程序中使用此服务的唯一位置，应用程序的其余部分将注入<code>TodoStore</code>。</p>
+<p><code>store</code>在构建时被初始化，所以我们再次使用<code>BehaviorSubject</code>非常重要，否则这将无效。</p>
+<p>但是使用额外的公共成员变量<code>todos</code>背后的原因是什么？</p>
+<h2 id="陷阱1---不要直接暴露subject">陷阱＃1 - 不要直接暴露<code>subject</code></h2>
+<p>在此示例中，我们不直接将<code>subject</code>公开给<code>store</code>客户端，而是公开一个<code>observable</code>。</p>
+<p>这是为了防止服务客户端自己直接发出存储值而不是调用操作方法，从而绕过存储。</p>
+<h3 id="避免event-soup">避免<code>event soup</code></h3>
+<p>直接暴露<code>subject</code>可能导致<code>event soup</code>应用，其中事件以难以理解的方式链接在一起。</p>
+<p>直接访问<code>subject</code>的内部实现细节就像返回对对象的内部数据结构的内部引用：暴露内部意味着产生对象的控制并允许第三方发出值。</p>
+<p>可能有一些有效的用例，但这很可能几乎不是预期的。</p>
+<h2 id="写一个action方法">写一个<code>action</code>方法</h2>
+<p>在这种类型的应用程序中，操作只是<code>store</code>提供的方法。 让我们看看如何构建<code>addTodo</code>操作：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">addTodo</span><span class="p">(</span><span class="nx">newTodo</span>:<span class="kt">Todo</span><span class="p">)</span><span class="o">:</span><span class="nx">Observable</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">obs</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">todoBackendService</span><span class="p">.</span><span class="nx">saveTodo</span><span class="p">(</span><span class="nx">newTodo</span><span class="p">);</span>
+
+    <span class="nx">obs</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
+            <span class="nx">res</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_todos</span><span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_todos</span><span class="p">.</span><span class="nx">getValue</span><span class="p">().</span><span class="nx">push</span><span class="p">(</span><span class="nx">newTodo</span><span class="p">));</span>
+            <span class="p">});</span>
+
+    <span class="k">return</span> <span class="nx">obs</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这只是一种方法。 我们称后端服务本身返回一个可观察的成功或错误。</p>
+<p>我们订阅了相同的<code>observable</code>，并且在成功时我们通过将新<code>todo</code>添加到当前列表来计算新的待办事项列表。</p>
+<h2 id="陷阱2---避免重复的http调用">陷阱＃2 - 避免重复的<code>HTTP</code>调用</h2>
+<p>在这个例子中要记住的一件事是，<code>Http</code>的可观察返回将有两个订阅者：一个在<code>addTodo</code>方法中，一个用户调用<code>addTodo</code>。</p>
+<p>这将导致（由于<code>observable</code>默认工作的方式）重复的<code>HTTP</code>调用，因为设置了两个单独的处理链。 有关此观点以及观察者可能会让我们感到惊讶的其他方式的详细信息，请参阅此<a href="">文章</a>。</p>
+<p>要解决此问题，我们可以执行以下操作，以确保不会发生重复的<code>http</code>调用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">saveTodo</span><span class="p">(</span><span class="nx">newTodo</span>: <span class="kt">Todo</span><span class="p">)</span> <span class="o">:</span> <span class="nx">Observable</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">();</span>
+    <span class="nx">headers</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;application/json; charset=utf-8&#39;</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/todo&#39;</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">newTodo</span><span class="p">.</span><span class="nx">toJS</span><span class="p">()),{</span><span class="nx">headers</span><span class="p">}).</span><span class="nx">publishLast</span><span class="p">().</span><span class="nx">refCount</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>要注意直接返回热可观察而不是<code>HTTP</code>冷可观察的权衡：没有重复的网络调用，但<code>saveTodo</code>的调用者可能无法自己执行某些操作（如重试）。</p>
+<h2 id="结论">结论</h2>
+<p><code>Observable</code>数据服务或存储是一种简单直观的模式，可以在不引入太多新概念的情况下利用<code>Angular</code>中功能响应式编程的强大功能。</p>
+<p>熟悉的概念，如<code>subject</code>，基本上是一个事件总线，是这种模式的基础，这使得它比其他需要其他几个<code>RxJs</code>构造的模式更容易学习。</p>
+<p>不直接暴露<code>subject</code>的一些预防措施可能足以使应用程序易于理解，但这取决于用例。</p>
+<p>正如我们在陷阱部分中看到的那样，需要熟悉<code>RxJs</code>以及可观察的工作方式。 查看以前的<a href="https://angular-university.io/functional-reactive-programming-for-angular-2-developers-rxjs-and-observables/">文章</a>了解更多详情。</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Kiyon Lin</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2018-10-17
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://kiyonlin.github.io/tags/angular/">angular</a>
+          <a href="https://kiyonlin.github.io/tags/architecture/">architecture</a>
+          <a href="https://kiyonlin.github.io/tags/service/">service</a>
+          <a href="https://kiyonlin.github.io/tags/rxjs/">rxjs</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8404-reduxrxjs%E5%92%8Cngrxstore-%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8store%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">(译)Angular架构04-Redux，RxJs和NgrxStore-何时使用Store以及为什么？</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8402-%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/">
+            <span class="next-text nav-default">(译)Angular架构02-容器与展示组件常见的设计缺陷</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kiyonlin/kiyonlin.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:kiyonlin@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+    <a href="https://github.com/kiyonlin" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+  
+    <a href="https://www.zhihu.com/people/kiyonlin" rel="me noopener" class="iconfont"
+      title="zhihu"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z"></path>
+  <path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+<a href="https://kiyonlin.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2016 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Kiyon Lin
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

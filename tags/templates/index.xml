@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>templates on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/templates/</link>
+    <description>Recent content in templates on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 24 Oct 2018 08:25:08 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/templates/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>(译)Angular Core 01 - Angular Templates 完全指南</title>
+      <link>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angularcore01-angulartemplates%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Wed, 24 Oct 2018 08:25:08 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angularcore01-angulartemplates%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</guid>
+      <description>在这篇文章(原文链接)中，我们将深入探讨Angular Core的一些高级功能！ 您可能已经遇到过ng-template这个Angular核心指</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>(译)Angular架构02-容器与展示组件常见的设计缺陷 - Tsing Wind - 清风徐来 水波不兴</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Kiyon Lin" />
+  <meta name="description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组" />
+
+  <meta name="keywords" content="Hugo, theme, kiyon, kiyonlin" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.72.0" />
+
+
+<link rel="canonical" href="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8402-%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/kiyon.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css" integrity="sha256-&#43;j2UHR0ODdyYWAQif&#43;q//qVciYg&#43;sK804FMqeukTUVE=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="(译)Angular架构02-容器与展示组件常见的设计缺陷" />
+<meta property="og:description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8402-%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/" />
+<meta property="article:published_time" content="2018-10-15T20:36:31+00:00" />
+<meta property="article:modified_time" content="2018-10-15T20:36:31+00:00" />
+<meta itemprop="name" content="(译)Angular架构02-容器与展示组件常见的设计缺陷">
+<meta itemprop="description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组">
+<meta itemprop="datePublished" content="2018-10-15T20:36:31&#43;00:00" />
+<meta itemprop="dateModified" content="2018-10-15T20:36:31&#43;00:00" />
+<meta itemprop="wordCount" content="5296">
+
+
+
+<meta itemprop="keywords" content="angular,architecture,component," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="(译)Angular架构02-容器与展示组件常见的设计缺陷"/>
+<meta name="twitter:description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Tsing Wind</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Tsing Wind
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">(译)Angular架构02-容器与展示组件常见的设计缺陷</h1>
+      
+      <div class="post-meta">
+        <time datetime="2018-10-15" class="post-time">
+          2018-10-15
+        </time>
+        <div class="post-category">
+            <a href="https://kiyonlin.github.io/categories/web/"> web </a>
+            <a href="https://kiyonlin.github.io/categories/angular/"> angular </a>
+            
+          </div>
+        <span class="more-meta"> 约 5296 字 </span>
+          <span class="more-meta"> 预计阅读 11 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#通用组件设计以及它的潜在问题">通用组件设计（以及它的潜在问题）</a>
+      <ul>
+        <li><a href="#容器组件与展示组件">容器组件与展示组件</a></li>
+      </ul>
+    </li>
+    <li><a href="#容器与展示设计的一个例子">容器与展示设计的一个例子</a>
+      <ul>
+        <li><a href="#以响应式编写的顶级组件">以响应式编写的顶级组件</a></li>
+        <li><a href="#顶级组件设计概述">顶级组件设计概述</a></li>
+        <li><a href="#顶级组件的模板">顶级组件的模板</a></li>
+      </ul>
+    </li>
+    <li><a href="#研究展示组件的设计">研究展示组件的设计</a></li>
+    <li><a href="#展示组件更深一层组件树">展示组件更深一层组件树</a></li>
+    <li><a href="#这个设计的潜在问题">这个设计的潜在问题</a></li>
+    <li><a href="#设计问题1---中间组件中的外来属性">设计问题1 - 中间组件中的外来属性</a></li>
+    <li><a href="#设计问题2---在本地组件树上冒泡的自定义事件">设计问题2 - 在本地组件树上冒泡的自定义事件</a></li>
+    <li><a href="#防止自定义事件冒泡">防止自定义事件冒泡</a>
+      <ul>
+        <li><a href="#重构的顶级组件">重构的顶级组件</a></li>
+        <li><a href="#重构的中间组件">重构的中间组件</a></li>
+        <li><a href="#重构的叶子组件">重构的叶子组件</a></li>
+        <li><a href="#查看新的组件设计解决方案">查看新的组件设计解决方案</a></li>
+        <li><a href="#利用angular功能来获得更简单的设计">利用<code>Angular</code>功能来获得更简单的设计</a></li>
+      </ul>
+    </li>
+    <li><a href="#使新闻通讯组件与onpush兼容">使新闻通讯组件与<code>OnPush</code>兼容</a></li>
+    <li><a href="#结论">结论</a>
+      <ul>
+        <li><a href="#因为自定义事件冒泡问题">因为自定义事件冒泡问题</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>这篇文章是正在进行的<code>Angular</code>架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列：</p>
+<ul>
+<li>视图层架构-智能组件与展示组件</li>
+<li>视图层架构-容器与展示组件常见的设计缺陷</li>
+<li>服务层架构-如何使用<code>Observable</code>数据服务构建<code>Angular</code>应用程序</li>
+<li>服务层架构-<code>Redux</code>和<code>Ngrx Store</code>-何时使用<code>Store</code>？为什么？</li>
+<li>服务层架构-<code>Ngrx Store</code>-架构指南</li>
+</ul>
+<p>接下来我们来谈谈<code>Angular</code>组件架构：我们将介绍非常常见的组件设计和潜在的设计问题，您可能会在应用它时遇到这些问题。</p>
+<!-- raw HTML omitted -->
+<h2 id="通用组件设计以及它的潜在问题">通用组件设计（以及它的潜在问题）</h2>
+<p><code>Angular</code>应用程序开发的一个非常重要的方面是应用程序组件设计：如何将不同类型的组件组合在一起，何时使用组件与指令，如何以及何时将组件中的功能提取到指令等。</p>
+<p><code>Angular</code>组件提供了许多可以以多种不同方式使用和组合的功能。 这使我们可以根据情况采用各种各样的应用程序设计。</p>
+<p>在这篇文章中，我们将讨论我们经常听到的一种特殊类型的设计。</p>
+<h3 id="容器组件与展示组件">容器组件与展示组件</h3>
+<p>我们将要讨论的设计方案是容器组件与展示组件之间的组件分离。</p>
+<p>这是一种流行的设计，现在<code>Angular</code>生态系统中越来越多地使用它，因为现在<code>Angular</code>支持<code>Component</code>模型。 该设计在<a href="https://twitter.com/dan_abramov">Dan Abramov(@dan_abramov)</a>的博客文章中介绍：</p>
+<p><a href="https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0">展示和容器组件</a></p>
+<p>该文章适用于<code>React</code>，但这些概念也适用于任何允许基于组件的设计模型的生态系统，如<code>Angular</code>。</p>
+<h2 id="容器与展示设计的一个例子">容器与展示设计的一个例子</h2>
+<p>因此，让我们举一个这个设计的快速示例，请记住，不同的术语用于命名不同类型的组件。</p>
+<p>设计的核心思想是有不同类型的组件。 使用与上述博客文章相同的术语，我们有：</p>
+<ul>
+<li>容器组件：这些组件知道如何从服务层检索数据。 请注意，路由的顶级组件通常是容器组件，这就是为什么这种类型的组件最初这样命名的原因</li>
+<li>展示组件 - 这些组件只是将数据作为输入，并知道如何在屏幕上显示它。 他们还可以发出自定义事件</li>
+</ul>
+<p>让我们举一个这个设计的简单例子，它实际上已经包含了潜在的设计问题。 为了让它更有趣，我建议如下：尝试在我提供示例时发现设计问题，我们将在本文后面讨论该问题。</p>
+<p>如果您已经尝试过使用此设计，很可能您遇到了这个问题。</p>
+<h3 id="以响应式编写的顶级组件">以响应式编写的顶级组件</h3>
+<p>那么让我们开始使用我们路由的顶级组件。 让我们看一下用响应式编写的简单路由顶级组件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;course-detail&#39;</span><span class="p">,</span>
+  <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;./course-detail.component.html&#39;</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">CourseDetailComponent</span> <span class="kr">implements</span> <span class="nx">OnInit</span> <span class="p">{</span>
+  <span class="nx">user$</span>: <span class="kt">Observable</span><span class="p">&lt;</span><span class="nt">User</span><span class="p">&gt;;</span>
+  <span class="nx">course$</span>: <span class="kt">Observable</span><span class="p">&lt;</span><span class="nt">Course</span><span class="p">&gt;;</span>
+  <span class="nx">lessons$</span>: <span class="kt">Observable</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="err">[]</span><span class="p">&gt;;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">route</span>: <span class="kt">ActivatedRoute</span><span class="p">,</span> <span class="kr">private</span> <span class="nx">coursesService</span>: <span class="kt">CoursesService</span><span class="p">,</span>
+     <span class="kr">private</span> <span class="nx">newsletterService</span>: <span class="kt">NewsletterService</span><span class="p">,</span> <span class="kr">private</span> <span class="nx">userService</span>:<span class="kt">UserService</span><span class="p">)</span> <span class="p">{}</span>
+
+  <span class="nx">ngOnInit() {</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">user$</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">userService</span><span class="p">.</span><span class="nx">user$</span><span class="p">;</span>
+
+      <span class="k">this</span><span class="p">.</span><span class="nx">course$</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">route</span><span class="p">.</span><span class="nx">paramMap</span>
+          <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">params</span> <span class="o">=&gt;</span> <span class="nx">params</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">))</span>
+          <span class="p">.</span><span class="nx">switchMap</span><span class="p">(</span><span class="nx">courseUrl</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">coursesService</span><span class="p">.</span><span class="nx">findCourseByUrl</span><span class="p">(</span><span class="nx">courseUrl</span><span class="p">));</span>
+
+      <span class="k">this</span><span class="p">.</span><span class="nx">lessons$</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">course$</span>
+         <span class="p">.</span><span class="nx">switchMap</span><span class="p">(</span><span class="nx">course</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">coursesService</span><span class="p">.</span><span class="nx">findLessonsForCourse</span><span class="p">(</span><span class="nx">course</span><span class="p">.</span><span class="nx">id</span><span class="p">));</span>
+  <span class="p">}</span>
+
+    <span class="nx">onSubscribe</span><span class="p">(</span><span class="nx">email</span>:<span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">newsletterService</span><span class="p">.</span><span class="nx">subscribeToNewsletter</span><span class="p">(</span><span class="nx">email</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
+                <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Subscription successful ...&#39;</span><span class="p">),</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这是一个简单的组件，它显示了课程的详细信息：包含一个标题，其中包含课程摘要（以及新闻通讯框）和<code>lesson</code>列表。</p>
+<p>因此，让我们分解一下我们在这个顶级组件中所拥有的内容以及它当前的设计方式：</p>
+<ul>
+<li>该组件注入了路由器依赖项，但也有一些特定于应用程序的服务</li>
+<li>该组件没有任何可以直接引用数据的变量，如<code>lessons</code>或<code>courses</code></li>
+<li>相反，组件在<code>ngOnInit</code>上声明了一些<code>observable</code>，它们是从服务层获得的其他<code>observable</code>派生的</li>
+</ul>
+<h3 id="顶级组件设计概述">顶级组件设计概述</h3>
+<p>此顶级组件将根据路由标识符参数定义如何从服务层获取数据。</p>
+<p>这是响应式样式应用程序中的典型顶级组件，它不使用路由器数据预取（稍后将详细介绍）。 此组件最初将不显示任何数据，它将对服务层执行一次或多次调用以获取数据。</p>
+<p>请注意，组件只是定义了一组<code>Observable</code>，但是在组件类中没有进行任何订阅：那么数据如何显示呢？</p>
+<h3 id="顶级组件的模板">顶级组件的模板</h3>
+<p>现在让我们看一下这个组件的模板，看看这些<code>observable</code>是如何被使用的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;screen-container&#34;</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">course-detail-header</span> <span class="err">[</span><span class="na">course</span><span class="err">]=&#34;</span><span class="na">course</span><span class="err">$</span> <span class="err">|</span> <span class="na">async</span><span class="err">&#34;</span> <span class="err">[</span><span class="na">lessons</span><span class="err">]=&#34;</span><span class="na">lessons</span><span class="err">$</span> <span class="err">|</span> <span class="na">async</span><span class="err">&#34;</span>
+        <span class="err">[</span><span class="na">firstName</span><span class="err">]=&#34;(</span><span class="na">user</span><span class="err">$</span>  <span class="err">|</span> <span class="na">async</span><span class="err">).</span><span class="na">firstName</span><span class="err">&#34;</span> <span class="err">(</span><span class="na">subscribe</span><span class="err">)=&#34;</span><span class="na">onSubscribe</span><span class="err">($</span><span class="na">event</span><span class="err">)&#34;</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">course-detail-header</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">table</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;table lessons-list card card-strong&#34;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">tr</span> <span class="err">*</span><span class="na">ngFor</span><span class="o">=</span><span class="s">&#34;let lesson of (lessons$ | async)&#34;</span><span class="p">&gt;</span>....<span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+  
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以看到，我们正在使用<code>observable</code>，我们通过<code>async</code>管道订阅它们。 然后，数据将应用于存在于此路由的顶级组件下的本地组件树：</p>
+<p>多种类型的数据，包括用户，<code>lessons</code>和<code>courses</code>，将被传递到<code>course-detail-header</code>组件，以及<code>lesson</code>列表。
+这些组件负责呈现顶级组件检索的数据</p>
+<h4 id="关于多个订阅的说明">关于多个订阅的说明</h4>
+<p>一件重要的事情：<code>lessons$</code>这个<code>observable</code>订阅了两次。 在这种情况下，它不会造成问题，因为来自服务层的<code>observable</code>旨在防止对后端的多个请求，例如使用<code>publishLast().refCount()</code>。</p>
+<p>请注意，这只是确保多个订阅不成问题的一种可能解决方案。 现在让我们来看看顶层组件模板中使用的其中一个本地组件。 我们将看到他们的设计非常不同。</p>
+<h2 id="研究展示组件的设计">研究展示组件的设计</h2>
+<p>顶级组件是一个容器组件，但是模板中使用的其他组件呢？</p>
+<p>展示组件将负责获取输入数据并将其呈现给用户。 例如，<code>course-detail-header</code>是一个展示组件。 我们来看看这个组件的样子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+    <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;course-detail-header&#39;</span><span class="p">,</span>
+    <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">    &lt;h2&gt;{{course?.description}}&lt;/h2&gt;
+</span><span class="sb">    &lt;h5&gt;Total lessons: {{lessons?.length}}&lt;/h5&gt;
+</span><span class="sb">    &lt;newsletter [firstName]=&#34;firstName&#34; (subscribe)=&#34;onSubscribe($event)&#34;&gt;&lt;/newsletter&gt;
+</span><span class="sb">`</span><span class="p">,</span> 
+  <span class="nx">changeDetection</span>: <span class="kt">ChangeDetectionStrategy.OnPush</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">CourseDetailHeaderComponent</span> <span class="p">{</span>
+    <span class="kd">@Input</span><span class="p">()</span>
+    <span class="nx">course</span>: <span class="kt">Course</span><span class="p">;</span>
+    <span class="kd">@Input</span><span class="p">()</span>
+    <span class="nx">lessons</span>: <span class="kt">Lesson</span><span class="p">[];</span>
+    <span class="kd">@Input</span><span class="p">()</span>
+    <span class="nx">firstName</span>:<span class="kt">string</span><span class="p">;</span>
+    <span class="kd">@Output</span><span class="p">()</span>
+    <span class="nx">subscribe</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">();</span>
+
+    <span class="nx">onSubscribe</span><span class="p">(</span><span class="nx">email</span>:<span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">email</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>提醒：尝试通过此设计发现问题</p>
+</blockquote>
+<p>正如我们所看到的，组件将一些数据作为<code>input</code>，然后呈现给屏幕。 此组件与应用程序的服务层没有依赖关系，而是通过<code>input</code>接收其数据。</p>
+<p>它还发出<code>output</code>，例如订阅<code>output</code>事件。 但是这个事件来自哪里？ 我们可以看到，这是为了响应来自简报组件的具有相同名称的事件而被触发。</p>
+<p>新闻通讯组件的外观如何，它是如何设计的？ 我们来看一下。</p>
+<h2 id="展示组件更深一层组件树">展示组件更深一层组件树</h2>
+<p>新闻通讯组件也是一个展示组件，因为它需要输入，显示订阅表单并在订阅时发出事件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+    <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;newsletter&#39;</span><span class="p">,</span>
+    <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">&lt;fieldset class=&#34;newsletter&#34;&gt;
+</span><span class="sb">    &lt;legend&gt;Newsletter&lt;/legend&gt;
+</span><span class="sb">    &lt;h5&gt;Hello {{firstName}}, enter your email below to subscribe:&lt;/h5&gt;
+</span><span class="sb">    &lt;form&gt;
+</span><span class="sb">        &lt;input #email type=&#34;email&#34; name=&#34;email&#34;&gt;
+</span><span class="sb">        &lt;input  type=&#34;button&#34; class=&#34;button button-primary&#34; value=&#34;Subscribe&#34;
+</span><span class="sb">               (click)=&#34;subscribeToNewsletter(email)&#34;&gt;
+</span><span class="sb">    &lt;/form&gt;
+</span><span class="sb">&lt;/fieldset&gt;
+</span><span class="sb">`</span><span class="p">,</span>
+    <span class="nx">styleUrls</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./newsletter.component.css&#39;</span><span class="p">]</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">NewsletterComponent</span> <span class="p">{</span>
+
+    <span class="kd">@Input</span><span class="p">()</span>
+    <span class="nx">firstName</span>:<span class="kt">string</span><span class="p">;</span>
+
+    <span class="kd">@Output</span><span class="p">()</span>
+    <span class="nx">subscribe</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">();</span>
+
+    <span class="nx">subscribeToNewsletter</span><span class="p">(</span><span class="nx">emailField</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">emailField</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+        <span class="nx">emailField</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>因此，这是我们目前为新闻通讯组件设计的设计，所以让我们更详细地查看它，看看问题可能是什么。</p>
+<h2 id="这个设计的潜在问题">这个设计的潜在问题</h2>
+<p>您可能已经注意到新闻稿组件中的一些与<code>course-detail-header</code>组件类似的内容：</p>
+<ul>
+<li><code>input</code>属性<code>firstName</code></li>
+<li><code>output</code>事件<code>subscribe</code></li>
+</ul>
+<p>在这两个组件中重复这两个元素。 所以看起来我们在这个设计中做了一些事情，这些事情可能无法在更大的组件树中很好地扩展，因为涉及很多重复。</p>
+<p>让我们回顾一下这两个问题，看看我们怎么可能设计这个问题。</p>
+<h2 id="设计问题1---中间组件中的外来属性">设计问题1 - 中间组件中的外来属性</h2>
+<p>看起来我们正在传递像<code>firstName</code>这样的<code>input</code>而不是本地组件树，以便像新闻稿组件这样的叶子组件使用它们。 但是中间组件本身并没有使用<code>input</code>，它们只是将它们传递给子组件。</p>
+<p>通常，本地组件树比此示例大得多，因此该问题可能会导致大量重复输入。</p>
+<p>此外，更重要的是：如果我们使用第三方窗口小部件库并且我们使用其中一些组件作为中间组件，我们可能无法通过组件树传递所有必要的数据，具体取决于库的设计方式。</p>
+<p>还有另一个与产出有关的类似问题。</p>
+<h2 id="设计问题2---在本地组件树上冒泡的自定义事件">设计问题2 - 在本地组件树上冒泡的自定义事件</h2>
+<p>正如我们所看到的，订阅事件也在组件树的多个层次上重复，这是因为设计自定义事件不会冒泡。</p>
+<p>所以在这里我们还有一个代码重复问题，对于一个更大的例子，它不能很好地扩展，并且不能与第三方库一起工作 - 在这种情况下我们无法应用这种技术。</p>
+<p>此外，订阅新闻通讯（对<code>newsletterService</code>的调用）的逻辑是在顶级路由组件上，而不是在新闻通讯组件上。</p>
+<p>这是因为只有顶级组件才能访问服务层，但最终导致该组件可能会保留很多逻辑。</p>
+<p>那么我们如何在<code>Angular</code>中解决这些问题呢？ 我们来看看可能的解决方案。</p>
+<h2 id="防止自定义事件冒泡">防止自定义事件冒泡</h2>
+<p>如果我们发现自己处于组件树中手动冒泡事件的情况，那么对于某些更简单的情况可能会很好。 但是，如果事件冒泡/外来属性开始变得难以维护的话，这里有一个替代方案。</p>
+<p>我们将通过一步一步的重构来呈现替代方案。 让我们再次从顶级组件开始重构，看看新解决方案如何避免我们发现的问题。</p>
+<p>如果您想查看与此类似的重构版本的视频版本，请查看此<a href="https://youtu.be/9m3_HHeP9Ko">视频(Youtube)</a>。</p>
+<h3 id="重构的顶级组件">重构的顶级组件</h3>
+<p>让我们更改顶级组件，使其不再传递尽可能多的数据或从本地组件树接收尽可能多的事件。 我们还删除新闻订阅逻辑。</p>
+<p>新版本的顶级组件现在拥有的代码比以前少得多：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;course-detail&#39;</span><span class="p">,</span>
+  <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;./course-detail.component.html&#39;</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">CourseDetailComponent</span> <span class="kr">implements</span> <span class="nx">OnInit</span> <span class="p">{</span>
+  <span class="nx">course$</span>: <span class="kt">Observable</span><span class="p">&lt;</span><span class="nt">Course</span><span class="p">&gt;;</span>
+  <span class="nx">lessons$</span>: <span class="kt">Observable</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="err">[]</span><span class="p">&gt;;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">route</span>: <span class="kt">ActivatedRoute</span><span class="p">,</span>
+              <span class="kr">private</span> <span class="nx">coursesService</span>: <span class="kt">CoursesService</span><span class="p">)</span> <span class="p">{}</span>
+
+  <span class="nx">ngOnInit() {</span>
+
+      <span class="k">this</span><span class="p">.</span><span class="nx">course$</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">route</span><span class="p">.</span><span class="nx">paramMap</span>
+         <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">params</span> <span class="o">=&gt;</span> <span class="nx">params</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">))</span>
+         <span class="p">.</span><span class="nx">switchMap</span><span class="p">(</span><span class="nx">courseUrl</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">coursesService</span><span class="p">.</span><span class="nx">findCourseByUrl</span><span class="p">(</span><span class="nx">courseUrl</span><span class="p">));</span>
+
+      <span class="k">this</span><span class="p">.</span><span class="nx">lessons$</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">course$</span>
+        <span class="p">.</span><span class="nx">switchMap</span><span class="p">(</span><span class="nx">course</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">coursesService</span><span class="p">.</span><span class="nx">findLessonsForCourse</span><span class="p">(</span><span class="nx">course</span><span class="p">.</span><span class="nx">id</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>所以这看起来是一个好的开始。 那么顶级组件模板呢？ 重构后新模板大部分相同，但<code>course-detail-header</code>组件除外：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">course-detail-header</span>  <span class="err">[</span><span class="na">course</span><span class="err">]=&#34;</span><span class="na">course</span><span class="err">$</span> <span class="err">|</span> <span class="na">async</span><span class="err">&#34;</span> <span class="err">[</span><span class="na">lessons</span><span class="err">]=&#34;</span><span class="na">lessons</span><span class="err">$</span> <span class="err">|</span> <span class="na">async</span><span class="err">&#34;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">course-detail-header</span><span class="p">&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这看起来比我们以前的版本好：我们看不到<code>firstName</code>的传递或者<code>subscribe</code>事件的冒泡。</p>
+<p>那么在重构之后，<code>course-detail-header</code>中间组件现在是什么样子？</p>
+<h3 id="重构的中间组件">重构的中间组件</h3>
+<p>我们在这里可以看到，在重构之后，新版本的<code>course-detail-header</code>组件现在变得更加简单：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+    <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;course-detail-header&#39;</span><span class="p">,</span>
+    <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">    &lt;h2&gt;{{course?.description}}&lt;/h2&gt;
+</span><span class="sb">    &lt;h5&gt;Total lessons: {{lessons?.length}}&lt;/h5&gt;
+</span><span class="sb">    &lt;newsletter&gt;&lt;/newsletter&gt;
+</span><span class="sb">`</span><span class="p">,</span>
+    <span class="nx">changeDetection</span>: <span class="kt">ChangeDetectionStrategy.OnPush</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">CourseDetailHeaderComponent</span> <span class="p">{</span>
+    <span class="kd">@Input</span><span class="p">()</span>
+    <span class="nx">course</span>: <span class="kt">Course</span><span class="p">;</span>
+
+    <span class="kd">@Input</span><span class="p">()</span>
+    <span class="nx">lessons</span>: <span class="kt">Lesson</span><span class="p">[];</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>该组件的新版本仍包含新闻通讯，但它不再是冒泡事件并传递组件本身不需要的数据。</p>
+<p>所以这看起来比我们最初提出的版本要好很多。 但现在订阅新闻通讯的功能在哪里？</p>
+<p>现在让我们看看这个重构中的最后一个组件：叶子组件。</p>
+<h3 id="重构的叶子组件">重构的叶子组件</h3>
+<p>正如我们所看到的，新闻通讯组件现在以完全不同的方式设计：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+    <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;newsletter&#39;</span><span class="p">,</span>
+    <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">&lt;fieldset class=&#34;newsletter&#34;&gt;
+</span><span class="sb">    &lt;legend&gt;Newsletter&lt;/legend&gt;
+</span><span class="sb">    &lt;h5&gt;Hello {{firstName}}, enter your email below to subscribe:&lt;/h5&gt;
+</span><span class="sb">    &lt;form&gt;
+</span><span class="sb">        &lt;input #email type=&#34;email&#34; name=&#34;email&#34;&gt;
+</span><span class="sb">        &lt;input  type=&#34;button&#34; class=&#34;button button-primary&#34; value=&#34;Subscribe&#34;
+</span><span class="sb">               (click)=&#34;subscribeToNewsletter(email)&#34;&gt;
+</span><span class="sb">    &lt;/form&gt;
+</span><span class="sb">&lt;/fieldset&gt;
+</span><span class="sb">`</span><span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">NewsletterComponent</span> <span class="kr">implements</span> <span class="nx">OnInit</span> <span class="p">{</span>
+
+    <span class="nx">firstName</span>:<span class="kt">string</span><span class="p">;</span>
+
+    <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">userService</span>: <span class="kt">UserService</span><span class="p">,</span>
+        <span class="kr">private</span> <span class="nx">newsletterService</span>: <span class="kt">NewsletterService</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="nx">ngOnInit() {</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">userService</span><span class="p">.</span><span class="nx">user$</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">user</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="nx">user</span><span class="p">.</span><span class="nx">firstName</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">subscribeToNewsletter</span><span class="p">(</span><span class="nx">email</span>:<span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">newsletterService</span><span class="p">.</span><span class="nx">subscribeToNewsletter</span><span class="p">(</span><span class="nx">email</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
+                <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Subscription successful ...&#39;</span><span class="p">),</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>那么现在这个新版新闻通讯组件的最大设计差异是什么呢？</p>
+<blockquote>
+<p>最大的区别实际上是这个新版本看起来很像容器组件！</p>
+</blockquote>
+<p>正如我们所看到的，有时最好的解决方案是将服务深入到组件树中。 这真的简化了本例中涉及的所有多个组件。</p>
+<p>但是叶子组件的这种实现可以进一步改进，所以让我们进一步详细介绍这个设计，看看如何。</p>
+<h3 id="查看新的组件设计解决方案">查看新的组件设计解决方案</h3>
+<p>这个特定组件树的新设计似乎更易于维护。 不再冒泡自定义事件或通过组件树传递无关的<code>input</code>属性。</p>
+<p>新闻通讯组件现在知道服务层，正在从中获取所有数据。 它引用了新闻通讯服务，因此可以直接调用它。 请注意，如果需要，此组件仍可以接收输入，稍后将详细说明。</p>
+<h3 id="利用angular功能来获得更简单的设计">利用<code>Angular</code>功能来获得更简单的设计</h3>
+<p>我们可以看到，在组件树的这个新版本中，我们现在正在利用<code>Angular</code>依赖注入系统在本地组件树中深入注入服务。</p>
+<p>这允许深度嵌套的组件（如新闻通讯组件）直接从服务层接收数据，而不必通过输入接收数据。</p>
+<p>这使得顶级组件和中间组件都更简单，并避免代码重复。 它还允许将与服务层交互的逻辑深深地放入组件树中，如果这是最有意义的话。</p>
+<h4 id="当前新闻通讯组件实现的一个问题">当前新闻通讯组件实现的一个问题</h4>
+<p>这个新版本的新闻通讯组件只有一个问题：与以前版本的表现组件不同：</p>
+<blockquote>
+<p>这个新版本不适用于OnPush变化检测！</p>
+</blockquote>
+<h2 id="使新闻通讯组件与onpush兼容">使新闻通讯组件与<code>OnPush</code>兼容</h2>
+<p>在此之前您可能已经注意到，当我们切换组件以使用<code>OnPush</code>更改检测时，事情就会停止工作 - 即使我们没有在组件级别进行本地数据变动。</p>
+<p>其中一个例子是当前版本的新闻通讯组件，它确实是不会反映模板上名字的新版本。</p>
+<p>但是这里有一个与<code>OnPush</code>兼容的组件版本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+    <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;newsletter&#39;</span><span class="p">,</span>
+    <span class="nx">changeDetection</span>: <span class="kt">ChangeDetectionStrategy.OnPush</span><span class="p">,</span>
+    <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">&lt;fieldset class=&#34;newsletter&#34;&gt;
+</span><span class="sb">    &lt;legend&gt;Newsletter&lt;/legend&gt;
+</span><span class="sb">    &lt;h5&gt;Hello {{firstName$ | async }}, enter your email below to subscribe:&lt;/h5&gt;
+</span><span class="sb">    ...
+</span><span class="sb">&lt;/fieldset&gt;`</span><span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">NewsletterComponent</span> <span class="kr">implements</span> <span class="nx">OnInit</span> <span class="p">{</span>
+
+    <span class="nx">firstName$</span>: <span class="kt">Observable</span><span class="p">&lt;</span><span class="nt">string</span><span class="p">&gt;;</span>
+
+    <span class="kr">constructor</span><span class="p">(</span> <span class="kr">private</span> <span class="nx">userService</span>: <span class="kt">UserService</span><span class="p">,</span>
+        <span class="kr">private</span> <span class="nx">newsletterService</span>: <span class="kt">NewsletterService</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="nx">ngOnInit() {</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">firstName$</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">userService</span><span class="p">.</span><span class="nx">user$</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">user</span> <span class="o">=&gt;</span>  <span class="nx">user</span><span class="p">.</span><span class="nx">firstName</span> <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">subscribeToNewsletter</span><span class="p">(</span><span class="nx">email</span>:<span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">newsletterService</span><span class="p">.</span><span class="nx">subscribeToNewsletter</span><span class="p">(</span><span class="nx">email</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
+                <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Subscription successful ...&#39;</span><span class="p">),</span>
+                <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>那么这个新实现有什么不同呢？ 在这个版本的组件中，我们定义了一个名为<code>firstName$</code>的<code>observable</code>，我们已经使用<code>async</code>管道在模板中使用了它。</p>
+<p>使用<code>async</code>管道将确保在发出新版本的<code>firstName</code>时（例如，当用户登录时）重新呈现组件，即使组件没有<code>input</code> - 因为<code>sync</code>管道将检测到<code>observable</code>发出了一个新值，因此它将标记该组件以进行重新渲染。</p>
+<h2 id="结论">结论</h2>
+<p>因此，我们可以看到有许多可能的组件设计，具体取决于具体情况。 如果需要，使用<code>Angular</code>依赖注入系统确实可以很容易地在组件树中深入注入服务。</p>
+<p>因此，我们不一定必须通过组件树的多个级别传递数据和事件，因为这可能会因代码重复（以及其他问题）而导致可维护性问题。</p>
+<p>但是，为什么在尝试应用容器+展示设计时，这种情况最终会如此发生？</p>
+<h3 id="因为自定义事件冒泡问题">因为自定义事件冒泡问题</h3>
+<p>这个设计可能最终被使用的一个主要原因可能是：在软件设计中，我们提供的名称可能会产生很大的影响。</p>
+<p>而容器组件这个名称让我们认为只有路由的顶层组件应该具有这种类型的设计，并且它所使用的所有其他组件应该是展示性的，而事实并非如此。</p>
+<p>容器这个名称并没有让我们想到像新闻通讯组件那样的叶子组件。</p>
+<p>所以为了避免这个问题，这里有一个建议：如果我们需要为知道服务层的组件命名，并且有一个名称有助于应用程序设计讨论，我们可以调用它们，例如智能组件， 并将术语容器保留为路由的顶级组件。</p>
+<p>在实践中，根据需要混合和匹配多种类型的组件设计实际上更加实用，并且在必要时在树的不同级别使用不同类型的组件 - 根据需要混合不同的功能。</p>
+<p>我希望你喜欢这篇文章，并且它有助于开始使用视图层设计。 请务必查看上面架构系列上的其他文章！</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Kiyon Lin</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2018-10-15
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://kiyonlin.github.io/tags/angular/">angular</a>
+          <a href="https://kiyonlin.github.io/tags/architecture/">architecture</a>
+          <a href="https://kiyonlin.github.io/tags/component/">component</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8403-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8observable%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A1%E6%9E%84%E5%BB%BAangular%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">(译)Angular架构03-如何使用`Observable`数据服务构建`Angular`应用程序及常见的设计缺陷</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8401-%E6%99%BA%E8%83%BD%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6/">
+            <span class="next-text nav-default">(译)Angular架构01-智能组件与展示组件</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kiyonlin/kiyonlin.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:kiyonlin@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+    <a href="https://github.com/kiyonlin" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+  
+    <a href="https://www.zhihu.com/people/kiyonlin" rel="me noopener" class="iconfont"
+      title="zhihu"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z"></path>
+  <path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+<a href="https://kiyonlin.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2016 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Kiyon Lin
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

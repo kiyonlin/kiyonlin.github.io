@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/linux/</link>
+    <description>Recent content in linux on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 21 Apr 2017 10:02:09 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>鸟哥Linux基础-进阶文件系统管理-LVM</title>
+      <link>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E8%BF%9B%E9%98%B6%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86-lvm/</link>
+      <pubDate>Fri, 21 Apr 2017 10:02:09 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E8%BF%9B%E9%98%B6%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86-lvm/</guid>
+      <description>原文鸟哥的 Linux私房菜 什么是LVM LVM 的全名是Logical Volume Manager，逻辑卷轴管理员。LVM 的作法是将几个物理的partition</description>
+    </item>
+    
+    <item>
+      <title>鸟哥Linux基础-Linux磁盘与文件系统管理</title>
+      <link>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-linux%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Mon, 09 Jan 2017 13:56:50 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-linux%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</guid>
+      <description>原文鸟哥的 Linux私房菜 第七章、Linux 磁碟与档案系统管理 在本章我们的重点在于如何制作档案系统，包括分割、格式化与挂载等。⭐⭐文字比较多</description>
+    </item>
+    
+    <item>
+      <title>鸟哥Linux基础-文件与目录管理</title>
+      <link>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Sat, 07 Jan 2017 09:20:36 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/</guid>
+      <description>原文鸟哥的 Linux私房菜 第六章、Linux 文件与目录管理 本章主要内容：在不同的目录间变换、 建立与删除目录、建立与删除文件，还有寻找文件、查</description>
+    </item>
+    
+    <item>
+      <title>鸟哥Linux基础-文件权限与目录配置</title>
+      <link>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 06 Jan 2017 10:13:18 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</guid>
+      <description>原文鸟哥的 Linux私房菜 第五章、Linux 的文件权限与目录配置 Linux最优秀的地方之一就在于他的多人多工环境。而为了让各个使用者具有较保</description>
+    </item>
+    
+    <item>
+      <title>鸟哥Linux基础-基础指令和帮助</title>
+      <link>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E6%8C%87%E4%BB%A4%E5%92%8C%E5%B8%AE%E5%8A%A9/</link>
+      <pubDate>Fri, 06 Jan 2017 09:15:10 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E6%8C%87%E4%BB%A4%E5%92%8C%E5%B8%AE%E5%8A%A9/</guid>
+      <description>原文鸟哥的 Linux私房菜 第四章、首次登入與線上求助 基础命令 显示日期与时间的指令： date 1 2 3 4 5 6 [kiyon@study ~]$ date 2017年 01月 06日 星期五 09:24:21 CST [kiyon@study ~]$ date</description>
+    </item>
+    
+    <item>
+      <title>鸟哥Linux基础-主机规划和磁盘分区</title>
+      <link>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E4%B8%BB%E6%9C%BA%E8%A7%84%E5%88%92%E5%92%8C%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/</link>
+      <pubDate>Wed, 04 Jan 2017 16:58:49 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E4%B8%BB%E6%9C%BA%E8%A7%84%E5%88%92%E5%92%8C%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/</guid>
+      <description>原文鸟哥的 Linux私房菜 第二章、主機規劃與磁碟分割 Linux和硬件 设备 设备在Linux内的文件名 SCSI/SATA/USB硬盘 /dev/sd[ap] USB /dev/sd[ap] (与S</description>
+    </item>
+    
+    <item>
+      <title>linux学习(二)</title>
+      <link>https://kiyonlin.github.io/post/work/linux/linux%E5%AD%A6%E4%B9%A0%E4%BA%8C/</link>
+      <pubDate>Tue, 13 Sep 2016 14:43:33 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/linux%E5%AD%A6%E4%B9%A0%E4%BA%8C/</guid>
+      <description>基本命令格式 ~表示当前所在目录(家目录) #表示超级用户标示 $表示普通用户 ls命令 格式: 1 ls [选项] [文件或目录] -l会列出详细信息,最前面的</description>
+    </item>
+    
+    <item>
+      <title>linux学习(一)</title>
+      <link>https://kiyonlin.github.io/post/work/linux/linux%E5%AD%A6%E4%B9%A0%E4%B8%80/</link>
+      <pubDate>Mon, 12 Sep 2016 20:49:07 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/linux%E5%AD%A6%E4%B9%A0%E4%B8%80/</guid>
+      <description>常用操作 1 2 3 4 5 6 7 8 9 10 11 12 #清屏 ctrl+l / command+r #删除行 ctrl+u #到行首 ctrl+a #到行尾 ctrl+e #后台运行 ctrl+z #输出当前工作目录print work directory pwd 输出重定向 显示重定向</description>
+    </item>
+    
+  </channel>
+</rss>

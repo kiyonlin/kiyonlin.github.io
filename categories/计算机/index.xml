@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>计算机 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/</link>
+    <description>Recent content in 计算机 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 01 May 2017 14:58:33 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>结构和其他数据形式</title>
+      <link>https://kiyonlin.github.io/post/work/cs/%E7%BB%93%E6%9E%84%E5%92%8C%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E5%BD%A2%E5%BC%8F/</link>
+      <pubDate>Mon, 01 May 2017 14:58:33 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/%E7%BB%93%E6%9E%84%E5%92%8C%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E5%BD%A2%E5%BC%8F/</guid>
+      <description>结构 结构声明structure declaration： 1 2 3 4 5 6 7 struct book { char title[MAXTITL]; char author[MAXAUTL]; float value; }; struct book library; // 把library声明为一个使用book结构布</description>
+    </item>
+    
+    <item>
+      <title>存储类别、链接和内存管理</title>
+      <link>https://kiyonlin.github.io/post/work/cs/%E5%AD%98%E5%82%A8%E7%B1%BB%E5%88%AB%E9%93%BE%E6%8E%A5%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Mon, 01 May 2017 10:47:56 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/%E5%AD%98%E5%82%A8%E7%B1%BB%E5%88%AB%E9%93%BE%E6%8E%A5%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
+      <description>存储类别 数据都存储在内存中，从硬件方面来讲，被存储的每个值都占用一定的物理内存，C语言把这样的一块内存称为对象（object）。对象可以储存</description>
+    </item>
+    
+    <item>
+      <title>C预处理器</title>
+      <link>https://kiyonlin.github.io/post/work/cs/c%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8/</link>
+      <pubDate>Mon, 01 May 2017 08:58:02 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/c%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8/</guid>
+      <description>翻译程序的第一步 编译器把源代码中出现的字符映射到源字符集，该过程处理多字节字符和三字符序列； 编译器定位每个反斜杠后面跟着换行符的实例，并删除</description>
+    </item>
+    
+    <item>
+      <title>从头开始设置MAC开发环境</title>
+      <link>https://kiyonlin.github.io/post/work/cs/%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E8%AE%BE%E7%BD%AEmac%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Sat, 18 Feb 2017 14:08:16 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E8%AE%BE%E7%BD%AEmac%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
+      <description>已有配置文件 1 git clone https://github.com/kiyonlin/config.git linux vim vim插件 zsh phpstorm sumlime text HomeBrew, iterm and oh-my-zsh /usr/bin/ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot; 安装iterm 去掉native full screen window、配置字体、快速启动热键 sh -c &amp;quot;$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&amp;quot;</description>
+    </item>
+    
+    <item>
+      <title>git常用命令集合</title>
+      <link>https://kiyonlin.github.io/post/work/cs/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%9B%86%E5%90%88/</link>
+      <pubDate>Sat, 17 Sep 2016 19:44:52 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%9B%86%E5%90%88/</guid>
+      <description>status git status是最常用的命令之一,查看当前项目文件的状态 init 当一个文件夹不是 git 管理的时候,无法使用 git 命令,会报下面错误: 1 fatal:Not a git reposi</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>内存管理 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+    <description>Recent content in 内存管理 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 01 May 2017 10:47:56 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>存储类别、链接和内存管理</title>
+      <link>https://kiyonlin.github.io/post/work/cs/%E5%AD%98%E5%82%A8%E7%B1%BB%E5%88%AB%E9%93%BE%E6%8E%A5%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Mon, 01 May 2017 10:47:56 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/%E5%AD%98%E5%82%A8%E7%B1%BB%E5%88%AB%E9%93%BE%E6%8E%A5%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
+      <description>存储类别 数据都存储在内存中，从硬件方面来讲，被存储的每个值都占用一定的物理内存，C语言把这样的一块内存称为对象（object）。对象可以储存</description>
+    </item>
+    
+  </channel>
+</rss>

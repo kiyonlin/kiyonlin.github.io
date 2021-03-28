@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MAC 开发环境 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/mac-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+    <description>Recent content in MAC 开发环境 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 18 Feb 2017 14:08:16 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/mac-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>从头开始设置MAC开发环境</title>
+      <link>https://kiyonlin.github.io/post/work/cs/%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E8%AE%BE%E7%BD%AEmac%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Sat, 18 Feb 2017 14:08:16 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/%E4%BB%8E%E5%A4%B4%E5%BC%80%E5%A7%8B%E8%AE%BE%E7%BD%AEmac%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
+      <description>已有配置文件 1 git clone https://github.com/kiyonlin/config.git linux vim vim插件 zsh phpstorm sumlime text HomeBrew, iterm and oh-my-zsh /usr/bin/ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot; 安装iterm 去掉native full screen window、配置字体、快速启动热键 sh -c &amp;quot;$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&amp;quot;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>shell on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/shell/</link>
+    <description>Recent content in shell on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 13 Sep 2016 14:43:33 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>linux学习(二)</title>
+      <link>https://kiyonlin.github.io/post/work/linux/linux%E5%AD%A6%E4%B9%A0%E4%BA%8C/</link>
+      <pubDate>Tue, 13 Sep 2016 14:43:33 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/linux%E5%AD%A6%E4%B9%A0%E4%BA%8C/</guid>
+      <description>基本命令格式 ~表示当前所在目录(家目录) #表示超级用户标示 $表示普通用户 ls命令 格式: 1 ls [选项] [文件或目录] -l会列出详细信息,最前面的</description>
+    </item>
+    
+    <item>
+      <title>linux学习(一)</title>
+      <link>https://kiyonlin.github.io/post/work/linux/linux%E5%AD%A6%E4%B9%A0%E4%B8%80/</link>
+      <pubDate>Mon, 12 Sep 2016 20:49:07 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/linux%E5%AD%A6%E4%B9%A0%E4%B8%80/</guid>
+      <description>常用操作 1 2 3 4 5 6 7 8 9 10 11 12 #清屏 ctrl+l / command+r #删除行 ctrl+u #到行首 ctrl+a #到行尾 ctrl+e #后台运行 ctrl+z #输出当前工作目录print work directory pwd 输出重定向 显示重定向</description>
+    </item>
+    
+  </channel>
+</rss>

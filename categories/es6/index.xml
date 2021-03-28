@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>es6 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/categories/es6/</link>
+    <description>Recent content in es6 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 11 Nov 2016 15:23:10 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/categories/es6/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>EMCAScript6入门学习-5 Module</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-5-module/</link>
+      <pubDate>Fri, 11 Nov 2016 15:23:10 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-5-module/</guid>
+      <description>源自ECMAScript 6入门 ES6模块的设计思想，是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。 ES6模块不是对</description>
+    </item>
+    
+    <item>
+      <title>EMCAScript6入门学习-4</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-4/</link>
+      <pubDate>Thu, 10 Nov 2016 08:48:15 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-4/</guid>
+      <description>源自ECMAScript 6入门 Set 1 2 3 4 5 6 7 8 // 接受一个数组（或类似数组的对象）作为参数，用来初始化。 var set = new Set([1, 2, 3, 4, 4]); // 通过add方法向</description>
+    </item>
+    
+    <item>
+      <title>EMCAScript6入门学习-3 对象</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-3/</link>
+      <pubDate>Wed, 09 Nov 2016 19:08:29 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-3/</guid>
+      <description>源自ECMAScript 6入门 #属性的简洁表示法 ES6允许直接写入变量和函数，作为对象的属性和方法。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20</description>
+    </item>
+    
+    <item>
+      <title>EMCAScript6入门学习-2 函数</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-2/</link>
+      <pubDate>Wed, 09 Nov 2016 15:11:43 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-2/</guid>
+      <description>源自ECMAScript 6入门 参数默认值 参数默认值可以与解构赋值的默认值，结合起来使用。 1 2 3 4 5 6 7 8 function foo({x, y = 5}) { console.log(x, y); } foo({}) // undefined, 5 foo({x: 1}) // 1, 5</description>
+    </item>
+    
+    <item>
+      <title>EMCAScript6入门学习-1</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-1/</link>
+      <pubDate>Wed, 09 Nov 2016 08:51:19 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-1/</guid>
+      <description>源自ECMAScript 6入门 简介 ES6的第一个版本，在2015年6月发布，正式名称是《ECMAScript 2015标准》（简称ES2015</description>
+    </item>
+    
+  </channel>
+</rss>

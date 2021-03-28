@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>(译)Angular NgRx Entity完全实用指南 - Tsing Wind - 清风徐来 水波不兴</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Kiyon Lin" />
+  <meta name="description" content="使用 NgRx 构建我们的应用程序时，我们要做的第一件事就是确定在store中存储数据的最佳格式。 我们需要在任何 NgRx 应用程序中处理集中存储中的业务数据，" />
+
+  <meta name="keywords" content="Hugo, theme, kiyon, kiyonlin" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.72.0" />
+
+
+<link rel="canonical" href="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular-ngrx-entity%E5%AE%8C%E5%85%A8%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/kiyon.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css" integrity="sha256-&#43;j2UHR0ODdyYWAQif&#43;q//qVciYg&#43;sK804FMqeukTUVE=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="(译)Angular NgRx Entity完全实用指南" />
+<meta property="og:description" content="使用 NgRx 构建我们的应用程序时，我们要做的第一件事就是确定在store中存储数据的最佳格式。 我们需要在任何 NgRx 应用程序中处理集中存储中的业务数据，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular-ngrx-entity%E5%AE%8C%E5%85%A8%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/" />
+<meta property="article:published_time" content="2018-10-12T14:48:58+00:00" />
+<meta property="article:modified_time" content="2018-10-12T14:48:58+00:00" />
+<meta itemprop="name" content="(译)Angular NgRx Entity完全实用指南">
+<meta itemprop="description" content="使用 NgRx 构建我们的应用程序时，我们要做的第一件事就是确定在store中存储数据的最佳格式。 我们需要在任何 NgRx 应用程序中处理集中存储中的业务数据，">
+<meta itemprop="datePublished" content="2018-10-12T14:48:58&#43;00:00" />
+<meta itemprop="dateModified" content="2018-10-12T14:48:58&#43;00:00" />
+<meta itemprop="wordCount" content="8155">
+
+
+
+<meta itemprop="keywords" content="angular,ngrx,ngrx-store,ngrx-entity," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="(译)Angular NgRx Entity完全实用指南"/>
+<meta name="twitter:description" content="使用 NgRx 构建我们的应用程序时，我们要做的第一件事就是确定在store中存储数据的最佳格式。 我们需要在任何 NgRx 应用程序中处理集中存储中的业务数据，"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Tsing Wind</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Tsing Wind
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">(译)Angular NgRx Entity完全实用指南</h1>
+      
+      <div class="post-meta">
+        <time datetime="2018-10-12" class="post-time">
+          2018-10-12
+        </time>
+        <div class="post-category">
+            <a href="https://kiyonlin.github.io/categories/web/"> web </a>
+            <a href="https://kiyonlin.github.io/categories/angular/"> angular </a>
+            
+          </div>
+        <span class="more-meta"> 约 8155 字 </span>
+          <span class="more-meta"> 预计阅读 17 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#什么是实体entity">什么是实体(Entity)？</a>
+      <ul>
+        <li><a href="#实体唯一标识符">实体唯一标识符</a></li>
+      </ul>
+    </li>
+    <li><a href="#如何在store中存储实体集合">如何在<code>store</code>中存储实体集合？</a>
+      <ul>
+        <li><a href="#为什么不在数组中存储相关实体">为什么不在数组中存储相关实体？</a></li>
+      </ul>
+    </li>
+    <li><a href="#设计实体store状态数组或映射">设计实体<code>store</code>状态：数组或映射？</a>
+      <ul>
+        <li><a href="#设计id查找的状态">设计id查找的状态</a></li>
+        <li><a href="#设计保存实体顺序的状态">设计保存实体顺序的状态</a></li>
+        <li><a href="#实体状态格式">实体状态格式</a></li>
+        <li><a href="#编写支持实体状态格式的reducer">编写支持实体状态格式的reducer</a></li>
+        <li><a href="#避免重复的-reducer-逻辑">避免重复的 reducer 逻辑</a></li>
+        <li><a href="#避免重复的selector逻辑">避免重复的selector逻辑</a></li>
+        <li><a href="#功能selector的快速说明">功能selector的快速说明</a></li>
+        <li><a href="#大量重复代码">大量重复代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#什么是-ngrx-实体何时使用它">什么是 NgRx 实体，何时使用它？</a>
+      <ul>
+        <li><a href="#定义实体状态">定义实体状态</a></li>
+      </ul>
+    </li>
+    <li><a href="#ngrx实体适配器entity-adapter">NgRx实体适配器(Entity Adapter)</a></li>
+    <li><a href="#定义默认实体排序顺序">定义默认实体排序顺序</a></li>
+    <li><a href="#使用-ngrx-实体编写更简单的-reducer">使用 NgRx 实体编写更简单的 reducer</a>
+      <ul>
+        <li><a href="#使用实体适配器的好处">使用实体适配器的好处</a></li>
+        <li><a href="#ngrx-entity适配器支持的操作">NgRx Entity适配器支持的操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用ngrx-entity-selectors">使用NgRx Entity Selectors</a></li>
+    <li><a href="#ngrx实体的目的不是为了做什么">NgRx实体的目的不是为了做什么</a></li>
+    <li><a href="#配置自定义唯一id字段">配置自定义唯一ID字段</a>
+      <ul>
+        <li><a href="#处理自定义状态属性">处理自定义状态属性</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用ngrx-schematics脚手架生成实体">使用NgRx Schematics脚手架生成实体</a>
+      <ul>
+        <li><a href="#ngrx实体-schematics-生成什么">NgRx实体 Schematics 生成什么？</a></li>
+        <li><a href="#查看actions文件的内容">查看Actions文件的内容</a></li>
+      </ul>
+    </li>
+    <li><a href="#ngrx实体-updatet-类型">NgRx实体 <code>Update&lt;T&gt;</code> 类型</a>
+      <ul>
+        <li><a href="#查看-reducer-文件的内容">查看 reducer 文件的内容</a></li>
+        <li><a href="#如何最好地使用-schematics-输出">如何最好地使用 Schematics 输出？</a></li>
+      </ul>
+    </li>
+    <li><a href="#github-仓库中可运行的例子">Github 仓库中可运行的例子</a></li>
+    <li><a href="#结论">结论</a>
+      <ul>
+        <li><a href="#了解有关-ngrx-生态系统的更多信息">了解有关 NgRx 生态系统的更多信息</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>使用 NgRx 构建我们的应用程序时，我们要做的第一件事就是<strong>确定在<code>store</code>中存储数据的最佳格式</strong>。</p>
+<p>我们需要在任何 NgRx 应用程序中处理集中存储中的业务数据，但如果我们必须提出自己的临时解决方案，则该过程<em>可能是重复且耗时</em>的。</p>
+<p>我们经常发现自己为不同类型的数据手写完全相同的 reducer 逻辑和 selector，这很容易出错并且会减慢开发过程。</p>
+<p>在这篇文章中，我们将了解 NgRx 实体如何真正帮助我们处理<code>store</code>中的业务数据。</p>
+<p>我们将<strong>详细了解 NgRx 实体及其使用的实体状态格式的价值主张是什么</strong>，我们将准确了解 NgRx 实体解决的问题，并知道何时使用它以及为什么使用它。</p>
+<!-- raw HTML omitted -->
+<h2 id="前言">前言</h2>
+<p>请注意，这篇文章建立在其他<code>store</code>概念的基础上，例如action，reducers 和 selectors。 如果您正在寻找 NgRx <code>store</code>架构的介绍，请看看这篇文章：<a href="https://blog.angular-university.io/angular-2-redux-ngrx-rxjs/">Angular Service Layers: Redux, RxJs and Ngrx Store - When to Use a Store And Why?</a>。</p>
+<p>如果您正在寻找帮助设置 NgRx 开发环境的指南，包括 DevTools，带集成 router 的 time travelling 调试器和 NgRx Store Freeze，请查看：<a href="https://blog.angular-university.io/angular-ngrx-devtools/">Angular Ngrx DevTools: Important Practical Tips</a>。</p>
+<p>所以，不用多说了，让我们开始深入了解我们的 NgRx 实体！ 让我们从头开始，首先了解什么是实体。</p>
+<h2 id="什么是实体entity">什么是实体(Entity)？</h2>
+<p>在 NgRx 中，我们在<code>store</code>中存储不同类型的状态，这通常包括：</p>
+<ul>
+<li>业务数据，例如在线课程平台的 Course 或 Lesson</li>
+<li>一些 UI 状态，例如用户设置 UI</li>
+</ul>
+<blockquote>
+<p>实体代表某种业务数据，因此 Course 和 Lesson 就是实体类型的示例。</p>
+</blockquote>
+<p>在我们的代码中，实体被定义为Typescript类型。 例如，在在线课程系统中，最重要的实体是 Course 和 Lesson，使用这两种自定义对象类型定义：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">interface</span> <span class="nx">Course</span> <span class="p">{</span>
+    <span class="nx">id</span>:<span class="kt">number</span><span class="p">;</span>
+    <span class="nx">description</span>:<span class="kt">string</span><span class="p">;</span>
+    <span class="nx">iconUrl?</span>: <span class="kt">string</span><span class="p">;</span>
+    <span class="nx">courseListIcon?</span>: <span class="kt">string</span><span class="p">;</span>
+    <span class="nx">longDescription?</span>: <span class="kt">string</span><span class="p">;</span>
+    <span class="nx">categories</span>:<span class="kt">string</span><span class="p">;</span>
+    <span class="nx">seqNo</span>: <span class="kt">number</span><span class="p">;</span>
+    <span class="nx">lessonsCount?</span>:<span class="kt">number</span><span class="p">;</span>
+    <span class="nx">promo?</span>:<span class="kt">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">Lesson</span> <span class="p">{</span>
+    <span class="nx">id</span>: <span class="kt">number</span><span class="p">;</span>
+    <span class="nx">description</span>: <span class="kt">string</span><span class="p">;</span>
+    <span class="nx">duration</span>: <span class="kt">string</span><span class="p">;</span>
+    <span class="nx">seqNo</span>: <span class="kt">number</span><span class="p">;</span>
+    <span class="nx">courseId?</span>: <span class="kt">number</span><span class="p">;</span>
+    <span class="nx">videoId?</span>: <span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="实体唯一标识符">实体唯一标识符</h3>
+<p>我们可以看到，两个实体都有一个名为id的唯一标识符字段，可以是字符串或数字。 这是一个技术标识符，对于给定的实体实例是唯一的：例如，没有两个课程具有相同的ID。</p>
+<blockquote>
+<p>我们存储在<code>store</code>中的大多数数据都是实体！</p>
+</blockquote>
+<h2 id="如何在store中存储实体集合">如何在<code>store</code>中存储实体集合？</h2>
+<p>让我们假设我们想在内存<code>store</code>中存储一系列课程：我们将如何做到这一点？一种方法是在 <code>courses</code> 属性下将 courses 存储在一个数组中。</p>
+<p>完整的<code>store</code>状态看起来像这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="p">{</span>
+  <span class="nx">courses</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nx">id</span>: <span class="kt">0</span><span class="p">,</span>
+        <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;Angular Ngrx Course&#34;</span><span class="p">,</span>
+        <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;BEGINNER&#39;</span><span class="p">,</span>
+        <span class="nx">seqNo</span>: <span class="kt">1</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nx">id</span>: <span class="kt">1</span><span class="p">,</span>
+        <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;Angular for Beginners&#34;</span><span class="p">,</span>
+        <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;BEGINNER&#39;</span><span class="p">,</span>
+        <span class="nx">seqNo</span>: <span class="kt">2</span>      
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nx">id</span>: <span class="kt">2</span><span class="p">,</span>
+        <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;Angular Security Course - Web Security Fundamentals&#39;</span><span class="p">,</span>
+        <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;ADVANCED&#39;</span><span class="p">,</span>
+        <span class="nx">seqNo</span>: <span class="kt">3</span>      
+    <span class="p">},</span>
+    <span class="p">...</span>
+  <span class="p">],</span>
+  <span class="nx">lessons</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nx">id</span>: <span class="kt">1</span><span class="p">,</span>
+        <span class="s2">&#34;description&#34;</span><span class="o">:</span> <span class="s2">&#34;Angular Tutorial For Beginners - Build Your First App - Hello World Step By Step&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;duration&#34;</span><span class="o">:</span> <span class="s2">&#34;4:17&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;seqNo&#34;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nx">courseId</span>: <span class="kt">1</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nx">id</span>: <span class="kt">2</span><span class="p">,</span>
+        <span class="s2">&#34;description&#34;</span><span class="o">:</span> <span class="s2">&#34;Building Your First  Component - Component Composition&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;duration&#34;</span><span class="o">:</span> <span class="s2">&#34;2:07&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;seqNo&#34;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nx">courseId</span>: <span class="kt">1</span>
+    <span class="p">},</span>        
+     <span class="p">...</span>
+  <span class="p">]</span>   
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="为什么不在数组中存储相关实体">为什么不在数组中存储相关实体？</h3>
+<p>我们首先想到的是以数组的形式在<code>store</code>中存储实体，但这种方法可能会导致几个潜在的问题：</p>
+<ul>
+<li>如果我们想根据它的已知id查找课程，我们将不得不遍历整个集合，这对于非常大的集合来说可能是低效的</li>
+<li>更重要的是，通过使用数组，我们可能会意外地在数组中存储相同课程的不同版本（具有相同的id）</li>
+<li>如果我们将所有实体存储为数组，我们的 reducers 对于每个实体看起来几乎相同</li>
+<li>例如，假设将新实体添加到集合中的简单情况。 我们将重新实现几次完全相同的逻辑，用于向集合中添加新实体并重新排序数组以获取特定的自定义排序顺序</li>
+</ul>
+<p>我们可以看到，我们将实体存储在<code>store</code>中的格式对我们的程序有很大影响。</p>
+<blockquote>
+<p>然后让我们试着找出在<code>store</code>中存储实体的理想格式。</p>
+</blockquote>
+<h2 id="设计实体store状态数组或映射">设计实体<code>store</code>状态：数组或映射？</h2>
+<p><code>store</code>的一个角色是充当内存客户端数据库，该数据库包含整个数据库的一部分，我们从客户端通过 selector 派生我们的视图模型。</p>
+<p>这与传统的设计相反，后者包括通过 API 调用从服务器引入视图模型。 因为存储是内存数据库，所以将业务实体存储在它们自己的内存数据库“表”中是有意义的，并为它们提供类似于主键的唯一标识符。</p>
+<p>然后可以将数据扁平化，并使用实体唯一标识符链接在一起，就像在数据库中一样。</p>
+<p>一种很好的建模方法是将实体集合存储在 Javascript 对象的形式下，就像映射一样。 在此设置中，实体的键将是唯一ID，值将是整个对象。</p>
+<p>在这种新格式中，整个<code>store</code>状态的是这样的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="p">{</span>
+    <span class="nx">courses</span><span class="o">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="o">:</span> <span class="p">{</span>
+              <span class="nx">id</span>: <span class="kt">0</span><span class="p">,</span>
+              <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;Angular Ngrx Course&#34;</span><span class="p">,</span>
+              <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;BEGINNER&#39;</span><span class="p">,</span>
+              <span class="nx">seqNo</span>: <span class="kt">1</span>
+           <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="mi">1</span><span class="o">:</span> <span class="p">{</span>
+              <span class="nx">id</span>: <span class="kt">1</span><span class="p">,</span>
+              <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;Angular for Beginners&#34;</span><span class="p">,</span>
+              <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;BEGINNER&#39;</span><span class="p">,</span>
+              <span class="nx">seqNo</span>: <span class="kt">2</span>                  
+        <span class="p">},</span>
+        <span class="mi">2</span><span class="o">:</span> <span class="p">{</span>
+              <span class="nx">id</span>: <span class="kt">2</span><span class="p">,</span>
+              <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;Angular Security Course - Web Security Fundamentals&#34;</span><span class="p">,</span>
+              <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;BEGINNER&#39;</span><span class="p">,</span>
+              <span class="nx">seqNo</span>: <span class="kt">3</span>                  
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">lessons</span><span class="o">:</span> <span class="p">{</span>
+        <span class="mi">1</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">id</span>: <span class="kt">1</span><span class="p">,</span>
+            <span class="s2">&#34;description&#34;</span><span class="o">:</span> <span class="s2">&#34;Angular Tutorial For Beginners - Build Your First App - Hello World Step By Step&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;duration&#34;</span><span class="o">:</span> <span class="s2">&#34;4:17&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;seqNo&#34;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nx">courseId</span>: <span class="kt">1</span>
+        <span class="p">},</span>
+        <span class="mi">2</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">id</span>: <span class="kt">2</span><span class="p">,</span>
+            <span class="s2">&#34;description&#34;</span><span class="o">:</span> <span class="s2">&#34;Building Your First  Component - Component Composition&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;duration&#34;</span><span class="o">:</span> <span class="s2">&#34;2:07&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;seqNo&#34;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="nx">courseId</span>: <span class="kt">1</span>
+        <span class="p">},</span>
+        <span class="p">....</span>
+        <span class="mi">35</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">id</span>: <span class="kt">35</span><span class="p">,</span>
+            <span class="s2">&#34;description&#34;</span><span class="o">:</span> <span class="s2">&#34;Unidirectional Data Flow And The Angular Development Mode&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;duration&#34;</span><span class="o">:</span> <span class="s2">&#34;7:07&#34;</span><span class="p">,</span>
+            <span class="s2">&#34;seqNo&#34;</span><span class="o">:</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="nx">courseId</span>: <span class="kt">0</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="设计id查找的状态">设计id查找的状态</h3>
+<p>我们可以看到，这种格式使得通过id查找实体非常简单，这是一种非常常见的操作。 例如，为了查找id为1的 course，我们只需编写：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">state</span><span class="p">.</span><span class="nx">courses</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>它还使状态变得扁平化，使得组合多个实体并通过 selector 查询“连接”它们变得更加简单。 但是只有一个问题：我们丢失了关于集合<em>顺序</em>的信息！</p>
+<p>这是因为与数组不同，Javascript 对象的属性没有关联它们的顺序。 是否有任何仍然通过id在映射中存储我们的数据，并仍保留有关顺序信息的方法？</p>
+<h3 id="设计保存实体顺序的状态">设计保存实体顺序的状态</h3>
+<p>是的，我们只需要同时使用映射和数组！ 我们将对象存储在一个映射（称为 entities）中，然后将顺序信息存储在一个数组中（称为 ids）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="p">{</span>
+    <span class="nx">courses</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">ids</span><span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+        <span class="nx">entities</span><span class="o">:</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="o">:</span> <span class="p">{</span>
+                  <span class="nx">id</span>: <span class="kt">0</span><span class="p">,</span>
+                  <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;Angular Ngrx Course&#34;</span><span class="p">,</span>
+                  <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;BEGINNER&#39;</span><span class="p">,</span>
+                  <span class="nx">seqNo</span>: <span class="kt">1</span>                      
+               <span class="p">},</span>
+            <span class="p">},</span>
+            <span class="mi">1</span><span class="o">:</span> <span class="p">{</span>
+                  <span class="nx">id</span>: <span class="kt">1</span><span class="p">,</span>
+                  <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;Angular for Beginners&#34;</span><span class="p">,</span>
+                  <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;BEGINNER&#39;</span><span class="p">,</span>
+                  <span class="nx">seqNo</span>: <span class="kt">2</span>                                            
+            <span class="p">},</span>
+            <span class="mi">2</span><span class="o">:</span> <span class="p">{</span>
+                  <span class="nx">id</span>: <span class="kt">2</span><span class="p">,</span>
+                  <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;Angular Security Course - Web Security Fundamentals&#34;</span><span class="p">,</span>
+                  <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;BEGINNER&#39;</span><span class="p">,</span>
+                  <span class="nx">seqNo</span>: <span class="kt">3</span>                                            
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">lessons</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">ids</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">...</span> <span class="mi">35</span><span class="p">],</span>
+        <span class="nx">entities</span><span class="o">:</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">id</span>: <span class="kt">1</span><span class="p">,</span>
+                <span class="s2">&#34;description&#34;</span><span class="o">:</span> <span class="s2">&#34;Angular Tutorial For Beginners - Build Your First App - Hello World Step By Step&#34;</span><span class="p">,</span>
+                <span class="s2">&#34;duration&#34;</span><span class="o">:</span> <span class="s2">&#34;4:17&#34;</span><span class="p">,</span>
+                <span class="s2">&#34;seqNo&#34;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="nx">courseId</span>: <span class="kt">1</span>
+            <span class="p">},</span>
+            <span class="mi">2</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">id</span>: <span class="kt">2</span><span class="p">,</span>
+                <span class="s2">&#34;description&#34;</span><span class="o">:</span> <span class="s2">&#34;Building Your First  Component - Component Composition&#34;</span><span class="p">,</span>
+                <span class="s2">&#34;duration&#34;</span><span class="o">:</span> <span class="s2">&#34;2:07&#34;</span><span class="p">,</span>
+                <span class="s2">&#34;seqNo&#34;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="nx">courseId</span>: <span class="kt">1</span>
+            <span class="p">},</span>
+            <span class="p">....</span>
+            <span class="mi">35</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">id</span>: <span class="kt">35</span><span class="p">,</span>
+                <span class="s2">&#34;description&#34;</span><span class="o">:</span> <span class="s2">&#34;Unidirectional Data Flow And The Angular Development Mode&#34;</span><span class="p">,</span>
+                <span class="s2">&#34;duration&#34;</span><span class="o">:</span> <span class="s2">&#34;7:07&#34;</span><span class="p">,</span>
+                <span class="s2">&#34;seqNo&#34;</span><span class="o">:</span> <span class="mi">6</span><span class="p">,</span>
+                <span class="nx">courseId</span>: <span class="kt">0</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="实体状态格式">实体状态格式</h3>
+<p>这种状态格式将实体映射与id数组合在一起称为实体状态格式(Entity State format)。</p>
+<p>这是将业务实体存储在集中式存储中的理想格式，但是如果我们必须从头开始手动编写它们，则在编写 reducer 和 selector 时保持此状态会带来额外的负担。</p>
+<p>例如，如果我们必须编写一些类型定义来表示完整的存储状态，它们看起来像这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">interface</span> <span class="nx">StoreState</span> <span class="p">{</span>
+    <span class="nx">courses</span>: <span class="kt">CourseState</span><span class="o">:</span>
+    <span class="nx">lessons</span>: <span class="kt">LessonsState</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">CoursesState</span> <span class="p">{</span>
+     <span class="nx">ids</span>: <span class="kt">number</span><span class="p">[];</span>
+     <span class="nx">entities</span><span class="o">:</span> <span class="p">{[</span><span class="nx">key</span>:<span class="kt">number</span><span class="p">]</span><span class="o">:</span> <span class="nx">Course</span><span class="p">};</span>
+<span class="p">}</span> 
+
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">LessonsState</span> <span class="p">{</span>
+     <span class="nx">ids</span>: <span class="kt">number</span><span class="p">[];</span>
+     <span class="nx">entities</span><span class="o">:</span> <span class="p">{[</span><span class="nx">key</span>:<span class="kt">number</span><span class="p">]</span><span class="o">:</span> <span class="nx">Lesson</span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>正如我们所看到的，我们已经在这里做了一些重复工作，因为类型 CoursesState 和 LessonsState 几乎相同。 更重要的是，这两个实体的所有 reducer 和 selector 代码也非常相似。</p>
+<h3 id="编写支持实体状态格式的reducer">编写支持实体状态格式的reducer</h3>
+<p>例如，一个用于 LoadCourse action 的 reducer，它接受当前的 CoursesState，并为其添加一个新的 course，并根据 seqNo 字段重新排序该集合。</p>
+<p>以下就是 LoadCourse action 的 reducer 逻辑：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">const</span> <span class="nx">initialCoursesState</span>: <span class="kt">CoursesState</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">ids</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="nx">entities</span><span class="o">:</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">sortBySeqNo</span><span class="p">(</span><span class="nx">e1</span>: <span class="kt">Course</span><span class="p">,</span> <span class="nx">e2</span>: <span class="kt">Course</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">e1</span><span class="p">.</span><span class="nx">seqNo</span> <span class="o">-</span> <span class="nx">e2</span><span class="p">.</span><span class="nx">seqNo</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">coursesReducer</span><span class="p">(</span>
+   <span class="nx">state</span> <span class="o">=</span> <span class="nx">initialCoursesState</span><span class="p">,</span> 
+    <span class="nx">action</span>: <span class="kt">CourseActions</span><span class="p">)</span><span class="o">:</span> <span class="nx">CoursesState</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="nx">CourseActionTypes</span><span class="p">.</span><span class="nx">COURSE_LOADED</span><span class="o">:</span>
+             <span class="c1">// push new id to array and re-order
+</span><span class="c1"></span>             <span class="kr">const</span> <span class="nx">ids</span> <span class="o">=</span> <span class="nx">state</span><span class="p">.</span><span class="nx">ids</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+             <span class="nx">ids</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">course</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+             <span class="nx">ids</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="nx">sortBySeqNo</span><span class="p">);</span>
+             <span class="c1">// build a new courses state
+</span><span class="c1"></span>             <span class="k">return</span> <span class="p">{</span>
+                 <span class="nx">ids</span><span class="p">,</span>
+                 <span class="nx">entities</span><span class="o">:</span> <span class="p">{</span>
+                     <span class="p">...</span><span class="nx">state</span><span class="p">.</span><span class="nx">entities</span><span class="p">,</span> 
+                     <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">course</span>
+                 <span class="p">}</span>
+             <span class="p">};</span>
+        <span class="k">default</span><span class="o">:</span> 
+            <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>正如我们所看到的，只需在<code>store</code>中添加 course 即可。 问题是我们必须为其他常见操作编写类似的代码，例如更新<code>store</code>中的 course 或删除它。</p>
+<h3 id="避免重复的-reducer-逻辑">避免重复的 reducer 逻辑</h3>
+<p>但是比这更大的问题是，将一个 Lesson 加载到 LessonsState 中的等效 LoadLesson 操作的代码几乎相同：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">const</span> <span class="nx">initialLessonsState</span>: <span class="kt">LessonsState</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">ids</span><span class="o">:</span> <span class="p">[],</span>
+    <span class="nx">entities</span><span class="o">:</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">sortBySeqNo</span><span class="p">(</span><span class="nx">e1</span>: <span class="kt">Lesson</span><span class="p">,</span> <span class="nx">e2</span>: <span class="kt">Lesson</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">e1</span><span class="p">.</span><span class="nx">seqNo</span> <span class="o">-</span> <span class="nx">e2</span><span class="p">.</span><span class="nx">seqNo</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">lessonsReducer</span><span class="p">(</span>
+    <span class="nx">state</span> <span class="o">=</span> <span class="nx">initialLessonsState</span><span class="p">,</span> 
+    <span class="nx">action</span>: <span class="kt">LessonActions</span><span class="p">)</span><span class="o">:</span> <span class="nx">LessonsState</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="nx">CourseActionTypes</span><span class="p">.</span><span class="nx">LESSON_LOADED</span><span class="o">:</span>
+             <span class="c1">// push new id to array and re-order
+</span><span class="c1"></span>             <span class="kr">const</span> <span class="nx">ids</span> <span class="o">=</span> <span class="nx">state</span><span class="p">.</span><span class="nx">ids</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+             <span class="nx">ids</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">lesson</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+             <span class="nx">ids</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="nx">sortBySeqNo</span><span class="p">);</span>
+             <span class="k">return</span> <span class="p">{</span>
+                 <span class="nx">ids</span><span class="p">,</span>
+                 <span class="nx">entities</span><span class="o">:</span> <span class="p">{</span>
+                     <span class="p">...</span><span class="nx">state</span><span class="p">.</span><span class="nx">entities</span><span class="p">,</span> 
+                     <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">lesson</span>
+                 <span class="p">}</span>
+             <span class="p">};</span>
+        <span class="k">default</span><span class="o">:</span> 
+            <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>除了使用 Lesson 类型而不是 Course 之外，此代码几乎与我们之前编写的 reducer 逻辑完全一样！</p>
+<p>我们可以看到，将我们的实体保留在这个双数组和映射场景中会产生大量重复代码。</p>
+<h3 id="避免重复的selector逻辑">避免重复的selector逻辑</h3>
+<p>除了重复的类型定义，重复的初始状态和几乎相同的 reducer 逻辑之外，我们还会有很多几乎相同的 selector 逻辑。</p>
+<p>例如，以下是 Course 实体的一些常用selector，它选择<code>store</code>中可用的所有 course：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">selectCoursesState</span> <span class="o">=</span> 
+      <span class="nx">createFeatureSelector</span><span class="p">&lt;</span><span class="nt">CoursesState</span><span class="p">&gt;(</span><span class="s2">&#34;courses&#34;</span><span class="p">);</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">selectAllCourses</span> <span class="o">=</span> <span class="nx">createSelector</span><span class="p">(</span>
+    <span class="nx">selectCoursesState</span><span class="p">,</span>
+    <span class="nx">coursesState</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">allCourses</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">values</span><span class="p">(</span><span class="nx">coursesState</span><span class="p">.</span><span class="nx">entities</span><span class="p">)</span>
+        <span class="nx">allCourses</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="nx">sortBySeqNo</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">allCourses</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="功能selector的快速说明">功能selector的快速说明</h3>
+<p>注意 selectCoursesState 功能 selector，这是一个辅助 selector，它只接受整个<code>store</code>状态的 <code>courses</code> 属性，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">storeState</span><span class="p">[</span><span class="s2">&#34;courses&#34;</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用此实用程序的优点是类型安全，并且可以很容易地定义延迟加载的 selector，这些 selector 无法访问根 <code>store</code> 状态的类型定义。</p>
+<p>selector selectAllCourses 获取 <code>store</code> 中的所有 courses 并将它们放入数组中，并根据 seqNo 字段对数组进行排序。</p>
+<p>问题是我们需要一些几乎相同的逻辑用于 Lesson 实体：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">selectLessonsState</span> <span class="o">=</span> 
+      <span class="nx">createFeatureSelector</span><span class="p">&lt;</span><span class="nt">LessonsState</span><span class="p">&gt;(</span><span class="s2">&#34;lessons&#34;</span><span class="p">);</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">selectAllLessons</span> <span class="o">=</span> <span class="nx">createSelector</span><span class="p">(</span>
+    <span class="nx">selectLessonsState</span><span class="p">,</span>
+    <span class="nx">lessonsState</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">allLessons</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">values</span><span class="p">(</span><span class="nx">lessonsState</span><span class="p">.</span><span class="nx">entities</span><span class="p">)</span>
+        <span class="nx">allLessons</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="nx">sortBySeqNo</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">allLessons</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以看到，这段代码几乎与我们之前为 Course 实体编写的 selector 完全相同。</p>
+<h3 id="大量重复代码">大量重复代码</h3>
+<p>让我们总结一下到目前为止我们看到的几乎相同的代码类型：</p>
+<ul>
+<li>实体状态定义（如 CoursesState 和 LessonsState）</li>
+<li>初始reducer状态（如 initialCoursesState 和 initialLessonsState）</li>
+<li>reducer 逻辑</li>
+<li>selector 逻辑</li>
+</ul>
+<p>大量的重复代码，只是为了将这种采用优化的实体状态格式的数据保存在我们的数据库中。 问题是，这是在<code>store</code>中存储相关实体的理想格式，如果我们不使用它，我们可能最终会遇到其他问题。</p>
+<blockquote>
+<p>好消息是我们可以通过利用NgRx实体来避免几乎所有这些重复的代码！</p>
+</blockquote>
+<h2 id="什么是-ngrx-实体何时使用它">什么是 NgRx 实体，何时使用它？</h2>
+<p>NgRx 实体是一个小型库，可帮助我们将实体保持在这种理想的实体状态格式（ID数组加上实体映射）。</p>
+<p>该库旨在与NgRx Store结合使用，实际上是 NgRx 生态系统的关键部分。 从我们的项目开始使用 NgRx 实体，而不是尝试使用我们自己的特殊内存数据库格式，这样做要好得多。</p>
+<p>现在让我们学习 NgRx 实体提供给我们编写 NgRx 应用程序的许多方法。</p>
+<h3 id="定义实体状态">定义实体状态</h3>
+<p>回到我们的 Course 实体，让我们现在使用 NgRx 实体重新定义实体状态：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">interface</span> <span class="nx">CoursesState</span> <span class="kr">extends</span> <span class="nx">EntityState</span><span class="p">&lt;</span><span class="nt">Course</span><span class="p">&gt;</span> <span class="p">{</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这与我们之前编写的类型定义相同，但我们现在不必为每个单独的实体定义 id 和 entities 属性。 相反，我们可以简单地从 EntityState 继承，同时具有相同的类型安全性，以及更少的代码。</p>
+<h2 id="ngrx实体适配器entity-adapter">NgRx实体适配器(Entity Adapter)</h2>
+<p>为了能够使用NgRx Entity的其他功能，我们需要首先创建一个实体适配器。 适配器是一个实用程序类，它提供了一系列实用程序函数，旨在更简单地操作实体状态。</p>
+<p>适配器允许我们以更简单的方式编写所有初始实体状态，reducers 和 selector，同时仍然将我们的实体保持为标准的 EntityState 格式。</p>
+<p>以下是 Course 实体的适配器，配置为使用 seqNo 字段对实体进行排序：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">adapter</span> : <span class="kt">EntityAdapter</span><span class="p">&lt;</span><span class="nt">Course</span><span class="p">&gt;</span> <span class="o">=</span> 
+   <span class="nx">createEntityAdapter</span><span class="p">&lt;</span><span class="nt">Course</span><span class="p">&gt;({</span>
+       <span class="nx">sortComparer</span>: <span class="kt">sortBySeqNo</span>
+   <span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="定义默认实体排序顺序">定义默认实体排序顺序</h2>
+<p>请注意，我们使用了可选的 sortComparer 属性，该属性用于设置 Course 实体的排序顺序，这将决定该实体的id数组的顺序。</p>
+<p>如果我们不使用此可选属性，则将使用id字段对 Course 进行排序。</p>
+<h2 id="使用-ngrx-实体编写更简单的-reducer">使用 NgRx 实体编写更简单的 reducer</h2>
+<p>现在让我们使用适配器并使用它来定义我们的 Reducer 所需的初始状态。</p>
+<p>然后我们将实现与以前相同的 reducer 逻辑：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">initialCoursesState</span>: <span class="kt">CoursesState</span> <span class="o">=</span> 
+      <span class="nx">adapter</span><span class="p">.</span><span class="nx">getInitialState</span><span class="p">();</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">lessonsReducer</span><span class="p">(</span>
+    <span class="nx">state</span> <span class="o">=</span> <span class="nx">initialLessonsState</span><span class="p">,</span> 
+    <span class="nx">action</span>: <span class="kt">LessonActions</span><span class="p">)</span><span class="o">:</span> <span class="nx">LessonsState</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="nx">LessonActionTypes.LESSON_LOADED</span>:
+             <span class="kt">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">lesson</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+        <span class="k">default</span><span class="o">:</span> 
+            <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注意现在使用适配器编写 reducer 逻辑会更容易。 适配器将帮助我们操作现有的 CourseState，方法是在 addOne 中调用我们之前手动执行的所有操作：</p>
+<ul>
+<li>addOne 将创建现有状态对象的副本，而不是改变现有状态</li>
+<li>然后 addOne 将创建一个 ids 数组的副本，它将在正确的排序位置添加新的 Course</li>
+<li>将创建实体对象的副本，该副本指向所有先前的 Course 对象，而无需通过深层副本重新创建这些对象</li>
+<li>新实体对象将添加新 Course</li>
+</ul>
+<h3 id="使用实体适配器的好处">使用实体适配器的好处</h3>
+<p>正如我们所看到的，通过使用适配器编写我们的 reducer，我们可以节省大量的工作并避免常见的 reducer 逻辑错误，因为这种类型的逻辑很容易出错。</p>
+<p>偶然地改变存储状态并不常见，这可能会导致问题，特别是如果我们在我们的应用程序中使用<code>OnPush</code>更改检测。</p>
+<p>使用适配器可以防止所有这些问题，同时减少编写 reducer 所需的大量代码。</p>
+<h3 id="ngrx-entity适配器支持的操作">NgRx Entity适配器支持的操作</h3>
+<p>除了 addOne 之外，NgRx 实体适配器还支持一系列常见的集合修改操作，否则我们必须亲自实现。</p>
+<p>以下是所有受支持操作的完整示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kd">function</span> <span class="nx">coursesReducer</span><span class="p">(</span>
+    <span class="nx">state</span> <span class="o">=</span> <span class="nx">initialCoursesState</span><span class="p">,</span> 
+    <span class="nx">action</span>: <span class="kt">CourseActions</span><span class="p">)</span><span class="o">:</span> <span class="nx">CoursesState</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">ADD_COURSE</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">course</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">UPSERT_COURSE</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">upsertOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">course</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">ADD_COURSES</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addMany</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">courses</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">UPSERT_COURSES</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">upsertMany</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">courses</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">UPDATE_COURSE</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">updateOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">course</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">UPDATE_COURSES</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">updateMany</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">courses</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">DELETE_COURSE</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">removeOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">DELETE_COURSES</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">removeMany</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">ids</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">LOAD_COURSES</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addAll</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">courses</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">CourseActions</span><span class="p">.</span><span class="nx">CLEAR_COURSES</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">removeAll</span><span class="p">(</span><span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">default</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>适配器方法的行为方式如下：</p>
+<ul>
+<li>addOne：向集合中添加一个实体</li>
+<li>addMany：添加多个实体</li>
+<li>addAll：用新的集合替换整个集合</li>
+<li>removeOne：删除一个实体</li>
+<li>removeMany：删除多个实体</li>
+<li>removeAll：清除整个集合</li>
+<li>updateOne：更新一个现有实体</li>
+<li>updateMany：更新多个现有实体</li>
+<li>upsertOne：更新或插入一个实体</li>
+<li>upsertMany：更新或插入多个实体</li>
+</ul>
+<p>现在想象一下，如果我们必须自己实现所有这些 reducer 逻辑，那会是什么样的！</p>
+<h2 id="使用ngrx-entity-selectors">使用NgRx Entity Selectors</h2>
+<p>NgRx 实体帮助我们的另一件事是使用常用的 selector，例如 selectAllCourses 和 selectAllLessons。</p>
+<p>通过运行以下命令，我们可以随时生成一系列常用的 selector：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">const</span> <span class="p">{</span>
+  <span class="nx">selectAll</span><span class="p">,</span>
+  <span class="nx">selectEntities</span><span class="p">,</span>
+  <span class="nx">selectIds</span><span class="p">,</span>
+  <span class="nx">selectTotal</span>
+
+<span class="p">}</span> <span class="o">=</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">getSelectors</span><span class="p">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这些 selector 都可以直接在我们的组件中使用，也可以作为构建其他 selector 的起点。</p>
+<p>请注意，这些 selector 都以与实体无关的方式命名，因此如果在同一文件中需要多个 selector，建议按以下方式导入它们：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">import</span> <span class="o">*</span> <span class="kr">as</span> <span class="nx">fromCourses</span> <span class="nx">from</span> <span class="s1">&#39;./courses.reducers&#39;</span><span class="p">;</span>
+
+<span class="c1">// 这相当于我们之前手动编写的 selectAllCourses
+</span><span class="c1"></span><span class="kr">const</span> <span class="nx">selectAllCourses</span> <span class="o">=</span> <span class="nx">fromCourses</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这些 selector 随时可以使用，并且与我们自己手动编写的 selector 一样安全。</p>
+<h2 id="ngrx实体的目的不是为了做什么">NgRx实体的目的不是为了做什么</h2>
+<p>请注意，尽管 NgRx Entity 使得编写 Course 实体的状态，reducer 和 selector 逻辑变得更加容易，但我们仍然必须编写 reducer 函数本身，尽管这样使用适配器的方式更简单。</p>
+<p>使用 NgRx 实体不会避免必须为每个实体编写 reducer 逻辑，尽管这使它更简单。</p>
+<p>这意味着对于 Lesson 实体，我们必须做一些非常相似的事情。 惯例是将所有这些密切相关的代码直接放在我们定义了实体 reducer 函数的同一文件中。</p>
+<p>对于 Lesson 实体，这就是完整的 lesson.reducers.ts 文件的样子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">interface</span> <span class="nx">LessonsState</span> <span class="kr">extends</span> <span class="nx">EntityState</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;</span> <span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">adapter</span> : <span class="kt">EntityAdapter</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;</span> <span class="o">=</span>
+  <span class="nx">createEntityAdapter</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;({</span><span class="nx">sortComparer</span>: <span class="kt">sortBySeqNo</span><span class="p">});</span>
+
+
+<span class="kr">const</span> <span class="nx">initialLessonsState</span> <span class="o">=</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">getInitialState</span><span class="p">();</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">lessonsReducer</span><span class="p">(</span>
+    <span class="nx">state</span> <span class="o">=</span> <span class="nx">initialLessonsState</span><span class="p">,</span>
+    <span class="nx">action</span>: <span class="kt">LessonActions</span><span class="p">)</span><span class="o">:</span> <span class="nx">LessonsState</span> <span class="p">{</span>
+
+  <span class="k">switch</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">CourseActionTypes.LESSON_LOADED</span>:
+             <span class="kt">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">course</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="k">default</span><span class="o">:</span>
+      <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="p">{</span>
+  <span class="nx">selectAll</span><span class="p">,</span>
+  <span class="nx">selectEntities</span><span class="p">,</span>
+  <span class="nx">selectIds</span><span class="p">,</span>
+  <span class="nx">selectTotal</span>
+
+<span class="p">}</span> <span class="o">=</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">getSelectors</span><span class="p">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>实际上，每个实体的 reducer 逻辑略有不同，因此 reducer 功能之间不会重复代码。</p>
+<p>如果您正在寻找更进一步的解决方案，并且无需编写实体特定的 reducer 逻辑，请查看<a href="https://github.com/johnpapa/angular-ngrx-data">ngrx-data</a>。</p>
+<h2 id="配置自定义唯一id字段">配置自定义唯一ID字段</h2>
+<p>正如我们所提到的，我们程序中的实体都应该有一个名为id的技术标识符字段。 但如果由于某种原因，这个领域：</p>
+<ul>
+<li>在给定实体中不可用</li>
+<li>或者它有不同的名称</li>
+<li>或者我们只是想使用恰好是 natural key 的另一个属性</li>
+</ul>
+<p>我们仍然可以通过向适配器提供自定义 idselector 功能来实现。 这是一个例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">adapter</span> : <span class="kt">EntityAdapter</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;</span> <span class="o">=</span> 
+      <span class="nx">createEntityAdapter</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;({</span>
+        <span class="nx">sortComparer</span>: <span class="kt">sortBySeqNo</span><span class="p">,</span>
+        <span class="nx">selectId</span>: <span class="kt">lesson</span> <span class="o">=&gt;</span> <span class="nx">lesson</span><span class="p">.</span><span class="nx">courseId</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="nx">lesson</span><span class="p">.</span><span class="nx">seqNo</span>
+    <span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>适配器将调用此函数以从给定实体中提取唯一键。</p>
+<p>在此示例中，我们通过将 courseId 属性与 Lesson 序号连接来为 Lesson 实体创建唯一标识符，该序号对于给定的 Lesson 是唯一的。</p>
+<h3 id="处理自定义状态属性">处理自定义状态属性</h3>
+<p>到目前为止，我们只是通过扩展 EntityState 类型来定义我们的实体状态。 但可能我们的实体状态还具有除标准ID和实体之外的其他自定义属性。</p>
+<p>假设对于 Course 实体，我们还需要一个额外的标志来指示 courses 是否已经加载。 我们可以在 CoursesState 中定义额外的状态属性，然后使用适配器在 reducer 逻辑中更新该属性。</p>
+<p>以下是 CoursesState reducer 文件 courses.reducers.ts 的完整示例，现在包括额外的 state 属性：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">interface</span> <span class="nx">CoursesState</span> <span class="kr">extends</span> <span class="nx">EntityState</span><span class="p">&lt;</span><span class="nt">Course</span><span class="p">&gt;</span> <span class="p">{</span>
+  <span class="nx">allCoursesLoaded</span>:<span class="kt">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">adapter</span> : <span class="kt">EntityAdapter</span><span class="p">&lt;</span><span class="nt">Course</span><span class="p">&gt;</span> <span class="o">=</span>
+  <span class="nx">createEntityAdapter</span><span class="p">&lt;</span><span class="nt">Course</span><span class="p">&gt;();</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">initialCoursesState</span>: <span class="kt">CoursesState</span> <span class="o">=</span> 
+      <span class="nx">adapter</span><span class="p">.</span><span class="nx">getInitialState</span><span class="p">({</span>
+        <span class="nx">allCoursesLoaded</span>: <span class="kt">false</span>
+    <span class="p">});</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">coursesReducer</span><span class="p">(</span>
+  <span class="nx">state</span> <span class="o">=</span> <span class="nx">initialCoursesState</span> <span class="p">,</span> 
+  <span class="nx">action</span>: <span class="kt">CourseActions</span><span class="p">)</span><span class="o">:</span> <span class="nx">CoursesState</span> <span class="p">{</span>
+  <span class="k">switch</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">CourseActionTypes.COURSE_LOADED</span>:
+      <span class="kt">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">course</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="k">case</span> <span class="nx">CourseActionTypes.ALL_COURSES_LOADED</span>:
+      <span class="kt">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addAll</span><span class="p">(</span>
+                <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">courses</span><span class="p">,</span> <span class="p">{</span>
+                    <span class="p">...</span><span class="nx">state</span><span class="p">,</span> 
+                  <span class="nx">allCoursesLoaded</span>:<span class="kt">true</span>
+                <span class="p">});</span>
+    <span class="k">default</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="p">{</span>
+  <span class="nx">selectAll</span><span class="p">,</span>
+  <span class="nx">selectEntities</span><span class="p">,</span>
+  <span class="nx">selectIds</span><span class="p">,</span>
+  <span class="nx">selectTotal</span>
+
+<span class="p">}</span> <span class="o">=</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">getSelectors</span><span class="p">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以下是我们必须要做的事情，包括这个额外的属性：</p>
+<ul>
+<li>首先，我们将 allCoursesLoaded 属性添加到 CoursesState 的类型定义中</li>
+<li>接下来，我们需要通过将一个可选对象传递给对 getInitialState() 的调用来在 initialCoursesState 中定义此属性的初始值</li>
+<li>我们现在可以在我们的 reducer 逻辑中设置这个属性，就像我们在ALL_COURSES_LOADED reducer中一样。</li>
+<li>为此，我们简单地需要使用spread（&hellip;运算符）制作 CourseState 的副本，然后我们修改属性并将这个新状态对象传递给适配器调用</li>
+</ul>
+<h2 id="使用ngrx-schematics脚手架生成实体">使用NgRx Schematics脚手架生成实体</h2>
+<p>如果您想快速生成我们在本文中展示的 reducer 文件，您可以通过使用NgRx Schematics获得一个非常好的开始。</p>
+<p>要使用实体 Schematics，我们需要做的第一件事是设置此CLI属性：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">ng config cli.defaultCollection @ngrx/schematics
+</code></pre></td></tr></table>
+</div>
+</div><p>在此之后，我们可以通过运行以下命令生成一个全新的Lesson reducer文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">ng generate entity --name Lesson --module courses/courses.module.ts
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="ngrx实体-schematics-生成什么">NgRx实体 Schematics 生成什么？</h3>
+<p>现在让我们查看上面命令生成的输出。 首先，我们有一个空的Entity模型文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">interface</span> <span class="nx">Lesson</span> <span class="p">{</span>
+  <span class="nx">id</span>: <span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Schematics 命令还将生成一个完整的 Action 文件，每个 Action 对应于实体适配器中的一个状态修改方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">enum</span> <span class="nx">LessonActionTypes</span> <span class="p">{</span>
+  <span class="nx">LoadLessons</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Load Lessons&#39;</span><span class="p">,</span>
+  <span class="nx">AddLesson</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Add Lesson&#39;</span><span class="p">,</span>
+  <span class="nx">UpsertLesson</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Upsert Lesson&#39;</span><span class="p">,</span>
+  <span class="nx">AddLessons</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Add Lessons&#39;</span><span class="p">,</span>
+  <span class="nx">UpsertLessons</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Upsert Lessons&#39;</span><span class="p">,</span>
+  <span class="nx">UpdateLesson</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Update Lesson&#39;</span><span class="p">,</span>
+  <span class="nx">UpdateLessons</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Update Lessons&#39;</span><span class="p">,</span>
+  <span class="nx">DeleteLesson</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Delete Lesson&#39;</span><span class="p">,</span>
+  <span class="nx">DeleteLessons</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Delete Lessons&#39;</span><span class="p">,</span>
+  <span class="nx">ClearLessons</span> <span class="o">=</span> <span class="s1">&#39;[Lesson] Clear Lessons&#39;</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">LoadLessons</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">LoadLessons</span><span class="p">;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">lessons</span>: <span class="kt">Lesson</span><span class="p">[]</span> <span class="p">})</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">AddLesson</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">AddLesson</span><span class="p">;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">lesson</span>: <span class="kt">Lesson</span> <span class="p">})</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">UpsertLesson</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">UpsertLesson</span><span class="p">;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">lesson</span>: <span class="kt">Lesson</span> <span class="p">})</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">AddLessons</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">AddLessons</span><span class="p">;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">lessons</span>: <span class="kt">Lesson</span><span class="p">[]</span> <span class="p">})</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">UpsertLessons</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">UpsertLessons</span><span class="p">;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">lessons</span>: <span class="kt">Lesson</span><span class="p">[]</span> <span class="p">})</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">UpdateLesson</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">UpdateLesson</span><span class="p">;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">lesson</span>: <span class="kt">Update</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;</span> <span class="p">})</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">UpdateLessons</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">UpdateLessons</span><span class="p">;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">lessons</span>: <span class="kt">Update</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;[]</span> <span class="p">})</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">DeleteLesson</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">DeleteLesson</span><span class="p">;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">id</span>: <span class="kt">string</span> <span class="p">})</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">DeleteLessons</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">DeleteLessons</span><span class="p">;</span>
+
+  <span class="kr">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">ids</span>: <span class="kt">string</span><span class="p">[]</span> <span class="p">})</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">ClearLessons</span> <span class="kr">implements</span> <span class="nx">Action</span> <span class="p">{</span>
+  <span class="nx">readonly</span> <span class="nx">type</span> <span class="o">=</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">ClearLessons</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="nx">type</span> <span class="nx">LessonActions</span> <span class="o">=</span>
+ <span class="nx">LoadLessons</span>
+ <span class="o">|</span> <span class="nx">AddLesson</span>
+ <span class="o">|</span> <span class="nx">UpsertLesson</span>
+ <span class="o">|</span> <span class="nx">AddLessons</span>
+ <span class="o">|</span> <span class="nx">UpsertLessons</span>
+ <span class="o">|</span> <span class="nx">UpdateLesson</span>
+ <span class="o">|</span> <span class="nx">UpdateLessons</span>
+ <span class="o">|</span> <span class="nx">DeleteLesson</span>
+ <span class="o">|</span> <span class="nx">DeleteLessons</span>
+ <span class="o">|</span> <span class="nx">ClearLessons</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="查看actions文件的内容">查看Actions文件的内容</h3>
+<p>此文件遵循 Actions 文件的正常建议结构：</p>
+<ul>
+<li>一个枚举 LessonActionTypes，每个 Lesson action 一个条目</li>
+<li>每个 action 一个类，数据通过 payload 属性传递给 action</li>
+<li>底部的一个联合类型 LessonActions，包含此文件的所有 action 类</li>
+</ul>
+<p>最后一个联合类型对于编写 reducer 逻辑特别有用。 多亏了它，我们可以在 Reducer 的 case 块中进行完整的类型推断和 IDE auto-completion。</p>
+<h2 id="ngrx实体-updatet-类型">NgRx实体 <code>Update&lt;T&gt;</code> 类型</h2>
+<p>另请注意，在某些操作的定义中，我们使用的是<code>Update &lt;Lesson&gt;</code>类型。 这是NgRx实体提供的辅助类型，用于帮助模型部分实体更新。</p>
+<p>此类型具有标识更新实体的属性标识，以及另一个名为 changes 的属性，该属性指定对实体进行的修改。</p>
+<p>以下是 Course 类型的有效更新对象示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">const</span> <span class="nx">update</span>: <span class="kt">Update</span><span class="p">&lt;</span><span class="nt">Course</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">id</span>: <span class="kt">1</span><span class="p">,</span>
+    <span class="nx">changes</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">description</span><span class="o">:</span> <span class="s2">&#34;NgRx In Depth&#34;</span><span class="p">,</span>
+        <span class="nx">categories</span><span class="o">:</span> <span class="s1">&#39;INTERMEDIATE&#39;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="查看-reducer-文件的内容">查看 reducer 文件的内容</h3>
+<p>NgRx Entity Schematics 命令还将如期生成Entity reducer文件和 test 文件。 以下是reducer文件的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">export</span> <span class="kr">interface</span> <span class="nx">State</span> <span class="kr">extends</span> <span class="nx">EntityState</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;</span> <span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">adapter</span>: <span class="kt">EntityAdapter</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;</span> <span class="o">=</span> 
+      <span class="nx">createEntityAdapter</span><span class="p">&lt;</span><span class="nt">Lesson</span><span class="p">&gt;();</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">initialState</span>: <span class="kt">State</span> <span class="o">=</span> 
+      <span class="nx">adapter</span><span class="p">.</span><span class="nx">getInitialState</span><span class="p">({});</span>
+
+<span class="kr">export</span> <span class="kd">function</span> <span class="nx">reducer</span><span class="p">(</span>
+  <span class="nx">state</span> <span class="o">=</span> <span class="nx">initialState</span><span class="p">,</span>
+  <span class="nx">action</span>: <span class="kt">LessonActions</span>
+<span class="p">)</span><span class="o">:</span> <span class="nx">State</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">AddLesson</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">lesson</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">UpsertLesson</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">upsertOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">lesson</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">AddLessons</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addMany</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">lessons</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">UpsertLessons</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">upsertMany</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">lessons</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">UpdateLesson</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">updateOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">lesson</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">UpdateLessons</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">updateMany</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">lessons</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">DeleteLesson</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">removeOne</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">DeleteLessons</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">removeMany</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">ids</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">LoadLessons</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">addAll</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">lessons</span><span class="p">,</span> <span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">case</span> <span class="nx">LessonActionTypes</span><span class="p">.</span><span class="nx">ClearLessons</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">removeAll</span><span class="p">(</span><span class="nx">state</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">default</span><span class="o">:</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="p">{</span>
+  <span class="nx">selectIds</span><span class="p">,</span>
+  <span class="nx">selectEntities</span><span class="p">,</span>
+  <span class="nx">selectAll</span><span class="p">,</span>
+  <span class="nx">selectTotal</span><span class="p">,</span>
+<span class="p">}</span> <span class="o">=</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">getSelectors</span><span class="p">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="如何最好地使用-schematics-输出">如何最好地使用 Schematics 输出？</h3>
+<p>请注意生成的 Schematics 文件（与生成CLI的任何其他文件一样）并不意味着保持不变。</p>
+<p>实际上，您可能甚至不想使用 actions 文件，而是使用给定的一组约定编写自己的操作，例如<a href="https://www.youtube.com/watch?v=JmnsEvoy-gY&amp;feature=youtu.be">本演讲</a>中推荐的约定。</p>
+<p>此外，可能并非所有操作都需要在应用程序中进行，因此仅保留我们需要的操作并对其进行调整非常重要。 像往常一样，Schematics 生成的文件只是一个有用的开端，需要根据具体情况进行调整。</p>
+<h2 id="github-仓库中可运行的例子">Github 仓库中可运行的例子</h2>
+<p>有关如何将 NgRx 实体与我们在示例中使用的两个实体（Course 和 Lesson）一起使用的小型应用程序的完整运行示例，请查看此<a href="https://github.com/angular-university/angular-ngrx-course">仓库</a>。</p>
+<p>以下是NgRx DevTools，显示了两个实体的<code>store</code>内容：
+<img src="/angular-university/ngrx-entity-2.png" alt="NgRx DevTools"></p>
+<h2 id="结论">结论</h2>
+<p>NgRx 实体是一个非常有用的包，但为了理解它首先要熟悉基本存储概念（如Actions，Reducers 和 Selectors）以及一般的<code>store</code>体系结构。</p>
+<p>如果我们已经熟悉这些概念，我们可能已经尝试找到构建<code>store</code>内数据的最佳方法。</p>
+<p>NgRx 实体通过为我们的业务实体提供实体状态格式来为此提供答案，该格式针对id进行查找而优化，同时仍保留实体订单信息。</p>
+<p>NgRx 实体适配器与 NgRx Schematics 一起使得使用 NgRx 实体来存储我们的数据变得非常简单。</p>
+<blockquote>
+<p>但请注意，并非所有<code>store</code>都需要使用NgRx实体！</p>
+</blockquote>
+<p>NgRx Entity 专门用于处理我们<code>store</code>中的业务实体，使得以方便的方式将它们存储在内存中。</p>
+<h3 id="了解有关-ngrx-生态系统的更多信息">了解有关 NgRx 生态系统的更多信息</h3>
+<p>我希望这篇文章能帮助您开始使用Ngrx Entity，并且希望您喜欢它！</p>
+<p>如果您希望了解如何开始使用NgRx生态系统，您可能需要查看本系列之前的博文：</p>
+<ul>
+<li><a href="https://blog.angular-university.io/angular-2-redux-ngrx-rxjs/">Angular Service Layers: Redux, RxJs and Ngrx Store - When to Use a Store And Why?</a></li>
+<li><a href="https://blog.angular-university.io/angular-ngrx-devtools/">Angular Ngrx DevTools: Important Practical Tips</a></li>
+</ul>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Kiyon Lin</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2018-10-12
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://kiyonlin.github.io/tags/angular/">angular</a>
+          <a href="https://kiyonlin.github.io/tags/ngrx/">ngrx</a>
+          <a href="https://kiyonlin.github.io/tags/ngrx-store/">ngrx-store</a>
+          <a href="https://kiyonlin.github.io/tags/ngrx-entity/">ngrx-entity</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8401-%E6%99%BA%E8%83%BD%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">(译)Angular架构01-智能组件与展示组件</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/work/iptables/iptables-5-%E5%AE%9E%E7%94%A8%E5%8C%B9%E9%85%8D%E6%89%A9%E5%B1%95-iprange-string-time/">
+            <span class="next-text nav-default">iptables详解-5-实用匹配扩展iprange,string,time</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kiyonlin/kiyonlin.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:kiyonlin@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+    <a href="https://github.com/kiyonlin" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+  
+    <a href="https://www.zhihu.com/people/kiyonlin" rel="me noopener" class="iconfont"
+      title="zhihu"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z"></path>
+  <path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+<a href="https://kiyonlin.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2016 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Kiyon Lin
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

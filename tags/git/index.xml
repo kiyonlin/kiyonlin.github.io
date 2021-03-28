@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/git/</link>
+    <description>Recent content in git on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 17 Sep 2016 19:44:52 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>git常用命令集合</title>
+      <link>https://kiyonlin.github.io/post/work/cs/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%9B%86%E5%90%88/</link>
+      <pubDate>Sat, 17 Sep 2016 19:44:52 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%9B%86%E5%90%88/</guid>
+      <description>status git status是最常用的命令之一,查看当前项目文件的状态 init 当一个文件夹不是 git 管理的时候,无法使用 git 命令,会报下面错误: 1 fatal:Not a git reposi</description>
+    </item>
+    
+  </channel>
+</rss>

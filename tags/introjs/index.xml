@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>introjs on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/introjs/</link>
+    <description>Recent content in introjs on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 23 Feb 2017 16:51:37 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/introjs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>页面向导introjs</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/%E9%A1%B5%E9%9D%A2%E5%90%91%E5%AF%BCintrojs/</link>
+      <pubDate>Thu, 23 Feb 2017 16:51:37 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/%E9%A1%B5%E9%9D%A2%E5%90%91%E5%AF%BCintrojs/</guid>
+      <description>页面操作向导js包 没有其他依赖，响应速度比较快。 使用时查看文档即可。 所有配置如下： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 steps: For defining steps using JSON configuration (see this</description>
+    </item>
+    
+  </channel>
+</rss>

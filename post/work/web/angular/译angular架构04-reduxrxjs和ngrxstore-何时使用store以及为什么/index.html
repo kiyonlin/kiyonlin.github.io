@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>(译)Angular架构04-Redux，RxJs和NgrxStore-何时使用Store以及为什么？ - Tsing Wind - 清风徐来 水波不兴</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Kiyon Lin" />
+  <meta name="description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组" />
+
+  <meta name="keywords" content="Hugo, theme, kiyon, kiyonlin" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.72.0" />
+
+
+<link rel="canonical" href="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8404-reduxrxjs%E5%92%8Cngrxstore-%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8store%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/kiyon.min.fa3d941d1d0e0ddc985804227feabffea55c89883eb0af34e0532a7ae9135151.css" integrity="sha256-&#43;j2UHR0ODdyYWAQif&#43;q//qVciYg&#43;sK804FMqeukTUVE=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="(译)Angular架构04-Redux，RxJs和NgrxStore-何时使用Store以及为什么？" />
+<meta property="og:description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8404-reduxrxjs%E5%92%8Cngrxstore-%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8store%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88/" />
+<meta property="article:published_time" content="2018-10-17T13:27:04+00:00" />
+<meta property="article:modified_time" content="2018-10-17T13:27:04+00:00" />
+<meta itemprop="name" content="(译)Angular架构04-Redux，RxJs和NgrxStore-何时使用Store以及为什么？">
+<meta itemprop="description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组">
+<meta itemprop="datePublished" content="2018-10-17T13:27:04&#43;00:00" />
+<meta itemprop="dateModified" content="2018-10-17T13:27:04&#43;00:00" />
+<meta itemprop="wordCount" content="9076">
+
+
+
+<meta itemprop="keywords" content="angular,architecture,service,rxjs,ngrx," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="(译)Angular架构04-Redux，RxJs和NgrxStore-何时使用Store以及为什么？"/>
+<meta name="twitter:description" content="这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Tsing Wind</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Tsing Wind
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kiyonlin.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://github.com/kiyonlin" rel="noopener" target="_blank">
+              Github
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">(译)Angular架构04-Redux，RxJs和NgrxStore-何时使用Store以及为什么？</h1>
+      
+      <div class="post-meta">
+        <time datetime="2018-10-17" class="post-time">
+          2018-10-17
+        </time>
+        <div class="post-category">
+            <a href="https://kiyonlin.github.io/categories/web/"> web </a>
+            <a href="https://kiyonlin.github.io/categories/angular/"> angular </a>
+            
+          </div>
+        <span class="more-meta"> 约 9076 字 </span>
+          <span class="more-meta"> 预计阅读 19 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#angular服务层---store架构"><code>Angular</code>服务层 - <code>store</code>架构</a></li>
+    <li><a href="#为什么store在react中如此受欢迎">为什么<code>store</code>在<code>React</code>中如此受欢迎？</a></li>
+    <li><a href="#目录">目录</a></li>
+    <li><a href="#何时使用redux或store">何时使用<code>Redux</code>或<code>store</code>？</a></li>
+    <li><a href="#什么时候建议使用flux或redux">什么时候建议使用<code>Flux</code>或<code>Redux</code>？</a></li>
+    <li><a href="#具有并发更新的store和应用程序">具有并发更新的<code>store</code>和应用程序</a></li>
+    <li><a href="#redux解决的最常见问题是什么"><code>Redux</code>解决的最常见问题是什么？</a></li>
+    <li><a href="#extraneous-props还有什么意思"><code>extraneous props</code>，还有什么意思？</a></li>
+    <li><a href="#为什么redux在react世界中如此受欢迎">为什么<code>Redux</code>在<code>React</code>世界中如此受欢迎？</a></li>
+    <li><a href="#为什么redux在这些情况下运行良好">为什么<code>Redux</code>在这些情况下运行良好？</a></li>
+    <li><a href="#store如何允许分离的组件交互"><code>store</code>如何允许分离的组件交互</a></li>
+    <li><a href="#服务器推送怎么样">服务器推送怎么样？</a></li>
+    <li><a href="#这种情况是store闪耀的时候">这种情况是<code>store</code>闪耀的时候</a></li>
+    <li><a href="#store是解决多个问题的复合解决方案而不仅仅是一个问题"><code>store</code>是解决多个问题的复合解决方案，而不仅仅是一个问题</a></li>
+    <li><a href="#多责任解决方案有什么问题">多责任解决方案有什么问题？</a></li>
+    <li><a href="#redux是否避免状态相关的问题"><code>Redux</code>是否避免状态相关的问题？</a></li>
+    <li><a href="#处理全局状态的最佳方式是什么">处理全局状态的最佳方式是什么？</a></li>
+    <li><a href="#我们可以使用临时的本地状态吗">我们可以使用临时的本地状态吗？</a></li>
+    <li><a href="#除了store之外angular世界还有替代解决方案吗">除了<code>store</code>之外，<code>Angular</code>世界还有替代解决方案吗？</a></li>
+    <li><a href="#创建自我清理的本地状态">创建自我清理的本地状态</a></li>
+    <li><a href="#angular和store频繁的选择"><code>Angular</code>和<code>store</code>——频繁的选择？</a></li>
+    <li><a href="#使用store有成本">使用<code>store</code>有成本</a></li>
+    <li><a href="#单向数据流">单向数据流</a></li>
+    <li><a href="#react中的单向数据流"><code>React</code>中的单向数据流</a></li>
+    <li><a href="#redux和单向数据流"><code>Redux</code>和单向数据流</a></li>
+    <li><a href="#angular中的单向数据流"><code>Angular</code>中的单向数据流</a></li>
+    <li><a href="#开发模式下的单向数据流和渲染">开发模式下的单向数据流和渲染</a></li>
+    <li><a href="#打破angular单向数据流">打破<code>Angular</code>单向数据流</a></li>
+    <li><a href="#store和性能"><code>store</code>和性能</a></li>
+    <li><a href="#store和可测试性"><code>store</code>和可测试性</a></li>
+    <li><a href="#store和工具"><code>store</code>和工具</a>
+      <ul>
+        <li><a href="#redux的常用替代方案"><code>Redux</code>的常用替代方案</a></li>
+      </ul>
+    </li>
+    <li><a href="#结论">结论</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>这篇文章是正在进行的<code>Angular</code>架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列：</p>
+<ul>
+<li>视图层架构-智能组件与展示组件</li>
+<li>视图层架构-容器与展示组件常见的设计缺陷</li>
+<li>服务层架构-如何使用<code>Observable</code>数据服务构建<code>Angular</code>应用程序</li>
+<li>服务层架构-<code>Redux</code>和<code>Ngrx Store</code>-何时使用<code>Store</code>？为什么？</li>
+<li>服务层架构-<code>Ngrx Store</code>-架构指南</li>
+</ul>
+<!-- raw HTML omitted -->
+<h2 id="angular服务层---store架构"><code>Angular</code>服务层 - <code>store</code>架构</h2>
+<p>当前版本的<code>Angular</code>是对以前版本（<code>AngularJs</code>）的改进。 视图层比以往更容易学习和使用。</p>
+<p>但是服务层（也称为数据层）实际上是应用程序的功能核心提供了许多选项：</p>
+<ul>
+<li>我们应该如何构建服务层？</li>
+<li>我们应该使用<code>store</code>吗？</li>
+<li>我们应该使用<code>Redux</code>吗？</li>
+<li>我们应该使用普通的<code>RxJs</code>吗？</li>
+<li>那么<code>NgRx Store</code>呢？</li>
+</ul>
+<p>在<code>Angular</code>世界中非常受欢迎的一件事是<code>store</code>解决方案。</p>
+<p>它们起源于<code>React</code>世界并经历了通常的技术采用曲线：大规模采用，认识到它不是一切的最终解决方案，然后在某些情况下使用它而不是其他情况。</p>
+<h2 id="为什么store在react中如此受欢迎">为什么<code>store</code>在<code>React</code>中如此受欢迎？</h2>
+<p>为什么<code>store</code>在<code>React</code>世界变得如此受欢迎，是否有特定原因或是由于多种原因？ 这些原因是否也适用于<code>Angular</code>世界，还是有替代解决方案？ <code>store</code>解决了哪些问题？</p>
+<p>您是否注意到有很多关于<code>store</code>解决方案的信息，但关于我们何时应该使用它们以及为什么使用它们的信息有限？ 让我们回顾一下这些问题。</p>
+<h2 id="目录">目录</h2>
+<p>在这篇文章中，我们将讨论以下主题：</p>
+<ul>
+<li>何时使用<code>Redux</code>或<code>store</code>？</li>
+<li>我们经常需要<code>store</code>吗？</li>
+<li>为什么<code>Redux</code>在<code>React</code>世界中如此受欢迎？</li>
+<li><code>Redux</code>解决的问题是否也出现在<code>Angular</code>世界中？</li>
+<li><code>store</code>解决了什么问题？</li>
+<li>什么类型的应用程序受益于<code>store</code>解决方案？</li>
+<li>什么类型的工具与<code>store</code>解决方案相关联？</li>
+<li><code>React</code>和<code>Angular</code>中的单向数据流</li>
+<li><code>store</code>和可测试性</li>
+<li><code>store</code>和表现</li>
+<li><code>store</code>和工具</li>
+<li><code>Redux</code> vs <code>Mobx</code></li>
+<li>与<code>Mobx</code>和<code>CycleJs</code>进行工具比较</li>
+<li>关于方法的提案</li>
+<li>结论和建议</li>
+</ul>
+<p>注意：下面有一个带有<code>Ngrx DevTools</code>演示的视频。 此外，您可能希望在此另一篇文章中介绍集中存储模式和<code>Ngrx Store</code> - <code>Angular Ngrx</code>速成课程第1部分：<a href="https://blog.angular-university.io/angular-ngrx-store-and-effects-crash-course/">Ngrx Store - Learn It By Understanding The Original Facebook Counter Bug</a>。</p>
+<h2 id="何时使用redux或store">何时使用<code>Redux</code>或<code>store</code>？</h2>
+<p><code>store</code>起源于<code>Redux</code>世界，所以这将是最先看的知识，然后从那里学习。</p>
+<p>让我们来看看<code>React</code>生态系统的<a href="https://github.com/petehunt/react-howto"><code>react-howto</code></a>指南，有什么建议？ 这是一个重要的引用：</p>
+<blockquote>
+<p>你可能听说过<code>Flux</code>。 那里有关于<code>Flux</code>的大量错误信息。 许多人坐下来构建一个应用程序，并希望定义他们的数据模型，他们认为他们需要使用<code>Flux</code>来完成它。 这是采用<code>Flux</code>的错误方法。</p>
+</blockquote>
+<p><code>Redux</code>的创建者也有这个著名的文章——<a href="https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367#.z9abvda1k">You Might Not Need Redux</a>，它可以应用于任何<code>store</code>解决方案。</p>
+<p>然后在<code>React How-To</code>中还有另一个声明，它似乎同样适用于原始的<code>Flux</code>，<code>Redux</code>，<code>Ngrx Store</code>或任何<code>store</code>解决方案：</p>
+<blockquote>
+<p>你会知道什么时候需要<code>Flux</code>。 如果您不确定是否需要它，则不需要它。</p>
+</blockquote>
+<p>基于此，看起来<code>store</code>不建议由一些原创作者系统使用。 在这些文章中，我们得到的印象是创作者似乎担心<code>store</code>被视为一种适合所有解决方案的<code>store</code>。</p>
+<p>但后来我们遇到了像这样的文章——<a href="https://medium.com/@silvenon/i-always-seem-to-need-redux-f37686c23e45#.etd9b2gnr">I Always Seem to Need Redux</a></p>
+<p>不知何故，即使<code>store</code>被他们自己的创作者谨慎推荐，他们仍然在<code>React</code>世界中大规模采用。</p>
+<p>为什么会这样？ 我们试着回答这个问题。</p>
+<h2 id="什么时候建议使用flux或redux">什么时候建议使用<code>Flux</code>或<code>Redux</code>？</h2>
+<p>如果我们深入研究<code>React How-To</code>的文档，我们会得到一些关于何时从<code>Flux</code>中受益的迹象：</p>
+<blockquote>
+<p><code>React</code>组件按层次结构排列。 大多数情况下，您的数据模型也遵循层次结构。 在这些情况下，<code>Flux</code>不会给你带来太多帮助。 但是，有时您的数据模型不是分层的。 当您的<code>React</code>组件开始接收感觉无关的道具，或者您有少量组件开始变得非常复杂时，您可能想要查看<code>Flux</code>。</p>
+</blockquote>
+<p>此外，如果我们深入研究问题，我们也会得到这些建议。 如果符合以下情况，建议使用类似于<code>store</code>：</p>
+<blockquote>
+<p>您有一段数据需要在您的应用中的多个位置使用，并通过属性传递它会使您的组件违反单一责任原则（即使他们的界面变得不那么有意义）</p>
+</blockquote>
+<p>但也有这种情况：</p>
+<blockquote>
+<p>有多个独立的参与者（通常是服务器和最终用户）可能会改变这些数据</p>
+</blockquote>
+<p>因此，有几种情况建议将<code>store</code>解决方案与<code>React</code>一起使用。 那么让我们看看它如何适合<code>Angular</code>。</p>
+<h2 id="具有并发更新的store和应用程序">具有并发更新的<code>store</code>和应用程序</h2>
+<p>如果我们仅基于最后一部分，只有少数应用程序即具有服务器推送要求的应用程序将受益于<code>Flux</code>。 因为通常这时候我们有多个角色更新相同的数据，这就是源自<code>Flux</code>的原始<code>Facebook</code>计数问题。</p>
+<p>有关原始计数器问题的更多详细信息，请查看最初的<code>Flux</code><a href="https://youtu.be/nYkdrAPrdcw">演讲</a>。</p>
+<p>请注意，我们不需要让服务器推送到这种情况，使用<code>setInterval</code>进行长轮询或修改<code>setTimeout</code>中的数据会导致我们遇到相同的情况：多个角色同时编辑相同的数据。</p>
+<p>我们可以肯定地说很多应用都没有这个问题，对吧？ 这是一个我们需要设计的重要问题，如果存在，但大多数应用程序都有它吗？ 可能不是，只有某类应用程序。</p>
+<p>但是为什么<code>Redux</code>在<code>React</code>世界中被普遍采用呢？ 这留下了另一个原因。</p>
+<h2 id="redux解决的最常见问题是什么"><code>Redux</code>解决的最常见问题是什么？</h2>
+<p><code>Redux</code>还解决了<code>extraneous props</code>问题。 这一直是<code>Redux</code>在<code>React</code>世界中如此受欢迎的主要原因之一。</p>
+<p>在<code>Angular</code>中，<code>props feels extraneous</code>是什么意思？ <code>Props</code>相当于<code>Angular</code>组件的<code>@Input()</code>成员变量。</p>
+<p>因此，这意味着<code>Redux</code>可以帮助我们应对使用<code>@Input()</code>将输入传递到组件树上的组件的情况，但这些输入感觉无关紧要，因为此时不是应用程序的一部分。</p>
+<p>例如，我们在组件树上传递了5或10个级别。 树的叶子知道如何处理它，但对于中间的所有组件，这个输入是无关紧要的，并使该组件可重用性降低，而且更加依赖于应用程序。 但这只是一个例子。</p>
+<h2 id="extraneous-props还有什么意思"><code>extraneous props</code>，还有什么意思？</h2>
+<p><code>extraneous props</code>问题似乎是一个普遍问题。</p>
+<p>在某些情况下，组件在组件树中的完全不同的点上彼此依赖，并且将输入10级向上传递到树上，并且回调函数10级向下传递到树上，然后5级到另一个分支，这在复杂性上不可缩放。</p>
+<p>发生这种情况时，还有其他情况：</p>
+<ul>
+<li>在树的深处传递数据，并对组件树上的几个级别的事件做出反应</li>
+<li>另一个问题是，我们在树中具有相互依赖的兄弟组件，它们代表屏幕上相同数据的不同视图，例如具有未读消息的文件夹列表，以及页眉上的未读消息计数器。</li>
+</ul>
+<p>还有更多的例子。 如果我们只有<code>props</code>或<code>@Input()</code>作为组件通信机制，我们会很快遇到麻烦。 仅传递组件的输入不会复杂化。</p>
+<p>这些场景实际上很常见，所以有我们的答案。</p>
+<h2 id="为什么redux在react世界中如此受欢迎">为什么<code>Redux</code>在<code>React</code>世界中如此受欢迎？</h2>
+<p>可能是因为它也解决了<code>extraneous props</code>问题：这意味着它为更复杂的组件交互场景提供了解决方案。</p>
+<p>这是一个基本问题，没有它我们就无法构建更大的应用程序，而<code>Redux</code>解决了它。</p>
+<p>几乎所有非平凡的应用程序都有这些场景，它确实不占用大型应用程序，大多数典型的企业应用程序都会有某种复杂的组件互通场景。</p>
+<h2 id="为什么redux在这些情况下运行良好">为什么<code>Redux</code>在这些情况下运行良好？</h2>
+<p>如果我们尝试使用像<code>AngularJs</code>的<code>$scope.broadcast()</code>这样的事件总线解决这些场景，我们将很容易地结束<code>event soup</code>场景，其中事件以意想不到的方式链接自己，并且很难推断应用程序。</p>
+<p>这是因为事件可以很容易地转换为命令，使<code>emitter</code>知道接收器的内部。 此外，还有可能意外地将事件链接在一起。</p>
+<p><code>Redux</code>看起来像一个事件总线，但事实并非如此。 实际上，<code>Redux</code>存储是<code>Command</code>和<code>Observable</code>模式的组合。 我们对<code>store</code>做的是，我们发送一个称为<code>action</code>的命令对象：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">store</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">({</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;REFRESH_MESSAGES&#39;</span>
+<span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们将一个<code>action</code>发送到<code>store</code>，<code>store</code>将对<code>store</code>内的数据进行操作。 但是<code>action</code>的<code>emitter</code>不知道<code>store</code>会用它做什么。</p>
+<p>我们还可以从应用程序的完全不同的部分发送另一个操作：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">store</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">({</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;MARK_MESSAGE_AS_READ&#39;</span><span class="p">,</span>
+    <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">messageId</span>: <span class="kt">103</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>store</code>将处理它并更新消息列表。 然后将消息发送到需要它的应用程序的任何部分。 但接收端不知道是什么触发了新数据的生成：</p>
+<ul>
+<li>从后端到达的新消息</li>
+<li>刷新请求</li>
+<li>消息被标记为已读</li>
+</ul>
+<p>那么这与解耦和扩展复杂性有什么关系呢？</p>
+<h2 id="store如何允许分离的组件交互"><code>store</code>如何允许分离的组件交互</h2>
+<p>使用新版本数据的组件（可能是消息列表和计数器）不知道是什么导致数据发生变化，就像我们订阅<code>RxJs Observable</code>时我们不知道什么触发了值的发出，我们只知道我们有新的值。</p>
+<p>消费组件已经订阅了<code>store</code>，就像他们订阅了<code>RxJs Observable</code>一样。 这种模式效果很好，因为我们必须尽力将发出的数据转换为命令，而事件总线则非常容易。</p>
+<h2 id="服务器推送怎么样">服务器推送怎么样？</h2>
+<p>我们现在说服务器也在不断地推送新数据，新消息。 数据也通过调度操作推送：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">store</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">({</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;DISPLAY_NEW_MESSAGE&#39;</span><span class="p">,</span>
+    <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">messageId</span>: <span class="kt">104</span><span class="p">,</span>
+        <span class="nx">userId</span>: <span class="kt">3000</span><span class="p">,</span>
+        <span class="nx">status</span><span class="o">:</span> <span class="s1">&#39;UNREAD&#39;</span><span class="p">,</span>
+        <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Hello World !&#39;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在所有情况下，都会收到一个新的消息列表并将其呈现为消息列表或未读消息的计数器。 渲染的结果将是一致的：我们将不会有一个全部读取的消息列表和一个表示有3条未读消息的计数器。</p>
+<h2 id="这种情况是store闪耀的时候">这种情况是<code>store</code>闪耀的时候</h2>
+<p><code>store</code>是解决可编辑数据和多个参与者问题的理想解决方案，但我们可以想象数据不会从服务器推送出来。 在这种情况下，我们只有组件交互和协调问题，但我们没有竞争条件的可能性。</p>
+<p>在这种情况下，我们试图解决的问题只是在组件树的多个断开连接的位置进行组件交互，对吗？</p>
+<p>我们不再需要由多个并发角色编辑相同数据的解决方案。 这导致了<code>Redux</code>和<code>store</code>的一个重要特征。</p>
+<h2 id="store是解决多个问题的复合解决方案而不仅仅是一个问题"><code>store</code>是解决多个问题的复合解决方案，而不仅仅是一个问题</h2>
+<p>我们可以看到这个例子看到<code>store</code>是一个多责任的解决方案：</p>
+<ul>
+<li>他们通过<code>Observable</code>模式解决了组件交互的问题</li>
+<li>如果需要，它们提供客户端缓存，以避免重复的<code>Ajax</code>请求</li>
+<li>它们提供了放置临时<code>UI</code>状态的位置，因为我们填写大型表单或者想要在路由器视图之间导航时在搜索表单中存储搜索条件</li>
+<li>它们解决了允许多个参与者修改客户端瞬态数据的问题</li>
+</ul>
+<p><code>store</code>不仅仅解决其中一个问题，而是解决所有这些问题。</p>
+<h2 id="多责任解决方案有什么问题">多责任解决方案有什么问题？</h2>
+<p>一个潜在的问题是那些问题并不总是在一起：你可能想要解决一个而不是另一个。 并非每个应用程序都具有与<code>Facebook</code>相同的限制：它是全球最大的<code>Web</code>应用程序，拥有18亿用户。</p>
+<p>假设您的应用程序是典型的企业应用程序，用户少于100个：您对客户端缓存的使用有限，并且可能没有服务器推送要求。您可能有服务器推送但数据通常是只读的。</p>
+<p>在这种情况下，您可能无法从<code>store</code>架构中受益（稍后会详细介绍）。</p>
+<p>此外，您可能需要涵盖复杂的组件交互方案，而无需将数据存储在内存中。 这里的重要部分是这些问题并不总是在一起：它们聚集在一起，用于非常特殊的应用程序而不是其他应用程序。</p>
+<h2 id="redux是否避免状态相关的问题"><code>Redux</code>是否避免状态相关的问题？</h2>
+<p>重要的是要注意它不会，并且一般都没有其他全局存储解决方案，因为使用<code>Redux</code>我们正在创建一个大的全局应用程序级状态：存储是一个应用程序范围的单例服务。</p>
+<p>全局应用程序状态的问题不是它创建的方式，而是它存在的事实。 由于我们忘记清理它，因此很容易产生细微的错误。 它实际上并没有改变我们仅使用纯<code>reducer</code>函数创建状态，或者全局状态是不可变的这一事实。</p>
+<p>所有这些都有所帮助，但我们仍然创建了全局应用程序状态，主要问题仍然存在：它存在并且我们需要在所有正确的位置清理它，并且在复杂性方面不能很好地扩展。</p>
+<p>但是如果需要的话，全局状态没有任何问题：到处都需要一些用户数据，为什么不加载一次并将其放入单例服务？</p>
+<h2 id="处理全局状态的最佳方式是什么">处理全局状态的最佳方式是什么？</h2>
+<p>避免全局应用程序状态的最佳方法是不创建它，除非它是必要的。 现代应用程序确实需要比以前更多的状态：例如，当我们浏览应用程序时，我们在哪里保留给定搜索表单的最后搜索结果？</p>
+<p>每当我们从详细信息返回到主表时，我们都不想重复搜索，即使我们触发了路由器导航。</p>
+<h2 id="我们可以使用临时的本地状态吗">我们可以使用临时的本地状态吗？</h2>
+<p>这些情况的理想情况是能够创建仅与该特定掌握细节设置的交互本地化的状态，并使其在使用后自动清理自身。</p>
+<p>这就是<code>Angular</code>允许我们做的事情，我们将在稍后看到。</p>
+<h2 id="除了store之外angular世界还有替代解决方案吗">除了<code>store</code>之外，<code>Angular</code>世界还有替代解决方案吗？</h2>
+<p>在<code>Angular</code>中，我们有一整套内置的解决方案来处理复杂的组件交互场景。 所有这些解决方案的核心是<code>Angular</code>依赖注入系统：</p>
+<ul>
+<li>如果我们愿意，我们可以在组件树中深入注入服务</li>
+<li>如果我们觉得它们本身紧密耦合，我们甚至可以将组件或服务注入彼此</li>
+<li>我们可以创建可能存储或不存储数据的共享数据服务</li>
+</ul>
+<p>但那只是开始。 让我们回到主要细节场景：
+我们可以创建一个非全局服务，并使用分层注入器将其关联到页面的一部分。 这意味着服务及其最终状态将透明地清理自己。</p>
+<h2 id="创建自我清理的本地状态">创建自我清理的本地状态</h2>
+<p>假设我们已经浏览了包含消息列表的应用程序的一部分，并且我们单击列表并转到消息的详细信息。</p>
+<p>这是该路由的顶级组件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;messages-container&#39;</span><span class="p">,</span>
+  <span class="nx">providers</span><span class="o">:</span> <span class="p">[</span><span class="nx">MessagesService</span><span class="p">],</span>
+  <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">        Messages Master Detail Container:
+</span><span class="sb">        &lt;router-outlet&gt;&lt;/router-outlet&gt;
+</span><span class="sb">  `</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">MessagesContainerComponent</span> <span class="p">{</span>
+
+      <span class="p">...</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>请注意<code>providers</code>属性中的<code>MessagesService</code>。 这是什么意思？ 这意味着该服务不是应用程序范围的单例。 因此，如果我们想要在打开和关闭多个详细信息时将主服务器的搜索结果保留在内存中，则<code>MessagesService</code>将是放置它而不是全局存储的理想位置。 为什么？</p>
+<p>因为<code>MessagesService</code>的这个实例是<code>MessagesContainerComponent</code>及其兄弟的本地实例。 它只能在那里注入，而不是应用程序中的任何其他地方。</p>
+<p>您还可以创建一个<code>MessagesTableService</code>并将其注入表的级别，使用它来加载和分页数据并且并排放置多个表，每个表都有自己的<code>MessagesTableService</code>实例。</p>
+<p>关于这些仅由组件树的子集可见的本地服务的好处在于，当我们离开其路由时，它们与相关组件一起清理自己。</p>
+<p>本地有状态服务可以实现为例如<code>observable</code>数据服务。</p>
+<h2 id="angular和store频繁的选择"><code>Angular</code>和<code>store</code>——频繁的选择？</h2>
+<p>我们可以看到，在<code>Angular</code>中，我们可以使用许多组件间通信机制，而不仅仅是<code>@Input()</code>，我们还有一种自动创建和处理本地状态的机制。</p>
+<p>在<code>Angular</code>，我们不一定受益于<code>store</code>来解决这些问题，还有许多其他内置解决方案。</p>
+<p>很多时候，<code>store</code>被添加到应用程序中以获得类似于可观察的<code>API</code>以允许某些组件交互：为什么不简单地使用<code>Observable</code>？</p>
+<p>添加存储是对应用程序整体架构的重要约束，它意味着创建大量的全局应用程序状态。 如果内置更好的替代方案并不意味着这一点，为什么不考虑它们呢？</p>
+<h2 id="使用store有成本">使用<code>store</code>有成本</h2>
+<p>该<code>store</code>确实解决了组件交互的问题，但它也创建了在应用程序中管理状态的需求，而在使用其他解决方案时可能不存在。</p>
+<p>这可能意味着在<code>Angular</code>中，<code>store</code>解决方案比<code>React</code>更不常用？ 事实上，在最初的一段时间之后，<code>React</code>也会寻求其他解决方案，我们将会看到。</p>
+<p>通常还提到了支持<code>store</code>解决方案选择的其他参数：性能，可测试性，工具以及保持应用程序可预测且易于推理的能力。 让我们逐一介绍这些，从最后一个开始。</p>
+<h2 id="单向数据流">单向数据流</h2>
+<p>单向数据流是我们在<code>React</code>和<code>Angular</code>中都听到的一个重要属性：它被称为在应用程序中查找的属性，它确保它们是可预测且易于推理的。</p>
+<h2 id="react中的单向数据流"><code>React</code>中的单向数据流</h2>
+<p>在最初的<code>Flux</code>会话中，单向数据流描述如下：用户触发<code>action</code>，将其分派到生成新模型的<code>store</code>并将其发送到视图。</p>
+<p>但是视图在呈现时不能自己发送进一步的<code>action</code>，如果<code>action</code>的发送已经在进行，也不能发送另一个<code>action</code>。</p>
+<p>避免这种情况看起来像基于原始演示文稿的<code>Flux</code>的主要目标之一，请看<a href="https://www.youtube.com/watch?v=nYkdrAPrdcw&amp;feature=youtu.be&amp;list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v&amp;t=1075">这里</a>。 <a href="https://www.youtube.com/watch?v=nYkdrAPrdcw&amp;feature=youtu.be&amp;list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v&amp;t=1157">这里</a>是另一个参考。
+另外，请查看最初的<code>Flux</code>调度程序<a href="https://github.com/facebook/flux/blob/master/src/Dispatcher.js#L183">代码</a>，其中在会谈中提到了检查。</p>
+<p><code>React</code>和<code>Flux</code>中的<code>UI</code>可预测性似乎主要通过在数据层上设置有益约束来实现：防止链式调度。</p>
+<h2 id="redux和单向数据流"><code>Redux</code>和单向数据流</h2>
+<p>重要的是要注意<code>Redux</code>不能防止最初的<code>Flux</code>会谈中提到的链式调度场景。 使用<code>Redux</code>，我们可以在原始<code>Flux</code>中触发订阅方法的另一个调度，如果已经调度了一个<code>action</code>，我们就无法触发另一个。</p>
+<p>因此，强制执行单向数据流的需求似乎并不是<code>Redux</code>如此广泛采用的主要原因之一，因为通过设计并且至少根据原始<code>Flux</code>会谈中提供的定义，它不会阻止链式调度问题。</p>
+<p>也许是因为它太过限制而且在实践中它并没有发生太多？</p>
+<h2 id="angular中的单向数据流"><code>Angular</code>中的单向数据流</h2>
+<p>在<code>Angular</code>中，我们还看到单向数据流被提及为允许我们以可预测的方式推断应用程序的属性。</p>
+<p>但是关注点似乎有点不同：它不是关于对数据层施加约束，数据层可以是任何形式。</p>
+<p><code>Angular</code>中的单向数据流被描述为确保视图无法自行更新。 那是什么意思？</p>
+<h2 id="开发模式下的单向数据流和渲染">开发模式下的单向数据流和渲染</h2>
+<p>渲染开始时，我们在一次扫描中浏览组件树，而在渲染期间组件不能在第二次传递时给出不同的结果或修改父组件。</p>
+<p>基本上，评估模板中的表达式或触发某些组件生命周期方法的行为本身不会触发视图中的进一步更改，从而创建类似于<code>AngularJs</code>的多步藏检测的情况，这有时会导致不可预测的结果。</p>
+<h2 id="打破angular单向数据流">打破<code>Angular</code>单向数据流</h2>
+<p>想象一下，你正在向屏幕上打印一个随机数：如果你试图通过组件<code>getter</code>方法计算它并将其传递给模板表达式，我们将在开发模式中破坏应用程序，因为你第二次从上到下扫描没有得到相同的结果 ：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kd">@Component</span><span class="p">({</span>
+  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;messages-container&#39;</span><span class="p">,</span>
+  <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span><span class="sb">       {{randomNumber}}
+</span><span class="sb">  `</span>
+<span class="p">})</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">MessagesContainerComponent</span> <span class="p">{</span>
+
+      <span class="p">...</span>
+
+
+     <span class="nx">get</span> <span class="nx">randomNumber() {</span>
+          <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">();</span>
+     <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>试试吧，你应该得到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Expression has changed after it was checked
+</code></pre></td></tr></table>
+</div>
+</div><p>因此，看起来确保<code>UI</code>中可预测的呈现行为并阻止视图自身更新，我们不一定需要采用类似于<code>store</code>的体系结构。</p>
+<p>让我们回顾一下使用<code>store</code>的另一个常见原因：提高性能，接下来让我们回顾可测试性和工具。</p>
+<h2 id="store和性能"><code>store</code>和性能</h2>
+<p>有时候<code>store</code>被认为是使应用程序更高效的一种方式，因为我们可以使用<code>ImmutableJs</code>或<code>Deep Freeze</code>这样的状态使状态不可变，然后我们可以在任何地方使用<code>OnPush</code>变更检测。</p>
+<p><code>Angular</code>变化检测机制开箱即用，并且行为非常直观。 默认情况下，我们仅使用模板中的表达式作为表达式来检测更改，其余部分将被忽略（请查看此<a href="https://blog.angular-university.io/how-does-angular-2-change-detection-really-work/">文章</a>）。</p>
+<p><code>OnPush</code>实际上是一种优化，只有少数应用程序可能会从中受益，例如加载大量数据的应用程序（以及我们可以加载多少对用户仍然有用的数据），或者在非常有限的设备中运行的应用程序。</p>
+<p>可以肯定地说，大多数应用程序都不属于这些类别（目前的智能手机）。 但是如果我们仍然需要<code>OnPush</code>，我们可以在没有<code>store</code>的情况下使用它，特别是如果我们的数据大部分都是只读的话。</p>
+<p>如果应用程序是某种类型的实时仪表板，如图表仪表板，则可能更好地限制数据或其他解决方案。 我们甚至可以从更改检测中分离<code>UI</code>的一个分支并限制其渲染。</p>
+<p>这里的要点是添加<code>store</code>确实意味着我们将使应用程序更高效或更容易优化，因为我们可以以完全独立的方式优化变更检测系统 - 这两个东西可以一起使用但是没有固有的联系。</p>
+<p>采用<code>store</code>架构的另一个共同点是可测试性，让我们看一下，这是进入工具演示之前的最后一点。</p>
+<h2 id="store和可测试性"><code>store</code>和可测试性</h2>
+<p>引入<code>store</code>经常提出的主要好处之一是它将提高应用程序的可测试性。</p>
+<p>确实，<code>reducer</code>函数很容易测试，但是应用程序本身并没有通过引入<code>store</code>来测试，因为我们通过依赖注入系统注入依赖项而不是直接在组件内部创建它们。</p>
+<p>假设一个应用程序没有很多数据修改或服务器和用户对数据的并发修改：该应用程序可能不需要存储，并且引入它不会使它更易于测试。</p>
+<p>但最后也是最重要的是，我们获得了巨大的利益 - 工具。</p>
+<h2 id="store和工具"><code>store</code>和工具</h2>
+<p>使用<code>store</code>的最大原因之一是它提供的工具生态系统。 工具是惊人的，<code>time traveling</code>调试，能够将<code>store</code>状态附加到错误报告和热重新加载，这些是巨大的功能。</p>
+<p>通过查看这个<a href="https://www.youtube.com/watch?v=70ojPxMA7Ig">简短的视频</a>来演示<code>Ngrx DevTools</code>。 如果你从未见过它，它真的值得。</p>
+<p>这些工具是惊人的，但看起来现在<code>Redux</code>不是必须在新的<code>React</code>应用程序中使用，那么它在工具方面如何工作？</p>
+<h3 id="redux的常用替代方案"><code>Redux</code>的常用替代方案</h3>
+<p>在最初采用<code>Redux</code>的一段时间之后，许多<code>React</code>应用程序正在使用<code>MobX</code>构建，<code>MobX</code>是<code>Observable</code>模式的变体。 我们可以在文档中看到这个描述：</p>
+<blockquote>
+<p><code>MobX</code>为现有的数据结构（如对象，数组和类实例）添加了可观察的功能。</p>
+</blockquote>
+<p>这可以通过使用<code>@observable</code>装饰器（<code>ES.Next</code>）注释您的类属性来完成。 这是一个小代码示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">class</span> <span class="nx">Todo</span> <span class="p">{</span>
+    <span class="nx">id</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">();</span>
+    <span class="kd">@observable</span> <span class="nx">title</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+    <span class="kd">@observable</span> <span class="nx">finished</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果您在<code>NgRx Dev Tools</code>上看到上面的视频，这看起来很熟悉吗？ 看一下，还有一些<a href="https://github.com/zalmoxisus/mobx-remotedev">开发者工具</a>就像<code>Mobx</code>的<code>redux dev</code>工具。</p>
+<p>实际上，<code>Mobx</code>开发工具也使用相同的浏览器插件。 基于这个例子，似乎拥有这种高级类型的工具我们不一定需要采用<code>store</code>架构。 我们需要做的就是使用具有良好或不断发展的工具生态系统的<code>Observable</code>库编写我们的应用程序。</p>
+<h4 id="其他相关生态系统中的工具">其他相关生态系统中的工具</h4>
+<p>另一个与流的概念和可观察模式及其变化相关的生态系统是<code>CycleJs</code>生态系统。 以下是<code>Flux</code>，<code>Redux</code>和<code>CycleJs</code>生态系统中一些开发人员工具演示的视图。 就在此之前，我们讨论了添加工具而不是使用预先定义的架构（通过<a href="https://twitter.com/andrestaltz">@andaltaltz</a>）。
+整个<a href="https://youtu.be/R-GzJgEccEQ">演讲</a>很棒，但如果你选择一个适合你的应用程序的架构，那么在13:03的5分钟讨论会产生一些非常有趣的观点。</p>
+<p>请注意，许多这种高级工具通常是跨生态系统进行的工作。</p>
+<p>这里要记住的最重要的事情是，看起来还有其他方法可以在不采用<code>store</code>架构的情况下获得出色的工具。</p>
+<h2 id="结论">结论</h2>
+<p>很可能<code>Store</code>架构最初在<code>React</code>世界中变得流行，因为它们解决了一些基本问题，<code>React</code>只是<code>View</code>没有（按设计）提供开箱即用的解决方案：</p>
+<ul>
+<li>为解耦组件交互提供类似<code>Observable</code>的模式</li>
+<li>为临时<code>UI</code>状态提供客户端容器</li>
+<li>提供缓存以避免过多的<code>HTTP</code>请求</li>
+<li>为多个参与者提供并发数据修改的解决方案</li>
+<li>为工具提供一个钩子</li>
+</ul>
+<p>然后半年到一年后，生态系统演变为仅在某些应用类型中采用<code>store</code>而不是其他应用类型。 现在<code>Angular</code>世界可能会发生同样的事情，结果可能是一样的。 让我们关注工具，<code>RxJs 5</code>的主要特性之一就是提高可调试性。</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Kiyon Lin</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+      2018-10-17
+      
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://kiyonlin.github.io/tags/angular/">angular</a>
+          <a href="https://kiyonlin.github.io/tags/architecture/">architecture</a>
+          <a href="https://kiyonlin.github.io/tags/service/">service</a>
+          <a href="https://kiyonlin.github.io/tags/rxjs/">rxjs</a>
+          <a href="https://kiyonlin.github.io/tags/ngrx/">ngrx</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/work/web/angular/%E8%AF%91angularcore01-angulartemplates%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">(译)Angular Core 01 - Angular Templates 完全指南</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8403-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8observable%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A1%E6%9E%84%E5%BB%BAangular%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/">
+            <span class="next-text nav-default">(译)Angular架构03-如何使用`Observable`数据服务构建`Angular`应用程序及常见的设计缺陷</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kiyonlin/kiyonlin.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+  
+
+  
+
+  
+
+  
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:kiyonlin@163.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+    <a href="https://github.com/kiyonlin" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+  
+    <a href="https://www.zhihu.com/people/kiyonlin" rel="me noopener" class="iconfont"
+      title="zhihu"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z"></path>
+  <path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z"></path>
+</svg>
+
+    </a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+<a href="https://kiyonlin.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2016 -
+    2021
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Kiyon Lin
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

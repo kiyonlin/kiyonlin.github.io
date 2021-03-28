@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vue2 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/categories/vue2/</link>
+    <description>Recent content in vue2 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 02 Mar 2017 14:52:05 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/categories/vue2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>vue2学习过程</title>
+      <link>https://kiyonlin.github.io/post/work/web/vue/vue2%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Thu, 02 Mar 2017 14:52:05 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/vue/vue2%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/</guid>
+      <description>指令 指令（Directives）是带有 v- 前缀的特殊属性。指令属性的值预期是单一 JavaScript 表达式（除了 v-for，之后再讨论）。 指令的职责就是当其表达</description>
+    </item>
+    
+  </channel>
+</rss>

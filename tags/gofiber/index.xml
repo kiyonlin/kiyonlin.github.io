@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gofiber on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/gofiber/</link>
+    <description>Recent content in gofiber on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 23 Jun 2020 13:18:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/gofiber/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>解析Fiber路由管理</title>
+      <link>https://kiyonlin.github.io/post/work/gofiber/fiber-router/</link>
+      <pubDate>Tue, 23 Jun 2020 13:18:48 +0800</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/gofiber/fiber-router/</guid>
+      <description>本文主要通过阅读Fiber源码，解析Fiber是如何管理路由的： 路由注册 路由匹配 环境：macos 10.15.4 + go 1.14.1 + fiber 1.12.1 路由注册 路由结构和路由器接口 首</description>
+    </item>
+    
+    <item>
+      <title>基于延迟计算令牌桶的gofiber频率限制中间件实现</title>
+      <link>https://kiyonlin.github.io/post/work/gofiber/fiber-limiter/</link>
+      <pubDate>Sat, 20 Jun 2020 10:53:18 +0800</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/gofiber/fiber-limiter/</guid>
+      <description>前言 后端的api接口一般都需要限制访问频率，一般的实现算法有令牌桶，漏桶等等。其中令牌桶支持突发流量，更合适访问流量整形。 关于令牌桶算法这里</description>
+    </item>
+    
+    <item>
+      <title>fiber&#43;angular开发web</title>
+      <link>https://kiyonlin.github.io/post/work/gofiber/fiblar-demo/</link>
+      <pubDate>Wed, 17 Jun 2020 13:57:18 +0800</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/gofiber/fiblar-demo/</guid>
+      <description>fiber是最近出道的一款基于fasthttp的web框架。 Fiber is an Express inspired web framework build on top of Fasthttp, the fastest HTTP engine for Go. Designed to ease things up for fast development with zero memory allocation and performance in mind. 我们可以用f</description>
+    </item>
+    
+  </channel>
+</rss>

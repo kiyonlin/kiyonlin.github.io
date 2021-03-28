@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>预处理器 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8/</link>
+    <description>Recent content in 预处理器 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 01 May 2017 08:58:02 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>C预处理器</title>
+      <link>https://kiyonlin.github.io/post/work/cs/c%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8/</link>
+      <pubDate>Mon, 01 May 2017 08:58:02 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/c%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8/</guid>
+      <description>翻译程序的第一步 编译器把源代码中出现的字符映射到源字符集，该过程处理多字节字符和三字符序列； 编译器定位每个反斜杠后面跟着换行符的实例，并删除</description>
+    </item>
+    
+  </channel>
+</rss>

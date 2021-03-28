@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>结构体 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/%E7%BB%93%E6%9E%84%E4%BD%93/</link>
+    <description>Recent content in 结构体 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 01 May 2017 14:58:33 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/%E7%BB%93%E6%9E%84%E4%BD%93/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>结构和其他数据形式</title>
+      <link>https://kiyonlin.github.io/post/work/cs/%E7%BB%93%E6%9E%84%E5%92%8C%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E5%BD%A2%E5%BC%8F/</link>
+      <pubDate>Mon, 01 May 2017 14:58:33 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/cs/%E7%BB%93%E6%9E%84%E5%92%8C%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E5%BD%A2%E5%BC%8F/</guid>
+      <description>结构 结构声明structure declaration： 1 2 3 4 5 6 7 struct book { char title[MAXTITL]; char author[MAXAUTL]; float value; }; struct book library; // 把library声明为一个使用book结构布</description>
+    </item>
+    
+  </channel>
+</rss>

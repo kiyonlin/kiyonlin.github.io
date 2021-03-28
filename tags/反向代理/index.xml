@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>反向代理 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</link>
+    <description>Recent content in 反向代理 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 05 May 2017 09:10:30 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>apache开启websocket反向代理</title>
+      <link>https://kiyonlin.github.io/post/work/web/server/apache%E5%BC%80%E5%90%AFwebsocket%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Fri, 05 May 2017 09:10:30 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/server/apache%E5%BC%80%E5%90%AFwebsocket%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</guid>
+      <description>环境 Mac OS X 10.12.4 Apache/2.4.25 (Unix) 配置 httpd.conf配置，开启代理模块 1 2 3 4 LoadModule proxy_module libexec/apache2/mod_proxy.so LoadModule proxy_wstunnel_module libexec/apache2/mod_proxy_wstunnel.so ## mod_proxy_balancer负载均衡模块可选，不开也</description>
+    </item>
+    
+  </channel>
+</rss>

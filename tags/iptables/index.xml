@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>iptables on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/iptables/</link>
+    <description>Recent content in iptables on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 22 Aug 2018 08:59:15 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/iptables/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iptables详解-5-实用匹配扩展iprange,string,time</title>
+      <link>https://kiyonlin.github.io/post/work/iptables/iptables-5-%E5%AE%9E%E7%94%A8%E5%8C%B9%E9%85%8D%E6%89%A9%E5%B1%95-iprange-string-time/</link>
+      <pubDate>Wed, 22 Aug 2018 08:59:15 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/iptables/iptables-5-%E5%AE%9E%E7%94%A8%E5%8C%B9%E9%85%8D%E6%89%A9%E5%B1%95-iprange-string-time/</guid>
+      <description>本章介绍三个实用的规则匹配扩展模块1：iprange 、string 和 time。 注意 本系列文章测试环境为 centos 7，iptables 版本 1.4.21</description>
+    </item>
+    
+    <item>
+      <title>iptables详解-4-规则匹配</title>
+      <link>https://kiyonlin.github.io/post/work/iptables/iptables-4-%E8%A7%84%E5%88%99%E5%8C%B9%E9%85%8D/</link>
+      <pubDate>Tue, 21 Aug 2018 14:35:08 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/iptables/iptables-4-%E8%A7%84%E5%88%99%E5%8C%B9%E9%85%8D/</guid>
+      <description>本章介绍更多的规则匹配条件。 注意 本系列文章测试环境为 centos 7，iptables 版本 1.4.21。 源IP地址 指定多个IP地址 1 2 3 4 5 6 iptables -I INPUT -s 10.211.55.9,10.211.55.10</description>
+    </item>
+    
+    <item>
+      <title>iptables详解-3-规则管理</title>
+      <link>https://kiyonlin.github.io/post/work/iptables/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Wed, 15 Aug 2018 14:19:31 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/iptables/iptables-3-%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86/</guid>
+      <description>本章学习如何对 iptables 规则进行管理。 注意 本系列文章测试环境为 centos 7，iptables 版本 1.4.21。 准备工作 iptables 中最常用的匹配条件就是源ip，源端口</description>
+    </item>
+    
+    <item>
+      <title>iptables详解-2-查询命令</title>
+      <link>https://kiyonlin.github.io/post/work/iptables/iptables-2-%E6%9F%A5%E8%AF%A2%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Wed, 15 Aug 2018 11:37:05 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/iptables/iptables-2-%E6%9F%A5%E8%AF%A2%E5%91%BD%E4%BB%A4/</guid>
+      <description>本章介绍 iptables 常用的查询命令。 注意 本系列文章测试环境为 centos 7，iptables 版本 1.4.21。 查看表规则 iptables 内置了5张表，分别是 raw、 nat、 m</description>
+    </item>
+    
+    <item>
+      <title>iptables详解-1-简介</title>
+      <link>https://kiyonlin.github.io/post/work/iptables/iptables-1-%E7%AE%80%E4%BB%8B/</link>
+      <pubDate>Wed, 15 Aug 2018 08:45:33 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/iptables/iptables-1-%E7%AE%80%E4%BB%8B/</guid>
+      <description>iptables 是各种防火墙的基础，需要系统学习。本篇先了解 iptables 的一些基本概念。 注意 本系列文章测试环境为 centos 7，iptables 版本 1.4.21。 说明 iptables 是用来</description>
+    </item>
+    
+  </channel>
+</rss>

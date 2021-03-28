@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>component on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/component/</link>
+    <description>Recent content in component on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 15 Oct 2018 20:36:31 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/component/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>(译)Angular架构02-容器与展示组件常见的设计缺陷</title>
+      <link>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8402-%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/</link>
+      <pubDate>Mon, 15 Oct 2018 20:36:31 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8402-%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/</guid>
+      <description>这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组</description>
+    </item>
+    
+    <item>
+      <title>(译)Angular架构01-智能组件与展示组件</title>
+      <link>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8401-%E6%99%BA%E8%83%BD%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6/</link>
+      <pubDate>Mon, 15 Oct 2018 14:04:46 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8401-%E6%99%BA%E8%83%BD%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6/</guid>
+      <description>这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组</description>
+    </item>
+    
+  </channel>
+</rss>

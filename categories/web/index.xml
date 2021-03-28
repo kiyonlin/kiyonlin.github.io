@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>web on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/categories/web/</link>
+    <description>Recent content in web on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 23 Jun 2020 13:18:48 +0800</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>解析Fiber路由管理</title>
+      <link>https://kiyonlin.github.io/post/work/gofiber/fiber-router/</link>
+      <pubDate>Tue, 23 Jun 2020 13:18:48 +0800</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/gofiber/fiber-router/</guid>
+      <description>本文主要通过阅读Fiber源码，解析Fiber是如何管理路由的： 路由注册 路由匹配 环境：macos 10.15.4 + go 1.14.1 + fiber 1.12.1 路由注册 路由结构和路由器接口 首</description>
+    </item>
+    
+    <item>
+      <title>基于延迟计算令牌桶的gofiber频率限制中间件实现</title>
+      <link>https://kiyonlin.github.io/post/work/gofiber/fiber-limiter/</link>
+      <pubDate>Sat, 20 Jun 2020 10:53:18 +0800</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/gofiber/fiber-limiter/</guid>
+      <description>前言 后端的api接口一般都需要限制访问频率，一般的实现算法有令牌桶，漏桶等等。其中令牌桶支持突发流量，更合适访问流量整形。 关于令牌桶算法这里</description>
+    </item>
+    
+    <item>
+      <title>fiber&#43;angular开发web</title>
+      <link>https://kiyonlin.github.io/post/work/gofiber/fiblar-demo/</link>
+      <pubDate>Wed, 17 Jun 2020 13:57:18 +0800</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/gofiber/fiblar-demo/</guid>
+      <description>fiber是最近出道的一款基于fasthttp的web框架。 Fiber is an Express inspired web framework build on top of Fasthttp, the fastest HTTP engine for Go. Designed to ease things up for fast development with zero memory allocation and performance in mind. 我们可以用f</description>
+    </item>
+    
+    <item>
+      <title>(译)Angular Core 01 - Angular Templates 完全指南</title>
+      <link>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angularcore01-angulartemplates%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Wed, 24 Oct 2018 08:25:08 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angularcore01-angulartemplates%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97/</guid>
+      <description>在这篇文章(原文链接)中，我们将深入探讨Angular Core的一些高级功能！ 您可能已经遇到过ng-template这个Angular核心指</description>
+    </item>
+    
+    <item>
+      <title>(译)Angular架构04-Redux，RxJs和NgrxStore-何时使用Store以及为什么？</title>
+      <link>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8404-reduxrxjs%E5%92%8Cngrxstore-%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8store%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88/</link>
+      <pubDate>Wed, 17 Oct 2018 13:27:04 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8404-reduxrxjs%E5%92%8Cngrxstore-%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8store%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88/</guid>
+      <description>这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组</description>
+    </item>
+    
+    <item>
+      <title>(译)Angular架构03-如何使用`Observable`数据服务构建`Angular`应用程序及常见的设计缺陷</title>
+      <link>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8403-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8observable%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A1%E6%9E%84%E5%BB%BAangular%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/</link>
+      <pubDate>Wed, 17 Oct 2018 08:25:57 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8403-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8observable%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A1%E6%9E%84%E5%BB%BAangular%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/</guid>
+      <description>这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组</description>
+    </item>
+    
+    <item>
+      <title>(译)Angular架构02-容器与展示组件常见的设计缺陷</title>
+      <link>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8402-%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/</link>
+      <pubDate>Mon, 15 Oct 2018 20:36:31 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8402-%E5%AE%B9%E5%99%A8%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6%E5%B8%B8%E8%A7%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%BC%BA%E9%99%B7/</guid>
+      <description>这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组</description>
+    </item>
+    
+    <item>
+      <title>(译)Angular架构01-智能组件与展示组件</title>
+      <link>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8401-%E6%99%BA%E8%83%BD%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6/</link>
+      <pubDate>Mon, 15 Oct 2018 14:04:46 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular%E6%9E%B6%E6%9E%8401-%E6%99%BA%E8%83%BD%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%B1%95%E7%A4%BA%E7%BB%84%E4%BB%B6/</guid>
+      <description>这篇文章是正在进行的Angular架构系列的一部分，我们将在视图层和服务层一级介绍常见的设计问题和解决方案。 这是完整系列： 视图层架构-智能组</description>
+    </item>
+    
+    <item>
+      <title>(译)Angular NgRx Entity完全实用指南</title>
+      <link>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular-ngrx-entity%E5%AE%8C%E5%85%A8%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Fri, 12 Oct 2018 14:48:58 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/angular/%E8%AF%91angular-ngrx-entity%E5%AE%8C%E5%85%A8%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/</guid>
+      <description>使用 NgRx 构建我们的应用程序时，我们要做的第一件事就是确定在store中存储数据的最佳格式。 我们需要在任何 NgRx 应用程序中处理集中存储中的业务数据，</description>
+    </item>
+    
+    <item>
+      <title>apache开启websocket反向代理</title>
+      <link>https://kiyonlin.github.io/post/work/web/server/apache%E5%BC%80%E5%90%AFwebsocket%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Fri, 05 May 2017 09:10:30 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/server/apache%E5%BC%80%E5%90%AFwebsocket%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/</guid>
+      <description>环境 Mac OS X 10.12.4 Apache/2.4.25 (Unix) 配置 httpd.conf配置，开启代理模块 1 2 3 4 LoadModule proxy_module libexec/apache2/mod_proxy.so LoadModule proxy_wstunnel_module libexec/apache2/mod_proxy_wstunnel.so ## mod_proxy_balancer负载均衡模块可选，不开也</description>
+    </item>
+    
+    <item>
+      <title>vue2学习过程</title>
+      <link>https://kiyonlin.github.io/post/work/web/vue/vue2%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/</link>
+      <pubDate>Thu, 02 Mar 2017 14:52:05 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/vue/vue2%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/</guid>
+      <description>指令 指令（Directives）是带有 v- 前缀的特殊属性。指令属性的值预期是单一 JavaScript 表达式（除了 v-for，之后再讨论）。 指令的职责就是当其表达</description>
+    </item>
+    
+    <item>
+      <title>页面向导introjs</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/%E9%A1%B5%E9%9D%A2%E5%90%91%E5%AF%BCintrojs/</link>
+      <pubDate>Thu, 23 Feb 2017 16:51:37 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/%E9%A1%B5%E9%9D%A2%E5%90%91%E5%AF%BCintrojs/</guid>
+      <description>页面操作向导js包 没有其他依赖，响应速度比较快。 使用时查看文档即可。 所有配置如下： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 steps: For defining steps using JSON configuration (see this</description>
+    </item>
+    
+    <item>
+      <title>Javascript Object 学习</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript-object-%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Thu, 16 Feb 2017 08:59:17 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript-object-%E5%AD%A6%E4%B9%A0/</guid>
+      <description>原文MDN Object.assign() 把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象。 语法 Object.assign(target, ...sources) 参数 target 目标对象。 sources 任意多个源对象。 返回值 目标对象会被</description>
+    </item>
+    
+    <item>
+      <title>javascript中的apply,call,bind</title>
+      <link>https://kiyonlin.github.io/post/work/web/js/javascript%E4%B8%AD%E7%9A%84apply-call-bind/</link>
+      <pubDate>Wed, 15 Feb 2017 10:01:44 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/js/javascript%E4%B8%AD%E7%9A%84apply-call-bind/</guid>
+      <description>apply和call apply和call的作用一致，只是接受的参数方式不同 1 2 func.apply(this, [arg1, arg2]); func.call(this, arg1, arg2); bind bind()方法会创建一个新函数。当这个新函数被</description>
+    </item>
+    
+    <item>
+      <title>CSS小技巧</title>
+      <link>https://kiyonlin.github.io/post/work/web/css/css%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Sat, 11 Feb 2017 15:17:00 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/css/css%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>聊天框添加小三角 重点是.chat-box样式的position属性设置为relative，再利用::after伪元素设置小三角相对位置。 1 2</description>
+    </item>
+    
+    <item>
+      <title>EMCAScript6入门学习-5 Module</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-5-module/</link>
+      <pubDate>Fri, 11 Nov 2016 15:23:10 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-5-module/</guid>
+      <description>源自ECMAScript 6入门 ES6模块的设计思想，是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。 ES6模块不是对</description>
+    </item>
+    
+    <item>
+      <title>EMCAScript6入门学习-4</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-4/</link>
+      <pubDate>Thu, 10 Nov 2016 08:48:15 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-4/</guid>
+      <description>源自ECMAScript 6入门 Set 1 2 3 4 5 6 7 8 // 接受一个数组（或类似数组的对象）作为参数，用来初始化。 var set = new Set([1, 2, 3, 4, 4]); // 通过add方法向</description>
+    </item>
+    
+    <item>
+      <title>EMCAScript6入门学习-3 对象</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-3/</link>
+      <pubDate>Wed, 09 Nov 2016 19:08:29 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-3/</guid>
+      <description>源自ECMAScript 6入门 #属性的简洁表示法 ES6允许直接写入变量和函数，作为对象的属性和方法。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20</description>
+    </item>
+    
+    <item>
+      <title>EMCAScript6入门学习-2 函数</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-2/</link>
+      <pubDate>Wed, 09 Nov 2016 15:11:43 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-2/</guid>
+      <description>源自ECMAScript 6入门 参数默认值 参数默认值可以与解构赋值的默认值，结合起来使用。 1 2 3 4 5 6 7 8 function foo({x, y = 5}) { console.log(x, y); } foo({}) // undefined, 5 foo({x: 1}) // 1, 5</description>
+    </item>
+    
+    <item>
+      <title>EMCAScript6入门学习-1</title>
+      <link>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-1/</link>
+      <pubDate>Wed, 09 Nov 2016 08:51:19 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/web/es6/emcascript6%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0-1/</guid>
+      <description>源自ECMAScript 6入门 简介 ES6的第一个版本，在2015年6月发布，正式名称是《ECMAScript 2015标准》（简称ES2015</description>
+    </item>
+    
+  </channel>
+</rss>

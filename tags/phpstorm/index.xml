@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>phpstorm on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/phpstorm/</link>
+    <description>Recent content in phpstorm on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 15 Sep 2016 18:11:34 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/phpstorm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>配置xdebug</title>
+      <link>https://kiyonlin.github.io/post/work/php/%E9%85%8D%E7%BD%AExdebug/</link>
+      <pubDate>Thu, 15 Sep 2016 18:11:34 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/php/%E9%85%8D%E7%BD%AExdebug/</guid>
+      <description>PHPSTORM中配置xdebug 使用homebrew安装与php版本相对应的xdebug 会自动生成配置文件(使用php &amp;ndash;ini</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>php on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/categories/php/</link>
+    <description>Recent content in php on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 06 Mar 2017 13:17:59 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/categories/php/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PHPUnit</title>
+      <link>https://kiyonlin.github.io/post/work/php/phpunit/</link>
+      <pubDate>Mon, 06 Mar 2017 13:17:59 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/php/phpunit/</guid>
+      <description>编写PHPUnit测试 针对类 Class 的测试写在类 ClassTest中。 ClassTest（通常）继承自 PHPUnit\Framework\Test</description>
+    </item>
+    
+    <item>
+      <title>配置xdebug</title>
+      <link>https://kiyonlin.github.io/post/work/php/%E9%85%8D%E7%BD%AExdebug/</link>
+      <pubDate>Thu, 15 Sep 2016 18:11:34 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/php/%E9%85%8D%E7%BD%AExdebug/</guid>
+      <description>PHPSTORM中配置xdebug 使用homebrew安装与php版本相对应的xdebug 会自动生成配置文件(使用php &amp;ndash;ini</description>
+    </item>
+    
+    <item>
+      <title>php学习(一)</title>
+      <link>https://kiyonlin.github.io/post/work/php/php%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 19 Aug 2016 21:21:40 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/php/php%E5%AD%A6%E4%B9%A0/</guid>
+      <description>构造函数 1 function __construct(){} 析构函数 释放资源,比如打印机。当对象被设为null(对象不会再被调用的时候,),或者程序结束时,会调用析构函数。 1 function __destruct{} this</description>
+    </item>
+    
+  </channel>
+</rss>

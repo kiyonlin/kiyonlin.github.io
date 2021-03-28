@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>文件权限 on Tsing Wind - 清风徐来 水波不兴</title>
+    <link>https://kiyonlin.github.io/tags/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/</link>
+    <description>Recent content in 文件权限 on Tsing Wind - 清风徐来 水波不兴</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 06 Jan 2017 10:13:18 +0000</lastBuildDate>
+    
+	<atom:link href="https://kiyonlin.github.io/tags/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>鸟哥Linux基础-文件权限与目录配置</title>
+      <link>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 06 Jan 2017 10:13:18 +0000</pubDate>
+      
+      <guid>https://kiyonlin.github.io/post/work/linux/%E9%B8%9F%E5%93%A5linux%E5%9F%BA%E7%A1%80-%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/</guid>
+      <description>原文鸟哥的 Linux私房菜 第五章、Linux 的文件权限与目录配置 Linux最优秀的地方之一就在于他的多人多工环境。而为了让各个使用者具有较保</description>
+    </item>
+    
+  </channel>
+</rss>
